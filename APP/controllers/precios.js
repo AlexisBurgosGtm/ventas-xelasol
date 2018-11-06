@@ -19,7 +19,8 @@ try {
     console.log('precios cargados desde el host');
 
 } catch (error) {
-  
+  funciones.showNotification('bottom','right','Inténtalo de nuevo, al parecer no hay datos para cargar');
+  /*
   const response = await fetch(`data/productos.json`);
     const json = await response.json();
                 
@@ -34,7 +35,7 @@ try {
                           <td class="col-4-sm col-4-md">Precio</td></tr>
                         </thead>` + 
     json.Articles.map(createArticle).join('\n');
-    console.log('precios locales. Error: ' + String(error));
+    console.log('precios locales. Error: ' + String(error));*/
 } 
 };
 

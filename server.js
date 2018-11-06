@@ -40,7 +40,7 @@ app.get("/api/productos/all", async(req,res)=>{
 				const pool = await sql.connect(sqlString)
 				//const result = await sql.query`select * from mytable where id = ${value}`
 				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,EXISTENCIA FROM PRECIOS`
-				console.dir(result);
+				console.dir('Productos cargados');
 				sql.close()
 				//return result;
 				res.send(result);
@@ -52,27 +52,29 @@ app.get("/api/productos/all", async(req,res)=>{
 });
 
 app.get("/api/usuarios/login", async(req,res)=>{
-	var usuario = req.query.usuario;
-	var clave = req.query.clave;
+	//var usuario = req.query.usuario;
+	//var clave = req.query.clave;
 
-	console.log(usuario + ' - ' + clave)
+	//console.log(usuario + ' - ' + clave)
 	//async () => {
 		try {
 			const pool = await sql.connect(sqlString)
-			const result = await sql.query`SELECT NOMVEN, CLAVE FROM VENDEDORES where NOMVEN = ${usuario} AND CLAVE= ${clave}`
+			//const result = await sql.query`SELECT NOMVEN, CLAVE FROM VENDEDORES where NOMVEN = ${usuario} AND CLAVE= ${clave}`
+			const result = await sql.query`SELECT NOMVEN, CLAVE FROM VENDEDORES`
 			console.dir('La consulta usuario se generó');
 			sql.close()
 			//return result;
 			console.log(result);
+			/*
 			if (result.rowsAffected==1){
 				console.log('Autorizado')
 				res.send('Autorizado');
 			} else {
 				console.log('Denegado')
 				res.send('Denegado');
-			}
+			}*/
 
-			//res.send(result);
+			res.send(result);
 		} catch (err) {
 			// ... error checks
 			res.send('Denegado');
