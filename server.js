@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
-app.use(express.static('app'));
+app.use(express.static('APP'));
 
 var path = __dirname + '/'
 
@@ -23,7 +23,7 @@ router.use(function (req,res,next) {
 });
 
 app.get("/",function(req,res){
-	res.sendFile(path + 'app/index.html');
+	res.sendFile(path + 'APP/index.html');
 });
 /*
 app.get("/login",function(req,res){
@@ -31,7 +31,7 @@ app.get("/login",function(req,res){
 });*/
 
 app.get("/inicio",function(req,res){
-	res.sendFile(path + 'app/inicio.html');
+	res.sendFile(path + 'APP/inicio.html');
 });
 
 app.get("/api/productos/all", async(req,res)=>{
@@ -84,7 +84,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 app.use("/",router);
 
 app.use("*",function(req,res){
-  res.sendFile(path + "app/404.html");
+  res.sendFile(path + "APP/404.html");
   res.send('No hay nada');
 });
 
