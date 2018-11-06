@@ -25,10 +25,10 @@ router.use(function (req,res,next) {
 app.get("/",function(req,res){
 	res.sendFile(path + 'app/index.html');
 });
-
+/*
 app.get("/login",function(req,res){
 	res.sendFile(path + 'app/index.html');
-});
+});*/
 
 app.get("/inicio",function(req,res){
 	res.sendFile(path + 'app/inicio.html');
@@ -84,7 +84,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 app.use("/",router);
 
 app.use("*",function(req,res){
-  //res.sendFile(path + "app/404.html");
+  res.sendFile(path + "app/404.html");
   res.send('No hay nada');
 });
 
