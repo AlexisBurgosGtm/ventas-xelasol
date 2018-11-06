@@ -1,10 +1,4 @@
 const sql = require('mssql')
-const config = {
-	user: 'iEx',
-	password: 'iEx',
-	server: 'SERVERALEXIS\\SQLEXPRESS', 
-	database: 'ARES_SYNC' 
-};
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
