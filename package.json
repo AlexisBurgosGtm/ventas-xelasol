@@ -1,0 +1,16 @@
+{
+  "name": "arespos-online",
+  "version": "0.0.4",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Alexis Burgos",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mssql": "^4.1.0"
+  }
+}
