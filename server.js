@@ -41,9 +41,7 @@ app.get("/inicio",function(req,res){
 });
 
 app.get("/api/productos/all", async(req,res)=>{
-		//var filtro = req.query.filtro;
-		//console.log(filtro);
-		//async () => {
+
 			try {
 				const pool = await sql.connect(sqlString)
 				//const result = await sql.query`select * from mytable where id = ${value}`
