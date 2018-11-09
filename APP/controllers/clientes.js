@@ -1,5 +1,5 @@
 async function cargarListaClientes(){
-    const response = await fetch(`data/clientes.json`);
+    const response = await fetch(`/api/clientes/all`);
     const json = await response.json();
                 
     let newsArticles = document.getElementById('tblClientes');
@@ -13,7 +13,7 @@ async function cargarListaClientes(){
                           <td class="col-4">Telefono</td></tr> 
                           <td></td>
                         </thead>` + 
-    json.Clientes.map(createClientePedido).join('\n');
+    json.recordset.map(createClientePedido).join('\n');
     //await caches.match('data/productos.json');
     CrearBusquedaClientes();
   }

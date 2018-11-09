@@ -22,10 +22,6 @@ const staticAssets = [
   './controllers/ventas.js',
   './controllers/clientes.js',
   './controllers/precios.js',
-  './data/clientes.json',
-  './data/productos.json',
-  './data/vendedores.json',
-  './data/ventames.json',
   './index.html',
   './inicio.html',
   './viewClientes.html',
@@ -36,6 +32,10 @@ const staticAssets = [
   './sw.js'
 ];
 
+/*'./data/clientes.json',
+  './data/productos.json',
+  './data/vendedores.json',
+  './data/ventames.json', */
 self.addEventListener('install', function(evt) {
   console.log('Service worker instalado');
   evt.waitUntil(caches.open(CACHE).then(function (cache) {

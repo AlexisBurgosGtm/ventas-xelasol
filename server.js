@@ -1,7 +1,8 @@
 const sql = require('mssql')
 
-//const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
-const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
+const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
+//const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
+const empnit ='001';
 
 var express = require("express");
 var app = express();
@@ -25,32 +26,71 @@ router.use(function (req,res,next) {
 app.get("/",function(req,res){
 	res.sendFile(path + 'APP/index.html');
 });
-/*
-app.get("/login",function(req,res){
-	res.sendFile(path + 'app/index.html');
-});*/
+
 
 app.get("/inicio",function(req,res){
 	res.sendFile(path + 'APP/inicio.html');
 });
 
-app.get("/api/productos/all", async(req,res)=>{
+// OBTIENE TODOS LOS CLIENTES DE LA TABLA
+app.get("/api/update/all", async(req,res)=>{
 
+	try {
+		const pool = await sql.connect(sqlString)
+		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO
+									FROM CLIENTES LEFT OUTER JOIN DEPARTAMENTOS ON CLIENTES.CODDEPTO = DEPARTAMENTOS.CODDEPARTAMENTO LEFT OUTER JOIN
+								 				MUNICIPIOS ON CLIENTES.CODMUNICIPIO = MUNICIPIOS.CODMUNICIPIO
+									WHERE (CLIENTES.EMPNIT = ${empnit})`
+		console.dir('Clientes cargados...');
+		const result2 = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA FROM PRECIOS WHERE EMPNIT=${empnit}`
+		console.dir('Productos cargados...')
+		const result3 = await sql.query`SELECT NOMVEN, CLAVE, CODDOC FROM VENDEDORES WHERE EMPNIT = ${empnit}`
+		console.dir('Usuarios cargados...')
+
+		sql.close()
+			
+	} catch (err) {
+		// ... error checks
+		console.log(String(err));
+	}
+});
+
+//OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
+app.get("/api/productos/all", async(req,res)=>{
 			try {
 				const pool = await sql.connect(sqlString)
-				//const result = await sql.query`select * from mytable where id = ${value}`
-				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,EXISTENCIA FROM PRECIOS`
+				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA FROM PRECIOS WHERE EMPNIT=${empnit}`
 				console.dir('Productos cargados');
+				//console.dir(result);
 				sql.close()
-				//return result;
 				res.send(result);
 			} catch (err) {
 				// ... error checks
 				console.log(String(err));
 			}
-		//}
 });
 
+// OBTIENE TODOS LOS CLIENTES DE LA TABLA
+app.get("/api/clientes/all", async(req,res)=>{
+
+	try {
+		const pool = await sql.connect(sqlString)
+		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO
+									FROM CLIENTES LEFT OUTER JOIN DEPARTAMENTOS ON CLIENTES.CODDEPTO = DEPARTAMENTOS.CODDEPARTAMENTO LEFT OUTER JOIN
+								 				MUNICIPIOS ON CLIENTES.CODMUNICIPIO = MUNICIPIOS.CODMUNICIPIO
+									WHERE (CLIENTES.EMPNIT = ${empnit})`
+		console.dir('Productos cargados');
+		sql.close()
+	
+		res.send(result);
+	} catch (err) {
+		// ... error checks
+		console.log(String(err));
+	}
+//}
+});
+
+// OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
 	//var usuario = req.query.usuario;
 	//var clave = req.query.clave;
@@ -59,12 +99,10 @@ app.get("/api/usuarios/login", async(req,res)=>{
 	//async () => {
 		try {
 			const pool = await sql.connect(sqlString)
-			//const result = await sql.query`SELECT NOMVEN, CLAVE FROM VENDEDORES where NOMVEN = ${usuario} AND CLAVE= ${clave}`
-			const result = await sql.query`SELECT NOMVEN, CLAVE FROM VENDEDORES`
+			const result = await sql.query`SELECT NOMVEN, CLAVE, CODDOC FROM VENDEDORES WHERE EMPNIT = ${empnit}`
 			console.dir('La consulta usuario se generó');
 			sql.close()
 			//return result;
-			console.log(result);
 			/*
 			if (result.rowsAffected==1){
 				console.log('Autorizado')
@@ -75,12 +113,12 @@ app.get("/api/usuarios/login", async(req,res)=>{
 			}*/
 
 			res.send(result);
+			//console.log(result);
 		} catch (err) {
 			// ... error checks
 			res.send('Denegado');
 			console.log('Error en la consulta usuarios');
 		}
-	
 });
 
 app.use("/",router);

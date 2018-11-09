@@ -1,8 +1,8 @@
 funciones = {
 
-    AgregarProductoVenta: (desprod)=>{
+    AgregarProductoVenta: (codprod,desprod,codmedida,costo,precio,Qprecio)=>{
         funciones.hablar(desprod);
-        funciones.showNotification('bottom','right','Producto agregado');
+        funciones.showNotification('bottom','right','Producto agregado','exito');
     },
 
     loadScript: function(url) {
@@ -20,7 +20,7 @@ funciones = {
         });
     },
 
-      fetchData: (url)=>{
+    fetchData: (url)=>{
         fetch(url)
             .then(function(response) {
                 return response.json();
@@ -78,8 +78,24 @@ funciones = {
         marker.setMap(map);
     },
 
-	showNotification: function(from, align,msn){
-    	color = 'primary';
+	showNotification: function(from, align,msn, tipo){
+        let stcolor = '';
+        switch (tipo) {
+            case 'error':
+                stcolor = 'danger'
+                break;
+            case 'advertencia':
+                stcolor = 'warning'
+                break;
+            case 'exito':
+                stcolor = 'success'
+                break;
+            default:
+                stcolor='primary'
+                break;
+        }
+
+    	color = stcolor;
 
     	$.notify({
         	icon: "now-ui-icons ui-1_bell-53",
@@ -221,7 +237,12 @@ funciones = {
                       tableReg.rows[i].style.display = 'none';
                   }
               }
-  }
+  },
+
+  ApiUpdate: async function(empnit){
+   //let apiAll = await fetch('/api/update/all')
+     // .then(console.log('Actualización terminada...'))
+    }
 
 
 };
