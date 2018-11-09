@@ -21,7 +21,7 @@ async function loadPreciosVentas(){
   newsArticles.innerHTML = '';
                           
   newsArticles.innerHTML =
-                  `<table class="table table-responsive table-bordered" id="tblProductosVentas">
+                  `<table class="table table-responsive table-bordered table-fixed" id="tblProductosVentas">
                     <thead>
                       <tr>
                         <td class="col-4-sm col-4-md">Descripción</td>
@@ -41,7 +41,7 @@ function createArticle2(article) {
               <td class="col-4-sm col-4-md">${article.DESPROD}</td>
               <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
               <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
-              <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" onClick="funciones.AgregarProductoVenta('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}');">+</button></td>
+              <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#exampleModal" onClick="funciones.AgregarProductoVenta('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}');">+</button></td>
             </tr>`;
 };
 
