@@ -1,21 +1,18 @@
+let nav;
+let user;
 
+async function fcnLogin(){
+    user = document.getElementById('txtUser');
+    let pass = document.getElementById('txtPass');
+    nav = document.getElementById('navbar-general');
 
-let txtUser = document.getElementById('txtUser');
-let txtPass = document.getElementById('txtPass');
+    if(!user.value){
+        funciones.showNotification('bottom','right','Escriba su nombre de Usuario','error')
+    };
+    if(!pass.value){
+        funciones.showNotification('bottom','right','Escriba su Constraseña','error')
+    };
 
-let btnIniciar = document.getElementById('btnIniciar');
-let btnUpdate = document.getElementById('btnUpdate')
-
-btnIniciar.addEventListener('click',()=>{
-    fcnLogin(txtUser.value,txtPass.value);
-})
-
-btnUpdate.addEventListener('click',()=>{
-    funciones.ApiUpdate('001');
-    funciones.showNotification('bottom','right','Se ha enviado la solicitud de actualización','advertencia');
-})
-
-async function fcnLogin(user,pass){
     try {
         const response = await fetch('/api/usuarios/login')
         const json = await response.json();
@@ -27,10 +24,20 @@ async function fcnLogin(user,pass){
     }
 }
 
-function ComprobarUsuario(usuario) {
+async function ComprobarUsuario(usuario) {
     if (usuario.NOMVEN==txtUser.value){
         if (usuario.CLAVE==txtPass.value){
-            window.location = 'inicio.html';
+            
+            GlobalUser = user.value;
+            GlobalCoddoc=usuario.CODDOC;
+
+            funciones.loadView('./viewInicio.html')
+                .then(()=>{
+                    CargarDatosVendedor(GlobalUser);
+                    funciones.showNotification('bottom','right','Bienvenido ' + GlobalUser,'advertencia');
+            });
+            
+            nav.style="visibility:visible";
         };
     };     
 };

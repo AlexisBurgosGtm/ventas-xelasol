@@ -1,21 +1,35 @@
-<div class="card card-user col-lg-6 col-md-6">
+<div class="col-lg-4 col-md-6">
+    <div class="card card-chart">
         <div class="card-header">
-             <h5 class="card-category">Ventas del Mes</h5>
+            <h5 class="card-category">2018 Sales</h5>
+            <h4 class="card-title">All products</h4>
+            <div class="dropdown">
+                <button type="button" class="btn btn-round btn-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
+                    <i class="now-ui-icons loader_gear"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item text-danger" href="#">Remove Data</a>
+                </div>
+            </div>
         </div>
-
         <div class="card-body">
-             <img src="./assets/img/imgventas.png" alt="" width="80" height="80">
-             <span class="text- text-right" style="font-size:25pt;font-family: Tahoma">  Q 500,000.00</span>    
+            <div class="chart-area">
+                <canvas id="lineChartExampleWithNumbersAndGrid"></canvas>
+            </div>
         </div>
-
         <div class="card-footer">
-             <div class="stats">
-                 <i class="now-ui-icons arrows-1_refresh-69"></i> Ultima Actualización 02/11/2018 
-             </div>
+            <div class="stats">
+                <i class="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+            </div>
         </div>
+    </div>
 </div>
 
-<div class="col-lg-6 col-md-6">
+
+<div class="col-lg-4 col-md-6">
          <div class="card card-user">
              <div class="image">
                  <img src="./assets/img/FONDO.jpg" alt="...">
@@ -24,7 +38,7 @@
                  <div class="author">
                      <a href="#">
                          <img class="avatar border-gray" src="./assets/img/usuario.png" alt="...">
-                         <h5 class="title">Alexis Burgos</h5>
+                         <h5 class="title" id="txtNombreUsuario">Alexis Burgos</h5>
                      </a>
                      <p class="description">
                          Tel: 5725-5092

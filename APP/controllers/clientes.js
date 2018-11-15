@@ -6,11 +6,11 @@ async function cargarListaClientes(){
     newsArticles.innerHTML = '';
                             
     newsArticles.innerHTML =
-                    `<table class="table table-responsive card" id="tblClientesTabla">
-                        <thead><tr class="card-body">
-                          <td class="col-4">Cliente</td> 
-                          <td class="col-4">Dirección</td> 
-                          <td class="col-4">Telefono</td></tr> 
+                    `<table class="table table-responsive" id="tblClientesTabla">
+                        <thead><tr>
+                          <td class="col-4-sm col-4-md">Cliente</td> 
+                          <td class="col-4-sm col-4-md">Dirección</td> 
+                          <td class="col-4-sm col-4-md">Telefono</td></tr> 
                           <td></td>
                         </thead>` + 
     json.recordset.map(createClientePedido).join('\n');
@@ -20,10 +20,10 @@ async function cargarListaClientes(){
 
 
   function createClientePedido(cliente) {
-    return `<tr class="card-body">
-              <td class="col-4">${cliente.NOMBRECLIENTE}</td>
-              <td class="col-4">${cliente.DIRCLIENTE}</td>
-              <td class="col-4">${cliente.TELEFONOCLIENTE}</td>
+    return `<tr>
+              <td class="col-4-sm col-4-md">${cliente.NOMCLIENTE}</td>
+              <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
+              <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
               <td></td> 
             </tr>`;
 };

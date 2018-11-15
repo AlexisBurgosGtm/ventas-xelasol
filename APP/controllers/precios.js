@@ -8,16 +8,16 @@ try {
     newsArticles.innerHTML = '';
                             
     newsArticles.innerHTML =
-                    `<table class="table table-responsive table-bordered" id="tblProductos">
-                        <thead><tr class="">
-                          <td class="col-4-sm col-4-md">Descripción</td>
-                          <td class="col-4-sm col-4-md">Medida</td> 
-                          <td class="col-4-sm col-4-md">Precio</td></tr>
-                        </thead>` + 
+              `<table class="table table-responsive table-bordered table-fixed" id="tblProductos">
+                <thead class=""><tr class="">
+                  <td class="col-4-sm col-4-md">Descripción</td>
+                  <td class="col-4-sm col-4-md">Medida</td> 
+                  <td class="col-4-sm col-4-md">Precio</td></tr>
+              </thead>` + 
     json.recordset.map(createArticle).join('\n');
 
     CrearBusquedaProductos();
-    
+
     } catch (error) {
       funciones.showNotification('bottom','right','Inténtalo de nuevo, al parecer no hay datos para cargar');
     } 
