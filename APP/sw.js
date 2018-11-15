@@ -1,4 +1,4 @@
-//https://github.com/AlexisBurgosGtm/arespos-sales.git
+
 var CACHE = 'arespos-online';
 const staticAssets = [
   './',
@@ -19,7 +19,7 @@ const staticAssets = [
   './assets/js/now-ui-dashboard.js',
   './assets/js/JsStore.min.js',
   './controllers/funciones.js',
-  './controllers/dbLocal.js',
+  './controllers/database.js',
   './controllers/index.js',
   './controllers/inicio.js',
   './controllers/ventas.js',
@@ -29,7 +29,6 @@ const staticAssets = [
   './controllers/GlobalVars.js',
   './controllers/simplescrollup.js',
   './index.html',
-  './splash.html',
   './viewLogin.html',
   './viewClientes.html',
   './viewInicio.html',

@@ -219,3 +219,26 @@ function showTableData() {
         $('#tblGrid tbody').html(HtmlString);
     });
 }*/
+
+// CARGA LA LISTA DE LA TABLA TEMP
+function dbSelectTempVentas() {
+    DbConnection.select({
+        From: "tempVentas"
+    }, function (productos) {
+
+        var HtmlString = "";
+        productos.forEach(function (prod) {
+            HtmlString += "<tr ItemId=" + prod.Id + "><td>" +
+                prod.desprod + "</td><td>" +
+                prod.codmedida + "</td><td>" +
+                prod.cantidad + "</td><td>" +
+                prod.subtotal + "</td><td>" +
+                "<button class='btn btn-danger btn-sm'>x</button></td></tr>";
+        }, function (error) {
+            console.log(error);
+        })
+
+        document.getElementById('tblProductosAgregados').innerHTML = HtmlString;
+        
+    });
+}

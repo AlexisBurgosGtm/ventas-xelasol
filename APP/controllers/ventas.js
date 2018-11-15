@@ -45,14 +45,15 @@ function AgregarProducto(){
   txtTotalVenta.innerHTML = funciones.setMoneda(_TotalVenta,'Q');
 
   var tblProductosAgregados = document.getElementById('tblProductosAgregados')
-  var tr = document.createElement('tr')
-  var row = '<td class="col-4">' + _Desprod + '</td><td class="col-2">' + _CodMedida + '</td><td class="col-1">' + txtCantidad.value + '</td><td class="col-2">' + funciones.setMoneda(_SubTotal,'Q') + '</td></td><td class="col-1">' + '<button class="btn btn-sm btn-round btn-danger">x</button></td>' 
+  //var tr = document.createElement('tr')
+  //var row = '<td class="col-4">' + _Desprod + '</td><td class="col-2">' + _CodMedida + '</td><td class="col-1">' + txtCantidad.value + '</td><td class="col-2">' + funciones.setMoneda(_SubTotal,'Q') + '</td></td><td class="col-1">' + '<button class="btn btn-sm btn-round btn-danger">x</button></td>' 
     
   // inserta los datos en indexdb
   insertTempVentas(GlobalCoddoc,1,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal);
 
-  tr.innerHTML = row;  
-  tblProductosAgregados.appendChild(tr);
+  dbSelectTempVentas();
+  //tr.innerHTML = row;  
+  //tblProductosAgregados.appendChild(tr);
  
   funciones.showNotification('bottom','right','Producto Agregado a la Venta Actual','exito')
 
