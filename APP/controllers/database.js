@@ -30,7 +30,7 @@ function getTbl() {
         },
             {
                 Name: "coddoc",
-                NotNull: true,
+                NotNull: false,
                 DataType: "string"
             },
             {
