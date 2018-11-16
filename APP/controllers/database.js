@@ -1,36 +1,7 @@
 var DbConnection;
 window.onload = function () {
     initiateDb();
-
-    /*
-    $('#tblGrid tbody').on('click', '.edit', function () {
-        var StudentId = $(this).parents().eq(1).attr('itemid');
-        window.location.href = 'add.html?id=' + StudentId;
-    });
-    $('#tblGrid tbody').on('click', '.delete', function () {
-        var Result = confirm('Are you sure, you want to delete?');
-        if (Result) {
-            var StudentId = $(this).parents().eq(1).attr('itemid');
-            deleteData(StudentId);
-        }
-    });*/
 };
-
-function deleteData(studentId) {
-    DbConnection.delete({
-        From: 'Student',
-        Where: {
-            Id: Number(studentId)
-        }
-    }, function (rowsDeleted) {
-        console.log(rowsDeleted + ' rows deleted');
-        if (rowsDeleted > 0) {
-            showTableData();
-        }
-    }, function (error) {
-        alert(error.Message);
-    })
-}
 
 const DbName = "AresPOSv2";
 
@@ -45,30 +16,6 @@ function initiateDb() {
             DbConnection = new JsStore.Instance().createDb(tbl);
         }
     });
-}
-
-
-function insertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal) {
-    var data = {
-        coddoc:coddoc,
-        correlativo:correlativo,
-        codprod:codprod,
-        desprod:desprod,
-        codmedida:codmedida,
-        cantidad:cantidad,
-        precio:precio,
-        subtotal:subtotal
-    }
-
-    DbConnection.insert({
-        Into: "tempVentas",
-        Values: [data]
-    }, function (rowsAdded) {
-        console.log('datos tempventas agregados exitosamente')
-    }, function (err) {
-        console.log(err);
-        //alert('Error Occured while adding data')
-    })
 }
 
 // define las tablas de la base de datos
@@ -198,47 +145,86 @@ function getTbl() {
     return DataBase;
 };
 
+// inserta un registro en temp ventas para hacer offline el pedido
+function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal) {
+    var data = {
+        coddoc:coddoc,
+        correlativo:correlativo,
+        codprod:codprod,
+        desprod:desprod,
+        codmedida:codmedida,
+        cantidad:cantidad,
+        precio:precio,
+        subtotal:subtotal
+    }
 
-/*This function refreshes the table
-function showTableData() {
-    DbConnection.select({
-        From: "Student"
-    }, function (students) {
-        var HtmlString = "";
-        students.forEach(function (student) {
-            HtmlString += "<tr ItemId=" + student.Id + "><td>" +
-                student.Name + "</td><td>" +
-                student.Gender + "</td><td>" +
-                student.Country + "</td><td>" +
-                student.City + "</td><td>" +
-                "<a href='#' class='edit'>Edit</a></td>" +
-                "<td><a href='#' class='delete''>Delete</a></td>";
-        }, function (error) {
-            console.log(error);
-        })
-        $('#tblGrid tbody').html(HtmlString);
-    });
-}*/
-
+    DbConnection.insert({
+        Into: "tempVentas",
+        Values: [data]
+    }, function (rowsAdded) {
+        console.log('datos tempventas agregados exitosamente')
+    }, function (err) {
+        console.log(err);
+        //alert('Error Occured while adding data')
+    })
+};
 // CARGA LA LISTA DE LA TABLA TEMP
-function dbSelectTempVentas() {
+function dbSelectTempVentas(contenedor) {
     DbConnection.select({
         From: "tempVentas"
     }, function (productos) {
 
         var HtmlString = "";
         productos.forEach(function (prod) {
-            HtmlString += "<tr ItemId=" + prod.Id + "><td>" +
-                prod.desprod + "</td><td>" +
-                prod.codmedida + "</td><td>" +
-                prod.cantidad + "</td><td>" +
-                prod.subtotal + "</td><td>" +
-                "<button class='btn btn-danger btn-sm'>x</button></td></tr>";
+            HtmlString += "<tr ItemId=" + prod.Id + ">" + 
+            "<td class='col-4'>" + prod.desprod + "</td>" + 
+            "<td class='col-2'>" + prod.codmedida + "</td>" + 
+            "<td class='col-1'>" + prod.cantidad + "</td>" + 
+            "<td class='col-2'>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
+            "<td class='col-1'>" + 
+              '<a class="btn btn-danger btn-sm btn-round" onClick(dbDeleteTempProducto(' + prod.Id +');>x</a>' + 
+            "</td></tr>";
         }, function (error) {
             console.log(error);
         })
-
-        document.getElementById('tblProductosAgregados').innerHTML = HtmlString;
-        
+        contenedor.innerHTML = HtmlString;
     });
+};
+// CALCULA EL TOTAL DE LA VENTA SEGÚN LA TABLA TEMP VENTAS
+function dbTotalTempVentas(contenedor) {
+    DbConnection.select({
+        From: "tempVentas"
+    }, function (productos) {
+        
+        let varSubtotal = parseFloat(0);
+        
+        productos.forEach(function (prod) {
+           varSubtotal += parseFloat(prod.subtotal);
+        }, function (error) {
+            console.log(error);
+        })
+        contenedor.innerHTML = funciones.setMoneda(varSubtotal,'Q');
+    });
+};
+// elimina un registro del pedido temp
+function dbDeleteTempProducto(prodId) {
+   test();
+    DbConnection.delete({
+        From: 'tempVentas',
+        Where: {
+            Id: Number(prodId)
+        }
+    }, function (rowsDeleted) {
+        console.log(rowsDeleted + ' rows deleted');
+        if (rowsDeleted > 0) {
+            document.getElementById(prodId).remove();
+            dbTotalTempVentas(txtTotalVenta);
+        }
+    }, function (error) {
+        alert(error.Message);
+    })
+}
+
+function test(){
+    console.log('click');
 }

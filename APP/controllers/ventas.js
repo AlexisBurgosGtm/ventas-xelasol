@@ -8,6 +8,7 @@ let btnAgregarProducto;
 let txtBusqueda;
 let btnBusqueda;
 let txtSubTotal;
+let btnMostrarLista;
 
 // Variables
 let _Codprod;
@@ -41,20 +42,12 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
 
 // Agrega el producto a la tabla temporal de la venta en curso
 function AgregarProducto(){
-  _TotalVenta += parseFloat(_SubTotal);
-  txtTotalVenta.innerHTML = funciones.setMoneda(_TotalVenta,'Q');
-
-  var tblProductosAgregados = document.getElementById('tblProductosAgregados')
-  //var tr = document.createElement('tr')
-  //var row = '<td class="col-4">' + _Desprod + '</td><td class="col-2">' + _CodMedida + '</td><td class="col-1">' + txtCantidad.value + '</td><td class="col-2">' + funciones.setMoneda(_SubTotal,'Q') + '</td></td><td class="col-1">' + '<button class="btn btn-sm btn-round btn-danger">x</button></td>' 
-    
   // inserta los datos en indexdb
-  insertTempVentas(GlobalCoddoc,1,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal);
+  dbInsertTempVentas(GlobalCoddoc,1,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal);
+  
+  // asigna la suma de los productos en temp ventas
+  dbTotalTempVentas(txtTotalVenta);
 
-  dbSelectTempVentas();
-  //tr.innerHTML = row;  
-  //tblProductosAgregados.appendChild(tr);
- 
   funciones.showNotification('bottom','right','Producto Agregado a la Venta Actual','exito')
 
   _SubTotal = parseFloat(0);
@@ -80,11 +73,14 @@ async function AsignarElementos(){
   btnAgregarProducto = document.getElementById('btnAgregarProducto'); //boton agregar
   txtCantidad = document.getElementById('txtCantidad'); //input
   txtSubTotal = document.getElementById('txtSubTotal'); //label
+  btnMostrarLista = document.getElementById('btnMostrarLista'); //botón para ver el listado
 };
 
 // asigna el listener al botón Agregar
-async function ListenerAgregar(){btnAgregarProducto.addEventListener('click',()=>{AgregarProducto();})}
-
+async function ListenerAgregar(){
+  btnAgregarProducto.addEventListener('click',()=>{AgregarProducto();})
+  btnMostrarLista.addEventListener('click',()=>{dbSelectTempVentas(document.getElementById('tblProductosAgregados'));})
+}
 
 //trae la vista de nueva venta
 function CrearNuevoPedido(){
@@ -97,16 +93,18 @@ function CrearNuevoPedido(){
   .catch(error => 
       funciones.showNotification('bottom','right','No se pudo cargar la vista')
   );
- 
 }
 
 // lista de precios para agregarlos a la venta
 async function loadPreciosVentas(){
 
+  let newsArticles = document.getElementById('contenedorVentas');
+  newsArticles.innerHTML = 'Cargando lista de productos...';
+  
   const response = await fetch(`/api/productos/all`);
   const json = await response.json();
-              
-  let newsArticles = document.getElementById('contenedorVentas');
+            
+  
   newsArticles.innerHTML = '';
                           
   newsArticles.innerHTML =
@@ -125,6 +123,7 @@ async function loadPreciosVentas(){
   CrearBusqueda();  
   ClearCantidad();
   ListenerAgregar();
+  dbTotalTempVentas(txtTotalVenta);
 }
   
 function createArticle2(article) {
