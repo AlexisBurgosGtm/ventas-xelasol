@@ -147,8 +147,8 @@
 <script async src="./controllers/precios.js"></script>
 <script async src="./controllers/clientes.js"></script>
 <script async src="./controllers/ventas.js"></script>
-<script async src="./controllers/index.js"></script>
 <script async src="./controllers/config.js"></script>
+<script async src="./controllers/index.js"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
@@ -157,12 +157,11 @@
             .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
     };
-
-    document.onload(funciones.loadView('./viewLogin.html').then(()=>{
-        var nav = document.getElementById('navbar-general')
-        nav.style="visibility:hidden";
-    }));
-            
+    
+    nav = document.getElementById('navbar-general');
+    nav.style="visibility:hidden";
+    funciones.loadView('./viewLogin.html')
+        
 </script>
 
 

@@ -36,13 +36,10 @@ const staticAssets = [
   './viewConfig.html',
   './viewVentas.html',
   './viewVentasPedido.html',
+  './viewVentasCliente.html',
   './sw.js'
 ];
 
-/*'./data/clientes.json',
-  './data/productos.json',
-  './data/vendedores.json',
-  './data/ventames.json', */
 self.addEventListener('install', function(evt) {
   console.log('Service worker instalado');
   evt.waitUntil(caches.open(CACHE).then(function (cache) {

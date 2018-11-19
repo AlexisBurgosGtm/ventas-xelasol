@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 
-const DbName = "AresPOSv2";
+const DbName = "AresPOSv3";
 
 function initiateDb() {
     
@@ -84,6 +84,10 @@ function getTbl() {
             {
                 Name: "codcliente",
                 NotNull: true
+            },
+            {
+                Name: "nomcliente",
+                DataType: "string"
             },
             {
                 Name: "totalventa",
@@ -176,13 +180,13 @@ function dbSelectTempVentas(contenedor) {
 
         var HtmlString = "";
         productos.forEach(function (prod) {
-            HtmlString += "<tr ItemId=" + prod.Id + ">" + 
+            HtmlString += "<tr Id=" + prod.Id + ">" + 
             "<td class='col-4'>" + prod.desprod + "</td>" + 
             "<td class='col-2'>" + prod.codmedida + "</td>" + 
             "<td class='col-1'>" + prod.cantidad + "</td>" + 
             "<td class='col-2'>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
             "<td class='col-1'>" + 
-              '<a class="btn btn-danger btn-sm btn-round" onClick(dbDeleteTempProducto(' + prod.Id +');>x</a>' + 
+              "<button class='btn btn-round btn-icon btn-danger' onclick='dbDeleteTempProducto(" + prod.Id +");'> x </button>" + 
             "</td></tr>";
         }, function (error) {
             console.log(error);
@@ -204,12 +208,30 @@ function dbTotalTempVentas(contenedor) {
             console.log(error);
         })
         contenedor.innerHTML = funciones.setMoneda(varSubtotal,'Q');
+        GlobalTotalVenta = varSubtotal;
     });
 };
+
+function dbGetTotalTempVentas() {
+    DbConnection.select({
+        From: "tempVentas"
+    }, function (productos) {
+        
+        let varSubtotal = parseFloat(0);
+        
+        productos.forEach(function (prod) {
+           varSubtotal += parseFloat(prod.subtotal);
+        }, function (error) {
+            console.log(error);
+        })
+
+        return varSubtotal;
+    });
+};
+
 // elimina un registro del pedido temp
 function dbDeleteTempProducto(prodId) {
-   test();
-    DbConnection.delete({
+      DbConnection.delete({
         From: 'tempVentas',
         Where: {
             Id: Number(prodId)
@@ -223,8 +245,64 @@ function dbDeleteTempProducto(prodId) {
     }, function (error) {
         alert(error.Message);
     })
-}
+};
+// Elimina toda la lista temporal de ventas
+function dbDeleteTempProductoAll() {
+    DbConnection.delete({
+      From: 'tempVentas',
+      
+  }, function (rowsDeleted) {
+      console.log(rowsDeleted + ' rows deleted');
+      if (rowsDeleted > 0) {
+          funciones.showNotification('bottom','left','Lista eliminada exitosamente','error')
+          dbTotalTempVentas(txtTotalVenta);
+      }
+  }, function (error) {
+      alert(error.Message);
+  })
+};
 
-function test(){
-    console.log('click');
-}
+
+
+// inserta un PEDIDO EN LA TABLA DOCUMENTOS
+function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa) {
+    var data = {
+        coddoc:coddoc,
+        correlativo:correlativo,
+        codcliente:codcliente,
+        nomcliente:nomcliente,
+        totalventa:totalventa
+    }
+
+    DbConnection.insert({
+        Into: "documentos",
+        Values: [data]
+    }, function (rowsAdded) {
+       funciones.showNotification('bottom','right','Venta Registrada exitosamente!!',)
+    }, function (err) {
+        console.log(err);
+        //alert('Error Occured while adding data')
+    })
+};
+
+//Selecciona todos los Documentos guardados 
+function dbSelectDocumentos(contenedor) {
+    DbConnection.select({
+        From: "documentos"
+    }, function (documentos) {
+
+        var HtmlString = "";
+        documentos.forEach(function (doc) {
+            HtmlString += "<tr>" + 
+            "<td class='col-1-sm col-1-md'>" + doc.correlativo + "</td>" + 
+            "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
+            "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
+            "<td class='col-1-sm col-1-md'>" + 
+              "<button class='btn btn-round btn-icon btn-danger btn-sm'> x </button>" + 
+            "</td></tr>";
+        }, function (error) {
+            console.log(error);
+        })
+        contenedor.innerHTML = HtmlString;
+    });
+};

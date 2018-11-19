@@ -9,6 +9,8 @@ let txtBusqueda;
 let btnBusqueda;
 let txtSubTotal;
 let btnMostrarLista;
+let btnCancelarVenta;
+let btnGuardarVenta;
 
 // Variables
 let _Codprod;
@@ -74,12 +76,16 @@ async function AsignarElementos(){
   txtCantidad = document.getElementById('txtCantidad'); //input
   txtSubTotal = document.getElementById('txtSubTotal'); //label
   btnMostrarLista = document.getElementById('btnMostrarLista'); //botón para ver el listado
+  btnCancelarVenta = document.getElementById('btnCancelarVenta'); //botón para eliminar el listado de productos en temp
+  btnGuardarVenta= document.getElementById('btnGuardarVenta'); //pasa a otra pantalla para seleccionar cliente
 };
 
-// asigna el listener al botón Agregar
-async function ListenerAgregar(){
+// asigna los listener a los botones
+async function AgregarListeners(){
   btnAgregarProducto.addEventListener('click',()=>{AgregarProducto();})
   btnMostrarLista.addEventListener('click',()=>{dbSelectTempVentas(document.getElementById('tblProductosAgregados'));})
+  btnCancelarVenta.addEventListener('click',()=>{dbDeleteTempProductoAll();});
+  btnGuardarVenta.addEventListener('click',()=>{AgregarCliente();})
 }
 
 //trae la vista de nueva venta
@@ -122,7 +128,7 @@ async function loadPreciosVentas(){
   AsignarElementos();
   CrearBusqueda();  
   ClearCantidad();
-  ListenerAgregar();
+  AgregarListeners();
   dbTotalTempVentas(txtTotalVenta);
 }
   
@@ -137,9 +143,66 @@ function createArticle2(article) {
 
 function CrearBusqueda(){
   //txtBusqueda.addEventListener('keyup',()=>{
-btnBuscar.addEventListener('click',()=>{
-  funciones.crearBusquedaTabla('tblProductosVentas','search');
-});   
-  
+  btnBuscar.addEventListener('click',()=>{
+    funciones.crearBusquedaTabla('tblProductosVentas','search');
+  });   
 }
+
+
+//AGREGAR CLIENTE A LA VENTA
+async function AgregarCliente(){
+  funciones.loadView('viewVentasCliente.html')
+          .then(cargarListaClientesPedido())
+
+};
+
+
+async function AgregarClienteVenta(idCliente,nomCliente){
+  dbInsertDocumentos(GlobalCoddoc,1,idCliente,nomCliente,GlobalTotalVenta);
+  funciones.loadView('viewVentas.html')
+      .then(()=>{
+        dbSelectDocumentos(document.getElementById('tblDocumentos'));
+        dbDeleteTempProductoAll();
+      });
+};
+
+async function cargarListaClientesPedido(){
+  const response = await fetch(`/api/clientes/all`);
+  const json = await response.json();
+              
+  let newsArticles = document.getElementById('tblClientesPedido');
+  newsArticles.innerHTML = '';
+                          
+  newsArticles.innerHTML =
+                  `<table class="table table-responsive" id="tblClientesTabla">
+                      <thead><tr>
+                        <td class="col-3-sm col-3-md">Cliente</td> 
+                        <td class="col-4-sm col-4-md">Dirección</td> 
+                        <td class="col-4-sm col-4-md">Telefono</td></tr> 
+                        <td class="col-1-sm col-1-md"></td>
+                      </thead>` + 
+  json.recordset.map(createClientePedido).join('\n');
+  //await caches.match('data/productos.json');
+  CrearBusquedaClientesPedido();
+}
+
+
+function createClientePedido(cliente) {
+  return `<tr>
+            <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
+            <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
+            <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
+            <td class="col-1-sm col-1-md">
+              <button class="btn btn-round btn-icon btn-primary" onclick="AgregarClienteVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">+</button>
+            </td> 
+          </tr>`;
+};
+
+function CrearBusquedaClientesPedido(){
+  let txtBusqueda = document.getElementById('search')
+  
+  txtBusqueda.addEventListener('keyup',()=>{
+      funciones.crearBusquedaTabla('tblClientesTabla','search')
+})
+}; 
 

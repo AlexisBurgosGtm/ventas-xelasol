@@ -42,6 +42,7 @@ btnClientes.addEventListener('click',()=>{
 // Ventas
 btnVentas.addEventListener('click',()=>{
     funciones.loadView('viewVentas.html')
+    .then(()=>{dbSelectDocumentos(document.getElementById('tblDocumentos'))});
     toggler.click();
 })
 
