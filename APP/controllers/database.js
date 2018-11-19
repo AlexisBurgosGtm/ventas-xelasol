@@ -247,15 +247,17 @@ function dbDeleteTempProducto(prodId) {
     })
 };
 // Elimina toda la lista temporal de ventas
-function dbDeleteTempProductoAll() {
+function dbDeleteTempProductoAll(confirm) {
     DbConnection.delete({
       From: 'tempVentas',
       
   }, function (rowsDeleted) {
       console.log(rowsDeleted + ' rows deleted');
       if (rowsDeleted > 0) {
-          funciones.showNotification('bottom','left','Lista eliminada exitosamente','error')
           dbTotalTempVentas(txtTotalVenta);
+          if(confirm=='SI'){
+            funciones.showNotification('bottom','left','Lista eliminada exitosamente','error');
+          }
       }
   }, function (error) {
       alert(error.Message);
@@ -294,7 +296,7 @@ function dbSelectDocumentos(contenedor) {
         var HtmlString = "";
         documentos.forEach(function (doc) {
             HtmlString += "<tr>" + 
-            "<td class='col-1-sm col-1-md'>" + doc.correlativo + "</td>" + 
+            "<td class='col-1-sm col-1-md'>" + doc.Id + "</td>" + 
             "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
             "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
             "<td class='col-1-sm col-1-md'>" + 

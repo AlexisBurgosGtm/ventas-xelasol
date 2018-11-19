@@ -11,6 +11,7 @@ let txtSubTotal;
 let btnMostrarLista;
 let btnCancelarVenta;
 let btnGuardarVenta;
+let btnFinalizarVenta;
 
 // Variables
 let _Codprod;
@@ -78,14 +79,15 @@ async function AsignarElementos(){
   btnMostrarLista = document.getElementById('btnMostrarLista'); //botón para ver el listado
   btnCancelarVenta = document.getElementById('btnCancelarVenta'); //botón para eliminar el listado de productos en temp
   btnGuardarVenta= document.getElementById('btnGuardarVenta'); //pasa a otra pantalla para seleccionar cliente
+  
 };
 
 // asigna los listener a los botones
 async function AgregarListeners(){
   btnAgregarProducto.addEventListener('click',()=>{AgregarProducto();})
   btnMostrarLista.addEventListener('click',()=>{dbSelectTempVentas(document.getElementById('tblProductosAgregados'));})
-  btnCancelarVenta.addEventListener('click',()=>{dbDeleteTempProductoAll();});
-  btnGuardarVenta.addEventListener('click',()=>{AgregarCliente();})
+  btnCancelarVenta.addEventListener('click',()=>{dbDeleteTempProductoAll('SI');});
+  btnGuardarVenta.addEventListener('click',()=>{AgregarCliente();});
 }
 
 //trae la vista de nueva venta
@@ -157,8 +159,9 @@ async function AgregarCliente(){
 };
 
 
-async function AgregarClienteVenta(idCliente,nomCliente){
-  dbInsertDocumentos(GlobalCoddoc,1,idCliente,nomCliente,GlobalTotalVenta);
+//guarda la venta
+async function dbGuardarVenta(){
+  dbInsertDocumentos(GlobalCoddoc,1,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
   funciones.loadView('viewVentas.html')
       .then(()=>{
         dbSelectDocumentos(document.getElementById('tblDocumentos'));
@@ -167,6 +170,8 @@ async function AgregarClienteVenta(idCliente,nomCliente){
 };
 
 async function cargarListaClientesPedido(){
+  
+  
   const response = await fetch(`/api/clientes/all`);
   const json = await response.json();
               
@@ -193,7 +198,7 @@ function createClientePedido(cliente) {
             <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
             <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
             <td class="col-1-sm col-1-md">
-              <button class="btn btn-round btn-icon btn-primary" onclick="AgregarClienteVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">+</button>
+              <button class="btn btn-round btn-icon btn-primary" data-toggle="modal" data-target="#ModalGuardaVenta" onclick="GetDataCliente('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">+</button>
             </td> 
           </tr>`;
 };
@@ -205,4 +210,10 @@ function CrearBusquedaClientesPedido(){
       funciones.crearBusquedaTabla('tblClientesTabla','search')
 })
 }; 
+
+//asigna código y nombre cliente según se seleccione en la lista
+function GetDataCliente(idCliente,nomCliente){
+  GlobalCodCliente = idCliente;
+  GlobalNomCliente = nomCliente;
+}
 
