@@ -3,3 +3,4 @@ let GlobalCoddoc;
 let GlobalTotalVenta;
 let GlobalCodCliente;
 let GlobalNomCliente;
+let GlobalCodven;

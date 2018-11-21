@@ -12,6 +12,7 @@ let btnMostrarLista;
 let btnCancelarVenta;
 let btnGuardarVenta;
 let btnFinalizarVenta;
+let btnFiltrarListaProductos;
 
 // Variables
 let _Codprod;
@@ -51,7 +52,7 @@ function AgregarProducto(){
   // asigna la suma de los productos en temp ventas
   dbTotalTempVentas(txtTotalVenta);
 
-  funciones.showNotification('bottom','right','Producto Agregado a la Venta Actual','exito')
+  //funciones.showNotification('bottom','right','Producto Agregado a la Venta Actual','exito')
 
   _SubTotal = parseFloat(0);
 };
@@ -79,7 +80,7 @@ async function AsignarElementos(){
   btnMostrarLista = document.getElementById('btnMostrarLista'); //botón para ver el listado
   btnCancelarVenta = document.getElementById('btnCancelarVenta'); //botón para eliminar el listado de productos en temp
   btnGuardarVenta= document.getElementById('btnGuardarVenta'); //pasa a otra pantalla para seleccionar cliente
-  
+  btnFiltrarListaProductos = document.getElementById('btnPedidoFiltrarProducto'); //boton flotante para filtrar productos
 };
 
 // asigna los listener a los botones
@@ -88,6 +89,7 @@ async function AgregarListeners(){
   btnMostrarLista.addEventListener('click',()=>{dbSelectTempVentas(document.getElementById('tblProductosAgregados'));})
   btnCancelarVenta.addEventListener('click',()=>{dbDeleteTempProductoAll('SI');});
   btnGuardarVenta.addEventListener('click',()=>{AgregarCliente();});
+  btnFiltrarListaProductos.addEventListener('click',()=>{FiltrarListaProductos();});
 }
 
 //trae la vista de nueva venta
@@ -95,7 +97,7 @@ function CrearNuevoPedido(){
 // Nuevo Pedido
   funciones.loadView('./viewVentasPedido.html')
   .then(()=>{
-      funciones.showNotification('bottom','right','Creando nuevo pedido','advertencia');
+      //funciones.showNotification('bottom','right','Creando nuevo pedido','advertencia');
       loadPreciosVentas();
   })
   .catch(error => 
@@ -128,7 +130,6 @@ async function loadPreciosVentas(){
   json.recordset.map(createArticle2).join('\n');
   //await caches.match('data/productos.json');
   AsignarElementos();
-  CrearBusqueda();  
   ClearCantidad();
   AgregarListeners();
   dbTotalTempVentas(txtTotalVenta);
@@ -143,14 +144,6 @@ function createArticle2(article) {
             </tr>`;
 };
 
-function CrearBusqueda(){
-  //txtBusqueda.addEventListener('keyup',()=>{
-  btnBuscar.addEventListener('click',()=>{
-    funciones.crearBusquedaTabla('tblProductosVentas','search');
-  });   
-}
-
-
 //AGREGAR CLIENTE A LA VENTA
 async function AgregarCliente(){
   funciones.loadView('viewVentasCliente.html')
@@ -158,19 +151,34 @@ async function AgregarCliente(){
 
 };
 
-
 //guarda la venta
-async function dbGuardarVenta(){
-  dbInsertDocumentos(GlobalCoddoc,1,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
-  funciones.loadView('viewVentas.html')
-      .then(()=>{
-        dbSelectDocumentos(document.getElementById('tblDocumentos'));
-        dbDeleteTempProductoAll();
-      });
-};
+async function dbGuardarVenta(codcliente,nomcliente){
+  GlobalCodCliente = codcliente;
+  GlobalNomCliente = nomcliente;
+ 
+  swal({
+    title: 'Confirme',
+    text: '¿Está seguro que desea Guardar esta Venta?',
+    type: 'warning',
+    buttons: {
+        cancel: true,
+        confirm: true,
+      }})
+  .then((value) => {
+    //swal(`The returned value is: ${value}`);
+    console.log(value);
+    if (value==true){
+      dbInsertDocumentos(GlobalCoddoc,1,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
+      funciones.loadView('viewVentas.html')
+          .then(()=>{
+            dbSelectDocumentos(document.getElementById('tblDocumentos'));
+            dbDeleteTempProductoAll();
+          });
+        };
+    });
+  };
 
 async function cargarListaClientesPedido(){
-  
   
   const response = await fetch(`/api/clientes/all`);
   const json = await response.json();
@@ -191,17 +199,19 @@ async function cargarListaClientesPedido(){
   CrearBusquedaClientesPedido();
 }
 
-
 function createClientePedido(cliente) {
   return `<tr>
             <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
             <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
             <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
             <td class="col-1-sm col-1-md">
-              <button class="btn btn-round btn-icon btn-primary" data-toggle="modal" data-target="#ModalGuardaVenta" onclick="GetDataCliente('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">+</button>
+              <button class="btn btn-round btn-icon btn-primary" onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
+                <i class='now-ui-icons ui-1_check'></i>
+              </button>
             </td> 
           </tr>`;
 };
+//<button class="btn btn-round btn-icon btn-primary" data-toggle="modal" data-target="#ModalGuardaVenta" onclick="GetDataCliente('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">+</button>
 
 function CrearBusquedaClientesPedido(){
   let txtBusqueda = document.getElementById('search')
@@ -217,3 +227,17 @@ function GetDataCliente(idCliente,nomCliente){
   GlobalNomCliente = nomCliente;
 }
 
+function FiltrarListaProductos(){
+  swal({
+    text: 'Buscar producto por descripción',
+    content: "input",
+    button: {
+      text: "Buscar",
+      closeModal: true,
+    },
+  })
+  .then(name => {
+    if (!name) throw null;
+      funciones.FiltrarTabla('tblProductosVentas',name);
+  })
+};

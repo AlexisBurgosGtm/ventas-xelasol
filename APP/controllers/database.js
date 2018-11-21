@@ -280,7 +280,8 @@ function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa)
         Into: "documentos",
         Values: [data]
     }, function (rowsAdded) {
-       funciones.showNotification('bottom','right','Venta Registrada exitosamente!!',)
+       //funciones.showNotification('bottom','right','Venta Registrada exitosamente!!',)
+       funciones.Aviso('Venta Registrada exitosamente!!');
     }, function (err) {
         console.log(err);
         //alert('Error Occured while adding data')
@@ -300,7 +301,9 @@ function dbSelectDocumentos(contenedor) {
             "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
             "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
             "<td class='col-1-sm col-1-md'>" + 
-              "<button class='btn btn-round btn-icon btn-danger btn-sm'> x </button>" + 
+              "<button class='btn btn-round btn-icon btn-default btn-sm'>" +
+                "<i class='now-ui-icons design_bullet-list-67'></i>" +
+              "</button>" + 
             "</td></tr>";
         }, function (error) {
             console.log(error);

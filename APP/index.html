@@ -137,6 +137,7 @@
 <script src="./assets/js/now-ui-dashboard.js?v=1.0.1"></script>
 
 <!--Librerías varias-->
+<script src="./assets/js/sweetalert.min.js"></script> <!--alertas varias-->
 <script src="./assets/js/JsStore.min.js"></script> <!-- para trabajar con IndexDb-->
 <script src="./controllers/funciones.js"></script>
 <script src="./controllers/GlobalVars.js"></script>
@@ -144,11 +145,13 @@
 
 <!-- controladores -->
 <script src="./controllers/inicio.js"></script>
+<script async src="./controllers/dataventas.js"></script>
 <script async src="./controllers/precios.js"></script>
 <script async src="./controllers/clientes.js"></script>
 <script async src="./controllers/ventas.js"></script>
 <script async src="./controllers/config.js"></script>
 <script async src="./controllers/index.js"></script>
+<script async src="./controllers/RemoteControl.js"></script>
 
 <script>
     if ('serviceWorker' in navigator) {
@@ -160,8 +163,13 @@
     
     nav = document.getElementById('navbar-general');
     nav.style="visibility:hidden";
+    
     funciones.loadView('./viewLogin.html')
+            .then(()=>{
+                CargarEmpresas();
+            })
         
+    StartRecognition();
 </script>
 
 

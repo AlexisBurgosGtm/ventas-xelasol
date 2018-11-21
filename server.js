@@ -2,6 +2,7 @@ const sql = require('mssql')
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
+
 const empnit ='001';
 
 var express = require("express");
@@ -25,6 +26,36 @@ router.use(function (req,res,next) {
 
 app.get("/",function(req,res){
 	res.sendFile(path + 'APP/index.html');
+});
+
+// OBTIENE TODAS LAS EMPRESAS
+app.get("/api/empresas/all", async(req,res)=>{
+
+	try {
+		const pool = await sql.connect(sqlString)
+		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS ORDER BY EMPNOMBRE`
+		console.dir('Empresas cargadas exitosamente');
+		sql.close()
+	
+		res.send(result);
+	} catch (err) {
+		// ... error checks
+		console.log(String(err));
+	}
+//}
+});
+
+//OBTIENE LAS VENTAS POR DIA Y VENDEDOR
+app.get("/api/ventas/dia", async(req,res)=>{
+	try {
+		const pool = await sql.connect(sqlString)
+		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA FROM VENTAS_DIA_VENDEDOR WHERE EMPNIT=${empnit}`
+		console.dir('Generado Ventas por vendedor por día');
+		sql.close()
+		res.send(result);
+	} catch (err) {
+		console.log(String(err));
+	}
 });
 
 //OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
@@ -71,7 +102,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 	//async () => {
 		try {
 			const pool = await sql.connect(sqlString)
-			const result = await sql.query`SELECT NOMVEN, CLAVE, CODDOC FROM VENDEDORES WHERE EMPNIT = ${empnit}`
+			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC FROM VENDEDORES WHERE EMPNIT = ${empnit}`
 			console.dir('La consulta usuario se generó');
 			sql.close()
 			//return result;
