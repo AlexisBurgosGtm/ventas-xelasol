@@ -203,7 +203,7 @@ async function cargarListaClientesPedido(){
   CrearBusquedaClientesPedido();
 
   //asigna el botón atrás para regresar a la venta
-  btnAtrasClientePedido.document.getElementById('btnAtrasClientePedido').addEventListener('click',()=>{CrearNuevoPedido();})
+  //btnAtrasClientePedido.document.getElementById('btnAtrasClientePedido').addEventListener('click',()=>{CrearNuevoPedido();})
 }
 
 function createClientePedido(cliente) {

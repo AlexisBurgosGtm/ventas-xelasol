@@ -163,6 +163,14 @@
 <script async src="./controllers/config.js"></script>
 
 <script>
+    nav = document.getElementById('navbar-general');
+    nav.style="visibility:hidden";
+
+    funciones.loadView('./viewLogin.html')
+        .then(()=>{
+            CargarEmpresas();
+        })
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
@@ -170,15 +178,9 @@
             .catch(err => 'SW registration failed'));
     };
     
-    nav = document.getElementById('navbar-general');
-    nav.style="visibility:hidden";
-    
-    funciones.loadView('./viewLogin.html')
-            .then(()=>{
-                CargarEmpresas();
-            })
-        
+           
     StartRecognition();
+    
 </script>
 
 
