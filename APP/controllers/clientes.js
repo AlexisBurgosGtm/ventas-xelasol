@@ -6,32 +6,30 @@ async function cargarListaClientes(){
     newsArticles.innerHTML = '';
                             
     newsArticles.innerHTML =
-                    `<table class="table table-responsive" id="tblClientesTabla">
+                    `<table class="table table-responsive" id="tblClientesTablaLista">
                         <thead><tr>
                           <td class="col-4-sm col-4-md">Cliente</td> 
                           <td class="col-4-sm col-4-md">Dirección</td> 
                           <td class="col-4-sm col-4-md">Telefono</td></tr> 
                           <td></td>
                         </thead>` + 
-    json.recordset.map(createClientePedido).join('\n');
-    //await caches.match('data/productos.json');
-    CrearBusquedaClientes();
-  }
-
-
-  function createClientePedido(cliente) {
-    return `<tr>
+    json.recordset.map((cliente)=>{
+              return `<tr>
               <td class="col-4-sm col-4-md">${cliente.NOMCLIENTE}</td>
               <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
               <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
               <td></td> 
-            </tr>`;
-};
+              </tr>`;
+    }).join('\n');
+    //await caches.match('data/productos.json');
+    CrearBusquedaClientes();
+  }
 
+  
 function CrearBusquedaClientes(){
     let txtBusqueda = document.getElementById('search')
     
     txtBusqueda.addEventListener('keyup',()=>{
-        funciones.crearBusquedaTabla('tblClientesTabla','search')
+        funciones.crearBusquedaTabla('tblClientesTablaLista','search')
   })
 }; 

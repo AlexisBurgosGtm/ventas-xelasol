@@ -1,21 +1,20 @@
-let btntblTemp;
-let btntblDocumentos;
-let btntblDocproductos;
+let btnConfigCorrelativo;
+let txtConfigCorrelativo;
 
 async function CargarBotonesConfig() {
-    
-    
-    btntblTemp = document.getElementById('btntblTemp')
-    btntblDocumentos = document.getElementById('btntblDocumentos')
-    btntblDocproductos = document.getElementById('btntblDocproductos')
-
-    btntblTemp.addEventListener('click',()=>{
         
-    })
-    btntblDocumentos.addEventListener('click',()=>{
-      //db.CrearTablaDocumentos();  
-    })
-    btntblDocproductos.addEventListener('click',()=>{
-        //db.CrearTablaDocproductos();  
+    btnConfigCorrelativo = document.getElementById('btnConfigCorrelativo');
+    txtConfigCorrelativo = document.getElementById('txtConfigCorrelativo');
+    
+    //ASIGNA EL VALOR DEL CORRELATIVO ACTUAL
+    dbGetCorrelativo(1,txtConfigCorrelativo);
+
+    btnConfigCorrelativo.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea Actualizar el Correlativo?')
+            .then((value) => {
+                if (value==true){
+                    dbUpdateCorrelativoDoc(txtConfigCorrelativo.value,'SI');
+                };
+            });
     })
 }

@@ -13,6 +13,7 @@ let btnCancelarVenta;
 let btnGuardarVenta;
 let btnFinalizarVenta;
 let btnFiltrarListaProductos;
+let btnAtrasClientePedido;
 
 // Variables
 let _Codprod;
@@ -87,9 +88,19 @@ async function AsignarElementos(){
 async function AgregarListeners(){
   btnAgregarProducto.addEventListener('click',()=>{AgregarProducto();})
   btnMostrarLista.addEventListener('click',()=>{dbSelectTempVentas(document.getElementById('tblProductosAgregados'));})
-  btnCancelarVenta.addEventListener('click',()=>{dbDeleteTempProductoAll('SI');});
+  btnCancelarVenta.addEventListener('click',()=>{fcnCancelarVenta();});
   btnGuardarVenta.addEventListener('click',()=>{AgregarCliente();});
   btnFiltrarListaProductos.addEventListener('click',()=>{FiltrarListaProductos();});
+}
+
+//borra la lista temporal del pedido
+function fcnCancelarVenta(){
+  funciones.Confirmacion('¿Está seguro que desea CANCELAR esta Venta?')
+  .then((value) => {
+      if (value==true){
+          dbDeleteTempProductoAll('SI');
+      };
+    });
 }
 
 //trae la vista de nueva venta
@@ -155,20 +166,13 @@ async function AgregarCliente(){
 async function dbGuardarVenta(codcliente,nomcliente){
   GlobalCodCliente = codcliente;
   GlobalNomCliente = nomcliente;
- 
-  swal({
-    title: 'Confirme',
-    text: '¿Está seguro que desea Guardar esta Venta?',
-    type: 'warning',
-    buttons: {
-        cancel: true,
-        confirm: true,
-      }})
+
+  funciones.Confirmacion('¿Está seguro que desea Guardar esta Venta?')
   .then((value) => {
     //swal(`The returned value is: ${value}`);
     console.log(value);
     if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,1,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
+      dbInsertDocumentos(GlobalCoddoc,dbGetValCorrelativo(1),GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
       funciones.loadView('viewVentas.html')
           .then(()=>{
             dbSelectDocumentos(document.getElementById('tblDocumentos'));
@@ -197,6 +201,9 @@ async function cargarListaClientesPedido(){
   json.recordset.map(createClientePedido).join('\n');
   //await caches.match('data/productos.json');
   CrearBusquedaClientesPedido();
+
+  //asigna el botón atrás para regresar a la venta
+  btnAtrasClientePedido.document.getElementById('btnAtrasClientePedido').addEventListener('click',()=>{CrearNuevoPedido();})
 }
 
 function createClientePedido(cliente) {

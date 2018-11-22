@@ -1,4 +1,15 @@
 funciones = {
+    Confirmacion: function(msn){
+        return swal({
+            title: 'Confirme',
+            text: msn,
+            type: 'warning',
+            buttons: {
+                cancel: true,
+                confirm: true,
+              }})
+    },
+
     Aviso: function(msn){
         swal(msn, {
             timer: 900,
@@ -200,7 +211,7 @@ funciones = {
     for (var i = lengthRangos - 1; i >= 0; i--) {
     if (rangos[i][0] <= nnum && nnum <= rangos[i][1]) {
         if (hablado=='SI'){     
-            hablar("Su línea telefónica es " + rangos[i][2]);
+            funciones.hablar("Su línea telefónica es " + rangos[i][2]);
         }else{
             return rangos[i][2];
         }
@@ -210,7 +221,7 @@ funciones = {
 
     if (!found) {
     if (hablado=='SI'){ 
-        hablar("El número indicado no aparece en la lista");
+        funciones.hablar("El número indicado no aparece en la lista");
     }else{
         return "No Disponible";
     }

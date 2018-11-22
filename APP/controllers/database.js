@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 
-const DbName = "AresPOSv3";
+const DbName = "AresPOSv4";
 
 function initiateDb() {
     
@@ -14,6 +14,7 @@ function initiateDb() {
         } else {
             var tbl = getTbl();
             DbConnection = new JsStore.Instance().createDb(tbl);
+            dbInsertCorrelativoDoc();
         }
     });
 }
@@ -140,14 +141,115 @@ function getTbl() {
             }
         ]
     }
+    //TABLA DOCUMENTOS
+    var tblTipoDocumentos = {
+        Name: "tipodocumentos",
+        Columns: [{
+            Name: "Id",
+            PrimaryKey: true,
+            AutoIncrement: true
+        },
+            {
+                Name: "coddoc",
+                DataType: "string"
+            },
+            {
+                Name: "correlativo"
+            }
+        ]
+    }
 
     var DataBase = {
         Name: DbName,
-        Tables: [TblTemp,TblDocumentos,TblDocproductos]
+        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos]
     }
 
     return DataBase;
 };
+
+// crea un único registro al cargar la db por primera vez
+// para poder hacerle update luego con cada venta
+function dbInsertCorrelativoDoc() {
+    var data = {
+        coddoc:'ENVIOS',
+        correlativo:1
+    }
+
+    DbConnection.insert({
+        Into: "tipodocumentos",
+        Values: [data]
+    }, function (rowsAdded) {
+        console.log('Correlativo Docs Inicial Generado con éxito')
+    }, function (err) {
+        console.log(err);
+    })
+};
+//actualiza el correlativo de documento de ventas
+function dbUpdateCorrelativoDoc(correlativo,aviso) {
+    var data = {
+        coddoc:'ENVIOS',
+        correlativo: Number(correlativo)
+    }
+
+    DbConnection.update({
+        In: "tipodocumentos",
+        Set: data,
+        Where: {
+            Id: Number(1)
+        }
+    }, function (rowsAffected) {
+        //alert(rowsAffected + " rows Updated");
+        if (rowsAffected > 0) {
+            console.log('correlativo actualizado exitosamente');
+            if (aviso=='SI'){
+                funciones.Aviso('Correlativo Actualizado Exitosamente');
+            };
+        }
+    }, function (error) {
+        //alert(error.Message);
+        console.log(error.Message)
+    })
+};
+// CARGA EL CORRELATIVO ACTUAL
+function dbGetCorrelativo(Id,contenedor) {
+    DbConnection.select({
+        From: "tipodocumentos",
+        Where: {
+                Id: Number(Id)
+            }
+    }, function (documentos) {
+        
+        let varSubtotal = parseFloat(0);
+        
+        documentos.forEach(function (prod) {
+           varSubtotal += parseFloat(prod.correlativo);
+        }, function (error) {
+            console.log(error);
+        })
+        contenedor.value = varSubtotal;
+    });
+};
+
+
+function dbGetValCorrelativo(Id) {
+    DbConnection.select({
+        From: "tipodocumentos",
+        Where: {
+                Id: Number(Id)
+            }
+    }, function (documentos) {
+        
+        let varSubtotal = parseFloat(0);
+        
+        documentos.forEach(function (prod) {
+           varSubtotal += parseFloat(prod.correlativo);
+        }, function (error) {
+            console.log(error);
+        })
+        return varSubtotal;
+    });
+};
+
 
 // inserta un registro en temp ventas para hacer offline el pedido
 function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal) {

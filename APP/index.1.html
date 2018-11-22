@@ -13,11 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     
-    <!-- CSS Files 
-    <link href="./assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
-    -->
+    <!-- CSS Files -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./assets/css/now-ui-dashboard.css" rel="stylesheet" />
+    <link href="./assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
     <link rel="stylesheet" href="./assets/css/btn.css">
     <link rel="stylesheet" href="./assets/css/themify-icons.css">
 
@@ -29,7 +27,7 @@
 
 <body id="up">
     <div class="wrapper ">
-        <div class="sidebar fixed-top" data-color="blue">
+        <div class="sidebar fixed-top" data-color="orange">
             <div class="sidebar-wrapper">
                 <div class="">
                     <img src="./assets/img/FONDO.jpg">
@@ -87,7 +85,7 @@
         -->
         <div class="main-panel">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-info fixed-top ">
+            <nav class="navbar navbar-expand-lg bg-primary fixed-top ">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
@@ -127,11 +125,11 @@
         </div>
     </div>
 <!-- botón subir <a href="#up" class="simplescrollup__button simplescrollup__button--hide"> -->
-<a href="#up" class="simplescrollup__button simplescrollup__button--hide btn-circle btn-icon">
+<a href="#up" class="simplescrollup__button simplescrollup__button--hide btn-circle">
     <i class="now-ui-icons arrows-1_minimal-up"></i>
 </a>
 
-    <script src="./controllers/simplescrollup.js"></script>
+<script src="./controllers/simplescrollup.js"></script>
 </body>
 <!--   Core JS Files   -->
 <script src="./assets/js/core/jquery.min.js"></script>
@@ -142,8 +140,7 @@
 <!--  Notifications Plugin    -->
 <script src="./assets/js/plugins/bootstrap-notify.js"></script>
 <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-<!--<script src="./assets/js/now-ui-dashboard.js?v=1.0.1"></script>-->
-<script src="./assets/js/now-ui-dashboard.js"></script>
+<script src="./assets/js/now-ui-dashboard.js?v=1.0.1"></script>
 
 <!--Librerías varias-->
 <script src="./assets/js/sweetalert.min.js"></script> <!--alertas varias-->
@@ -158,9 +155,9 @@
 <script async src="./controllers/precios.js"></script>
 <script async src="./controllers/clientes.js"></script>
 <script async src="./controllers/ventas.js"></script>
-<script async src="./controllers/tools.js"></script>
-<script async src="./controllers/index.js"></script>
 <script async src="./controllers/config.js"></script>
+<script async src="./controllers/index.js"></script>
+<script async src="./controllers/RemoteControl.js"></script>
 
 <script>
     if ('serviceWorker' in navigator) {

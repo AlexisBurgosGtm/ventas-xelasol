@@ -8,6 +8,7 @@ let btnDashboard = document.getElementById('btnDashboard');
 let btnPrecios = document.getElementById('btnPrecios');
 let btnClientes = document.getElementById('btnClientes');
 let btnVentas = document.getElementById('btnVentas');
+let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let toggler = document.getElementById('btnToggler');
 
@@ -47,10 +48,20 @@ btnVentas.addEventListener('click',()=>{
     toggler.click();
 })
 
+// Tools
+btnTools.addEventListener('click',()=>{
+    funciones.loadView('viewTools.html')
+            .then(()=>{
+                CargarBotonesTools();
+            });
+            
+    toggler.click();
+})
+
 // Configuraciones
 btnConfig.addEventListener('click',()=>{
     funciones.loadView('viewConfig.html')
-        .then();
+        .then(()=>{CargarBotonesConfig();});
     toggler.click();
 })
 
@@ -61,44 +72,48 @@ async function CargarDatosVendedor(usuario){
 }
 
 function StartRecognition(){
-var recognition = new webkitSpeechRecognition();
-recognition.continuous = true;
-recognition.interimResults = true;
-//recognition.lang = 'en-US';
-recognition.lang = 'es-ES';
+    try {
+            var recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            //recognition.lang = 'en-US';
+            recognition.lang = 'es-ES';
 
-recognition.continuous = true;
-recognition.start();
+            recognition.continuous = true;
+            recognition.start();
 
-recognition.onresult = function(event) {
+            recognition.onresult = function(event) {
 
 
-    for (var i = event.resultIndex; i < event.results.length; ++i) {
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
 
-        if(event.results[i].isFinal){
+                    if(event.results[i].isFinal){
 
-            if (event.results[i][0].transcript.trim() == 'ventas') {
-                //remoteControl.play()
-                btnVentas.click();
-            } 
-            if (event.results[i][0].transcript.trim() == 'precios') {
-                //remoteControl.stop()
-                btnPrecios.click();
-            } 
-            if (event.results[i][0].transcript.trim() == 'inicio') {
-                //remoteControl.mute()
-                btnDashboard.click();
-            } 
-            if (event.results[i][0].transcript.trim() == '¿Cuál es mi Usuario?') {
-                //remoteControl.unmute()
-                funciones.hablar('Tu usuario es ' + GlobalUser);
-            } 
+                        if (event.results[i][0].transcript.trim() == 'ventas') {
+                            //remoteControl.play()
+                            btnVentas.click();
+                        } 
+                        if (event.results[i][0].transcript.trim() == 'precios') {
+                            //remoteControl.stop()
+                            btnPrecios.click();
+                        } 
+                        if (event.results[i][0].transcript.trim() == 'inicio') {
+                            //remoteControl.mute()
+                            btnDashboard.click();
+                        } 
+                        if (event.results[i][0].transcript.trim() == '¿Cuál es mi Usuario?') {
+                            //remoteControl.unmute()
+                            funciones.hablar('Tu usuario es ' + GlobalUser);
+                        } 
+                        
+                        console.info(`You said : ${event.results[i][0].transcript}`)
+
+                    }
+                    
+                }
             
-            console.info(`You said : ${event.results[i][0].transcript}`)
-
-        }
+            }
+    } catch (error) {
         
-      }
-  
-}
+    }
 }
