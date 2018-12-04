@@ -1,4 +1,6 @@
 const sql = require('mssql')
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
@@ -7,7 +9,8 @@ const empnit ='001';
 
 var express = require("express");
 var app = express();
-const PORT = process.env.PORT || 3003;
+
+const PORT = process.env.PORT || 5000;
 
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -131,14 +134,83 @@ app.get("/api/usuarios/login", async(req,res)=>{
 		sql.close()
 });
 
+// INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
+app.get("/api/ventas/documentos", async(req,res)=>{
+	
+	console.log('Llegó la solicitud ..');
+
+	let _coddoc = req.query.coddoc;
+	let _correlativo = req.query.correlativo;
+	let _codcliente = req.query.codcliente;
+	let _totalventa = req.query.totalventa;
+	let _token = req.query.token;
+	let _anio = req.query.anio;
+	let _mes = req.query.mes;
+	let _dia = req.query.dia;
+	let _codven = req.query.codven;
+		
+	console.log('Llegó la solicitud ' + _coddoc + _correlativo + _codcliente + _totalventa);
+
+	let sqlQry = 'insert into web_documentos (token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
+
+		const pool = await sql.connect(sqlString)
+	    try {
+			let result = await pool.request()
+				.input('token', sql.VarChar(255), _token)
+				.input('coddoc', sql.VarChar(50), _coddoc)
+				.input('correlativo', sql.Float, _correlativo)
+				.input('anio', sql.Int, _anio)
+				.input('mes', sql.Int, _mes)
+				.input('dia', sql.Int, _dia)
+				.input('codven', sql.Int, _codven)
+				.input('codcliente', sql.Int, _codcliente)
+				.input('totalventa', sql.Float, _totalventa)
+				.query(sqlQry)
+				
+				console.dir('Api Documentos Success: ' + result)
+				//res.send('Se insertaron los Documentos');
+		} catch (err) {
+			// ... error checks
+			console.log('Api Documentos Error: ' + String(err));
+		}
+	
+		sql.close()
+});
+
 app.use("/",router);
 
 app.use("*",function(req,res){
-  res.sendFile(path + "APP/404.html");
+  //res.sendFile(path + "APP/404.html");
   res.send('No hay nada');
 });
+
+/*
+io.on('connection', function(socket){
+	socket.on('chat message', function(msg){
+	  io.emit('chat message', msg);
+	});
+});
+*/
 
 app.listen(PORT, function () {
   console.log('Servidor iniciado en el puerto ' + String(PORT));
 })
 
+/*http.listen(port, function(){
+  console.log('listening on *:' + port);
+});*/
+
+/*CODIGO PARA EL HTML Y SOCKET
+   $(function () {
+        var socket = io();
+        $('form').submit(function(){
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+      });
+*/

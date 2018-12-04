@@ -29,7 +29,7 @@
 
 <body id="up">
     <div class="wrapper ">
-        <div class="sidebar fixed-top" data-color="blue">
+        <div class="sidebar fixed-top" data-color="orange">
             <div class="sidebar-wrapper">
                 <div class="">
                     <img src="./assets/img/FONDO.jpg">
@@ -43,7 +43,7 @@
                     </li>
                     <li>
                         <a href="#" id="btnVentas">
-                            <i class="now-ui-icons education_atom"></i>
+                            <i class="now-ui-icons shopping_cart-simple"></i>
                             <p>Ventas</p>
                         </a>
                     </li>
@@ -72,6 +72,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" id="btnSync">
+                            <i class="now-ui-icons loader_refresh"></i>
+                            <p>Sync</p>
+                        </a>
+                    </li>
+                    <li>
                         <a href="index.html">
                             <i class="now-ui-icons users_single-02"></i>
                             <p>Salir(x)</p>
@@ -87,7 +93,7 @@
         -->
         <div class="main-panel">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-info fixed-top ">
+            <nav class="navbar navbar-expand-lg bg-primary fixed-top ">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
@@ -161,6 +167,7 @@
 <script async src="./controllers/tools.js"></script>
 <script async src="./controllers/index.js"></script>
 <script async src="./controllers/config.js"></script>
+<script async src="./controllers/sync.js"></script>
 
 <script>
     nav = document.getElementById('navbar-general');
@@ -176,10 +183,11 @@
             navigator.serviceWorker.register('sw.js')
             .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
+            
     };
     
            
-    StartRecognition();
+    //StartRecognition();
     
 </script>
 

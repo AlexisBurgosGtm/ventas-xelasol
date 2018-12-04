@@ -28,6 +28,38 @@
     
 </div>
 
+<!-- Modal Opciones Pedido -->
+<div class="modal fade" id="ModalOpcionesPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <span id="txtIdPedido"> </span>
+            <div class="modal-header">
+              <label class="modal-title" id="txtNomClientePedido">Consumidor Final</label>
+    
+            </div>
+            <div class="modal-body">
+              <div class="col-8">
+                <div class="row">
+                    <label>Total Venta:</label>
+                    <h3 class="text-right"  id="txtTotalPedido"><b>Q 5000.00 </b></h3>
+                </div>
+    
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
+                <i class="now-ui-icons ui-1_simple-remove"></i>
+                Cancelar
+              </button>
+              <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+                Agregar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 <!-- botón nuevo -->
 <div id="fixed-btn2">
     <button class="btn btn-primary btn-circle btn-xl" id="btnNuevoPedido" onclick="CrearNuevoPedido();">+</button>

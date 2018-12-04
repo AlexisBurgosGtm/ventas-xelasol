@@ -1,3 +1,4 @@
+/* BOTON FLOTANTE ESQUINA DERECHA */
 #fixed-btn2 { 
 position: fixed;
 z-index: 1088;
@@ -63,3 +64,34 @@ bottom: 15px;
     .simplescrollup__button--hide {
         transform: translateX(100px);
     }
+/* FIN BOTON FLOTANTE */
+
+/* DIV LATERAL QUE APARECE */
+#example-view-filters {
+    overflow: hidden;
+    position:relative;
+    height:450px;
+}
+#example-trigger-toggle {
+    cursor: pointer;
+}
+#example-element-toggle {
+    display:none;
+}
+#example-toggled-element {
+    position:absolute;
+    right:0px;
+    width:100%;  
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -mos-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+#example-element-toggle:not(:checked) ~ #example-toggled-element {
+    right:-1000px;
+}
+
+/* FIN DIV LATERAL QUE APARECE */
+
+

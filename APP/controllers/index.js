@@ -53,7 +53,7 @@ async function ComprobarUsuario(usuario) {
                 .then(()=>{
                     CargarDatosVendedor(GlobalUser);
                     getVentasDiaVendedor('salescontainer');
-                    funciones.hablar('Bienvenido ' + GlobalUser);
+                    //funciones.hablar('Bienvenido ' + GlobalUser);
             });
             
             nav.style="visibility:visible";

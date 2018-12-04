@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 
-const DbName = "AresPOSv4";
+const DbName = "AresPOSv5";
 
 function initiateDb() {
     
@@ -31,7 +31,6 @@ function getTbl() {
         },
             {
                 Name: "coddoc",
-                NotNull: false,
                 DataType: "string"
             },
             {
@@ -81,6 +80,15 @@ function getTbl() {
             },
             {
                 Name: "correlativo"
+            },
+            {
+                Name: "anio"
+            },
+            {
+                Name: "mes"
+            },
+            {
+                Name: "dia"
             },
             {
                 Name: "codcliente",
@@ -230,7 +238,6 @@ function dbGetCorrelativo(Id,contenedor) {
     });
 };
 
-
 function dbGetValCorrelativo(Id) {
     DbConnection.select({
         From: "tipodocumentos",
@@ -246,10 +253,9 @@ function dbGetValCorrelativo(Id) {
         }, function (error) {
             console.log(error);
         })
-        return varSubtotal;
+        GlobalCorrelativo = varSubtotal;
     });
 };
-
 
 // inserta un registro en temp ventas para hacer offline el pedido
 function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal) {
@@ -366,8 +372,6 @@ function dbDeleteTempProductoAll(confirm) {
   })
 };
 
-
-
 // inserta un PEDIDO EN LA TABLA DOCUMENTOS
 function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa) {
     var data = {
@@ -390,6 +394,45 @@ function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa)
     })
 };
 
+// inserta un PEDIDO EN LA TABLA DOCPRODUCTOS
+function dbInsertDocproductos(coddoc,correlativo) {
+    //declaro las variables a usar
+    let strData = '';
+
+    DbConnection.select({
+        From: "tempVentas"
+    }, function (productos) {
+
+        productos.forEach(function (prod) {
+            let data ={
+                coddoc:coddoc,
+                correlativo:correlativo,
+                codprod:prod.codprod,
+                desprod:prod.desprod,
+                codmedida:prod.codmedida,
+                cantidad:prod.cantidad,
+                precio:prod.precio,
+                subtotal:prod.subtotal
+            };
+              // inserta los datos en la tabla docproductos
+            DbConnection.insert({
+                Into: "docproductos",
+                Values: [data]
+            }, function (rowsAdded) {
+                //funciones.Aviso('Venta Registrada exitosamente!!');
+                console.log('Row agregada a docproductos')
+            }, function (err) {
+                console.log('Error Docproductos: ' + String(err));
+            })
+
+        }, function (error) {
+            console.log(error);
+        })
+        console.log('DATOS AGREGADOS A DOCPRODUCTOS');
+  
+    });
+};
+
 //Selecciona todos los Documentos guardados 
 function dbSelectDocumentos(contenedor) {
     DbConnection.select({
@@ -403,7 +446,7 @@ function dbSelectDocumentos(contenedor) {
             "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
             "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
             "<td class='col-1-sm col-1-md'>" + 
-              "<button class='btn btn-round btn-icon btn-default btn-sm'>" +
+              "<button class='btn btn-round btn-icon btn-default btn-sm' data-toggle='modal' data-target='#ModalOpcionesPedido' onClick='fcnCargarDatosPedido(" + doc.Id + "," + String(doc.nomcliente) + "," + doc.totalventa + ");'>" +
                 "<i class='now-ui-icons design_bullet-list-67'></i>" +
               "</button>" + 
             "</td></tr>";

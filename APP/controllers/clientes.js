@@ -22,14 +22,17 @@ async function cargarListaClientes(){
               </tr>`;
     }).join('\n');
     //await caches.match('data/productos.json');
-    CrearBusquedaClientes();
+    //CrearBusquedaClientes();
+    document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
+        funciones.FiltrarListaProductos('tblClientesTablaLista');
+    })
   }
 
-  
+/*
 function CrearBusquedaClientes(){
     let txtBusqueda = document.getElementById('search')
     
     txtBusqueda.addEventListener('keyup',()=>{
         funciones.crearBusquedaTabla('tblClientesTablaLista','search')
   })
-}; 
+}; */

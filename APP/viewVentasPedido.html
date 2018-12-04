@@ -1,21 +1,26 @@
 <div class="card" id="VentasInicio">
     <div class="card-header">
         <span>Nueva Venta<span>
-        <div><b><h5 class="text-right text-primary" id="txtTotalVenta">Q 0.00</h5></b></div>
+        <div>
+          <b>
+            <h3 class="text-right text-primary" id="txtTotalVenta">
+              Q 0.00
+            </h3>
+          </b>
+        </div>
     </div>
     <div class="card-body">
-      
-      <button id="btnMostrarLista" class="btn btn-warning btn-round" data-toggle="modal" data-target="#ModalListadoProductos">
+     
+      <button id="btnMostrarLista" class="btn btn-warning btn-round btn-icon" data-toggle="modal" data-target="#ModalListadoProductos">
         <i class="now-ui-icons design_bullet-list-67"></i>
-          Listado
       </button>
             
-      <button id="btnCancelarVenta" class="btn btn-default btn-round">
+      <button id="btnCancelarVenta" class="btn btn-default btn-round btn-sm">
         <!--<i class="now-ui-icons shopping_cart-simple"></i>-->
         Cancelar
       </button>
 
-      <button id="btnGuardarVenta" class="btn btn-success btn-round">
+      <button id="btnGuardarVenta" class="btn btn-success btn-round btn-sm">
           <i class="now-ui-icons shopping_cart-simple"></i>
           Guardar
       </button>
@@ -24,16 +29,6 @@
 </div>
 
 <div class="card">
-  <!--
-  <div class="form-group">
-    <label>Búsqueda de productos:</label>
-    <input type="text" id="search" class="form-control" placeholder="Escriba para buscar productos...">
-    <button class="btn btn-primary btn-icon btn-sm btn-round" id="btnBuscar">
-        <i class="now-ui-icons ui-1_zoom-bold"></i>
-    </button>
-  </div>
-  -->
-
   <!-- Contenedor de la lista de productos -->
   <div id="contenedorVentas">
 
@@ -48,9 +43,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <label class="modal-title" id="txtDesProducto">Azucar don Justo Cabal Kilo</label>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+
         </div>
         <div class="modal-body">
           <div class="col-8">
@@ -72,8 +65,14 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">Agregar</button>
+          <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
+            <i class="now-ui-icons ui-1_simple-remove"></i>
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">
+            <i class="now-ui-icons ui-1_simple-add"></i>
+            Agregar
+          </button>
         </div>
       </div>
     </div>
@@ -121,8 +120,9 @@
 </div>
 </div>
 
+
 <div id="fixed-btn2">
-    <button class="btn btn-info btn-circle btn-xl" id="btnPedidoFiltrarProducto">
+    <button class="btn btn-circle btn-xl" id="btnPedidoFiltrarProducto">
         <i class="now-ui-icons ui-1_zoom-bold"></i>
     </button>
 </div>

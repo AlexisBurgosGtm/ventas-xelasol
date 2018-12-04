@@ -1,16 +1,17 @@
 // inicializa indexDb
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     if (!window.indexedDB) {
-      window.alert("Su navegador no soporta una versión estable de indexedDB. Tal y como las características no serán validas");
+      window.alert("Lo siento pero su Teléfono no soporta el guardado de Datos");
     }
 
+let toggler = document.getElementById('btnToggler');
 let btnDashboard = document.getElementById('btnDashboard');
 let btnPrecios = document.getElementById('btnPrecios');
 let btnClientes = document.getElementById('btnClientes');
 let btnVentas = document.getElementById('btnVentas');
 let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
-let toggler = document.getElementById('btnToggler');
+let btnSync = document.getElementById('btnSync');
 
 // Dashboard
 btnDashboard.addEventListener('click',()=>{
@@ -65,11 +66,19 @@ btnConfig.addEventListener('click',()=>{
     toggler.click();
 })
 
+// Sync
+btnSync.addEventListener('click',()=>{
+    funciones.loadView('viewSync.html')
+            .then(CargarListenersSync);
+    toggler.click();
+})
+
 // Asigna valores a la vista de inicio
 async function CargarDatosVendedor(usuario){
     var txtNombreUsuario = document.getElementById('txtNombreUsuario');
     txtNombreUsuario.innerHTML = usuario;
 }
+
 
 function StartRecognition(){
     try {

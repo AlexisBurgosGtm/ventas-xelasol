@@ -17,6 +17,29 @@ funciones = {
             buttons: false
             });
     },
+    AvisoError: function(msn){
+        swal(msn, {
+            timer: 900,
+            icon: "danger",
+            buttons: false
+            });
+    },
+
+    FiltrarListaProductos: function(idTabla){
+        swal({
+          text: 'Escriba para buscar...',
+          content: "input",
+          button: {
+            text: "Buscar",
+            closeModal: true,
+          },
+        })
+        .then(name => {
+          if (!name) throw null;
+            funciones.FiltrarTabla(idTabla,name);
+            //'tblProductosVentas'
+        })
+      },
 
     setMoneda: function(num,signo) {
         num = num.toString().replace(/\$|\,/g, '');
