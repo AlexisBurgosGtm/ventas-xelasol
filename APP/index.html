@@ -78,6 +78,13 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" id="btnChat">
+                            <i class="now-ui-icons loader_refresh"></i>
+                            <p>Chat</p>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="index.html">
                             <i class="now-ui-icons users_single-02"></i>
                             <p>Salir(x)</p>
@@ -173,11 +180,11 @@
     nav = document.getElementById('navbar-general');
     nav.style="visibility:hidden";
 
-    funciones.loadView('./viewLogin.html')
+    funciones.loadView('./views/viewLogin.html')
         .then(()=>{
             CargarEmpresas();
         })
-
+/*
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
@@ -185,11 +192,31 @@
             .catch(err => 'SW registration failed'));
             
     };
-    
+  */  
            
     //StartRecognition();
     
 </script>
 
+<script src="./onlineLibrary/socket.io.js"></script>
+
+<script async>
+
+    
+function CargarFuncionesChat () {
+        var socket = io();
+        
+        document.getElementById('btnEnviar').addEventListener('click',()=>{
+            socket.emit('chat message', $('#m').val(), GlobalUser);
+            $('#m').val('');
+        })
+
+        socket.on('chat message', function(msg,user){
+            $('#messages').append($('<li>').text(user));
+          $('#messages').append($('<li>').text(msg));
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+      };
+</script>
 
 </html>

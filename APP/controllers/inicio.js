@@ -12,10 +12,11 @@ let btnVentas = document.getElementById('btnVentas');
 let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
+let btnChat = document.getElementById('btnChat');
 
 // Dashboard
 btnDashboard.addEventListener('click',()=>{
-    funciones.loadView('./viewInicio.html')
+    funciones.loadView('./views/viewInicio.html')
     .then(()=>{
         CargarDatosVendedor(GlobalUser);
         getVentasDiaVendedor('salescontainer');
@@ -28,7 +29,7 @@ btnDashboard.addEventListener('click',()=>{
 
 // Precios
 btnPrecios.addEventListener('click',()=>{
-    funciones.loadView('viewPrecios.html')
+    funciones.loadView('./views/viewPrecios.html')
             .then(loadPrecios)
 
     toggler.click();
@@ -36,7 +37,7 @@ btnPrecios.addEventListener('click',()=>{
 
 // Clientes
 btnClientes.addEventListener('click',()=>{
-    funciones.loadView('viewClientes.html')
+    funciones.loadView('./views/viewClientes.html')
             .then(cargarListaClientes)
             
     toggler.click();
@@ -44,14 +45,14 @@ btnClientes.addEventListener('click',()=>{
 
 // Ventas
 btnVentas.addEventListener('click',()=>{
-    funciones.loadView('viewVentas.html')
+    funciones.loadView('./views/viewVentas.html')
     .then(()=>{dbSelectDocumentos(document.getElementById('tblDocumentos'))});
     toggler.click();
 })
 
 // Tools
 btnTools.addEventListener('click',()=>{
-    funciones.loadView('viewTools.html')
+    funciones.loadView('./views/viewTools.html')
             .then(()=>{
                 CargarBotonesTools();
             });
@@ -61,15 +62,24 @@ btnTools.addEventListener('click',()=>{
 
 // Configuraciones
 btnConfig.addEventListener('click',()=>{
-    funciones.loadView('viewConfig.html')
+    funciones.loadView('./views/viewConfig.html')
         .then(()=>{CargarBotonesConfig();});
     toggler.click();
 })
 
 // Sync
 btnSync.addEventListener('click',()=>{
-    funciones.loadView('viewSync.html')
+    funciones.loadView('./views/viewSync.html')
             .then(CargarListenersSync);
+    toggler.click();
+})
+
+// Chat
+btnChat.addEventListener('click',()=>{
+    funciones.loadView('./views/viewChat.html')
+            .then(()=>{
+                CargarFuncionesChat();
+            });
     toggler.click();
 })
 

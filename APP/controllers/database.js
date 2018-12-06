@@ -446,9 +446,9 @@ function dbSelectDocumentos(contenedor) {
             "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
             "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
             "<td class='col-1-sm col-1-md'>" + 
-              "<button class='btn btn-round btn-icon btn-default btn-sm' data-toggle='modal' data-target='#ModalOpcionesPedido' onClick='fcnCargarDatosPedido(" + doc.Id + "," + String(doc.nomcliente) + "," + doc.totalventa + ");'>" +
-                "<i class='now-ui-icons design_bullet-list-67'></i>" +
-              "</button>" + 
+                `<button class='btn btn-round btn-icon btn-default btn-sm' data-toggle='modal' data-target='#ModalOpcionesPedido' onClick="fcnCargarDatosPedido(${doc.Id},"${doc.nomcliente}",${doc.totalventa});">
+                    <i class='now-ui-icons design_bullet-list-67'></i>
+                </button>` + 
             "</td></tr>";
         }, function (error) {
             console.log(error);

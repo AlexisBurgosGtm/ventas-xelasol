@@ -117,7 +117,7 @@ function fcnCancelarVenta(){
 //trae la vista de nueva venta
 function CrearNuevoPedido(){
 // Nuevo Pedido
-  funciones.loadView('./viewVentasPedido.html')
+  funciones.loadView('./views/viewVentasPedido.html')
   .then(()=>{
       //funciones.showNotification('bottom','right','Creando nuevo pedido','advertencia');
       loadPreciosVentas();
@@ -168,7 +168,7 @@ function createArticle2(article) {
 
 //AGREGAR CLIENTE A LA VENTA
 async function AgregarCliente(){
-  funciones.loadView('viewVentasCliente.html')
+  funciones.loadView('./views/viewVentasCliente.html')
           .then(cargarListaClientesPedido())
 
 };
@@ -182,12 +182,11 @@ async function dbGuardarVenta(codcliente,nomcliente){
 
   funciones.Confirmacion('¿Está seguro que desea Guardar esta Venta?')
   .then((value) => {
-    //swal(`The returned value is: ${value}`);
-    console.log(value);
+       
     if (value==true){
       dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo);
-      funciones.loadView('viewVentas.html')
+      funciones.loadView('./views/viewVentas.html')
           .then(()=>{
             dbSelectDocumentos(document.getElementById('tblDocumentos'));
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
@@ -242,7 +241,7 @@ function GetDataCliente(idCliente,nomCliente){
 
 
 async function fcnCargarDatosPedido(id,nomcliente,totalventa){
+  document.getElementById('txtNomClientePedido').innerText =nomcliente;
+  document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;
-  document.getElementById('txtNomClientePedido').innerHTML =nomcliente;
-  document.getElementById('txtTotalPedido').innerHTML = funciones.setMoneda(totalventa);
 };

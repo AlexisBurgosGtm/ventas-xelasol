@@ -1,14 +1,14 @@
+var express = require("express");
+var app = express();
+
 const sql = require('mssql')
-//var http = require('http').Server(app);
-//var io = require('socket.io')(http);
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
 
 const empnit ='001';
-
-var express = require("express");
-var app = express();
 
 const PORT = process.env.PORT || 5000;
 
@@ -180,25 +180,23 @@ app.get("/api/ventas/documentos", async(req,res)=>{
 app.use("/",router);
 
 app.use("*",function(req,res){
-  //res.sendFile(path + "APP/404.html");
-  res.send('No hay nada');
+  res.sendFile(path + "APP/views/404.html");
+  //res.send('No hay nada');
 });
 
-/*
 io.on('connection', function(socket){
-	socket.on('chat message', function(msg){
-	  io.emit('chat message', msg);
+	socket.on('chat message', function(msg,user){
+	  io.emit('chat message', msg, user);
 	});
 });
-*/
 
-app.listen(PORT, function () {
-  console.log('Servidor iniciado en el puerto ' + String(PORT));
-})
+//app.listen(PORT, function () {
+  //console.log('Servidor iniciado en el puerto ' + String(PORT));
+//})
 
-/*http.listen(port, function(){
-  console.log('listening on *:' + port);
-});*/
+http.listen(PORT, function(){
+  console.log('listening on *:' + PORT);
+});
 
 /*CODIGO PARA EL HTML Y SOCKET
    $(function () {

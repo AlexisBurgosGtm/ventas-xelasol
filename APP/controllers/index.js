@@ -24,10 +24,10 @@ async function fcnLogin(){
     nav = document.getElementById('navbar-general');
 
     if(!user.value){
-        funciones.showNotification('bottom','right','Escriba su nombre de Usuario','error')
+        funciones.AvisoError('Escriba su nombre de usuario');
     };
     if(!pass.value){
-        funciones.showNotification('bottom','right','Escriba su Constraseña','error')
+        funciones.AvisoError('Escriba su Constraseña');
     };
 
     try {
@@ -49,12 +49,13 @@ async function ComprobarUsuario(usuario) {
             GlobalCoddoc = usuario.CODDOC;
             GlobalCodven = usuario.CODVEN;
 
-            funciones.loadView('./viewInicio.html')
+            funciones.loadView('./views/viewInicio.html')
                 .then(()=>{
                     CargarDatosVendedor(GlobalUser);
+                })
+                .then(()=>{
                     getVentasDiaVendedor('salescontainer');
-                    //funciones.hablar('Bienvenido ' + GlobalUser);
-            });
+                });
             
             nav.style="visibility:visible";
         };
