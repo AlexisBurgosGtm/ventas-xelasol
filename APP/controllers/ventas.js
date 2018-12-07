@@ -241,6 +241,7 @@ function GetDataCliente(idCliente,nomCliente){
 
 
 async function fcnCargarDatosPedido(id,nomcliente,totalventa){
+  console.log(id,nomcliente,totalventa)
   document.getElementById('txtNomClientePedido').innerText =nomcliente;
   document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;

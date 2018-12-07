@@ -32,7 +32,7 @@
 <div class="modal fade" id="ModalOpcionesPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-              <span id="txtIdPedido"> </span>
+              <span><label  id="txtIdPedido">pedido1</label> </span>
             <div class="modal-header">
               <label class="modal-title" id="txtNomClientePedido">Consumidor Final</label>
     
@@ -41,19 +41,25 @@
               <div class="col-8">
                 <div class="row">
                     <label>Total Venta:</label>
-                    <h3 class="text-right"  id="txtTotalPedido"><b>Q 5000.00 </b></h3>
+                    <b>
+                      <h3 class="text-right"  id="txtTotalPedido">Q 5000.00</h3>
+                    </b>
                 </div>
     
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
+              <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">
                 <i class="now-ui-icons ui-1_simple-remove"></i>
                 Cancelar
               </button>
-              <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">
+              <button type="button" class="btn btn-info btn-round" data-dismiss="modal">
                 <i class="now-ui-icons ui-1_simple-add"></i>
-                Agregar
+                Editar
+              </button>
+              <button type="button" class="btn btn-danger btn-round" data-dismiss="modal">
+                <i class="now-ui-icons ui-1_simple-add"></i>
+                Eliminar
               </button>
             </div>
           </div>
