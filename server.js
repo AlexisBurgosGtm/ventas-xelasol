@@ -151,11 +151,12 @@ app.get("/api/ventas/documentos", async(req,res)=>{
 		
 	console.log('Llegó la solicitud ' + _coddoc + _correlativo + _codcliente + _totalventa);
 
-	let sqlQry = 'insert into web_documentos (token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
+	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
 
 		const pool = await sql.connect(sqlString)
 	    try {
 			let result = await pool.request()
+				.input('empnit', sql.VarChar(50), empnit)
 				.input('token', sql.VarChar(255), _token)
 				.input('coddoc', sql.VarChar(50), _coddoc)
 				.input('correlativo', sql.Float, _correlativo)

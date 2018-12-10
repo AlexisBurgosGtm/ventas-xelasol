@@ -1,12 +1,12 @@
 let nav;
 let user;
 
-async function CargarEmpresas(){
+async function CargarEmpresas(contenedor){
     try {
         const response = await fetch('/api/empresas/all')
         const json = await response.json();
 
-        let contenedor = document.getElementById('cmbEmpresas');
+        //let contenedor = combobox;
         contenedor.innerHTML = ''
 
         contenedor.innerHTML = json.recordset.map((empresa)=>{

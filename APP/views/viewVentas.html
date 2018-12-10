@@ -32,7 +32,7 @@
 <div class="modal fade" id="ModalOpcionesPedido" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-              <span><label  id="txtIdPedido">pedido1</label> </span>
+              <span class="text-right"><label class="text-primary" id="txtIdPedido">pedido1</label> </span>
             <div class="modal-header">
               <label class="modal-title" id="txtNomClientePedido">Consumidor Final</label>
     
@@ -47,20 +47,25 @@
                 </div>
     
               </div>
+
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">
-                <i class="now-ui-icons ui-1_simple-remove"></i>
-                Cancelar
-              </button>
-              <button type="button" class="btn btn-info btn-round" data-dismiss="modal">
-                <i class="now-ui-icons ui-1_simple-add"></i>
-                Editar
-              </button>
-              <button type="button" class="btn btn-danger btn-round" data-dismiss="modal">
-                <i class="now-ui-icons ui-1_simple-add"></i>
-                Eliminar
-              </button>
+                <button type="button" class="btn btn-secondary btn-icon btn-round btn-lg" data-dismiss="modal">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </button>
+          
+                  <button class="btn btn-info btn-icon btn-round btn-lg" id="btnVentasEditar">
+                    <i class="now-ui-icons ui-1_lock-circle-open"></i>
+                  </button>
+          
+                  <button type="button" class="btn btn-danger btn-icon btn-round btn-lg" id="btnVentasEliminar">
+                    <i class="now-ui-icons media-1_button-power"></i>
+                  </button>
+          
+                  <button type="button" class="btn btn-primary btn-icon btn-round btn-lg" id="btnVentasEnviar">
+                      <i class="now-ui-icons ui-1_send"></i>
+                  </button>
+         
             </div>
           </div>
         </div>

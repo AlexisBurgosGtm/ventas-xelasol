@@ -176,39 +176,44 @@
 <script async src="./controllers/config.js"></script>
 <script async src="./controllers/sync.js"></script>
 
+<script src="./onlineLibrary/socket.io.js"></script>
+
 <script>
-    nav = document.getElementById('navbar-general');
-    nav.style="visibility:hidden";
 
-    funciones.loadView('./views/viewLogin.html')
-        .then(()=>{
-            CargarEmpresas();
-        })
-
+    function CargarServiceWorker(){
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
             .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
-            
-    };
-
-           
-    //StartRecognition();
+        };
+    };   
     
+    nav = document.getElementById('navbar-general');
+    nav.style="visibility:hidden";
+
+    funciones.loadView('./views/viewLogin.html')
+        .then(async ()=>{
+            CargarEmpresas(document.getElementById('cmbEmpresas'));
+            CargarServiceWorker();
+        })
+
+    const socket = io();   
+
+    //StartRecognition();
+   
 </script>
 
-<script src="./onlineLibrary/socket.io.js"></script>
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+-->
 
 <script async>
-
     
 function CargarFuncionesChat () {
-        //var socket = io();
+       
         //var socket = io.connect('http://localhost:5000');
-        var socket = io.connect('http://localhost:5000' || 'https//arespos-online.herokuapp.com');
-        
+                      
         document.getElementById('btnEnviar').addEventListener('click',()=>{
             socket.emit('chat message', $('#m').val(), GlobalUser);
             $('#m').val('');

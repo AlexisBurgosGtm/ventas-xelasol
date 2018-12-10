@@ -458,3 +458,27 @@ function dbSelectDocumentos(contenedor) {
         contenedor.innerHTML = HtmlString;
     });
 };
+
+// ENVIAR UN PEDIDO SEGUN SU ID
+function dbSendPedido(Id) {
+    DbConnection.select({
+        From: "documentos",
+        Where: {
+                Id: Number(Id)
+            }
+    }, function (documento) {
+                        
+        documento.forEach(function (doc) {
+           var correlativo = doc.correlativo;
+           var codcliente = doc.codcliente;
+           var totalventa = doc.totalventa;
+            
+           SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
+            //.then(funciones.Aviso('Datos enviados...'))
+
+        }, function (error) {
+            console.log(error);
+        })
+       
+    });
+};

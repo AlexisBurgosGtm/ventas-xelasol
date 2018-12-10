@@ -16,6 +16,11 @@ let btnFinalizarVenta;
 let btnFiltrarListaProductos;
 let btnAtrasClientePedido;
 
+//modal editar ventas
+let btnVentasEditar;
+let btnVentasEliminar;
+let btnVentasEnviar;
+
 // Variables
 let _Codprod;
 let _Desprod;
@@ -239,10 +244,57 @@ function GetDataCliente(idCliente,nomCliente){
   GlobalNomCliente = nomCliente;
 };
 
-
+// carga los datos del modal en la lista de pedidos sin enviar
 async function fcnCargarDatosPedido(id,nomcliente,totalventa){
-  console.log(id,nomcliente,totalventa)
+  //console.log(id,nomcliente,totalventa)
   document.getElementById('txtNomClientePedido').innerText =nomcliente;
   document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;
+
+  document.getElementById('btnVentasEditar').addEventListener('click', ()=>{
+     VentasEditar(id);
+  });
+  document.getElementById('btnVentasEliminar').addEventListener('click',()=>{
+    VentasEliminar(id);
+  });
+  document.getElementById('btnVentasEnviar').addEventListener('click', ()=>{
+    VentasEnviar(id);
+  });
+
 };
+
+// Opciones del modal de ventas guardadas
+function VentasEditar(idPedido){
+  console.log('editar presionado ' + idPedido);
+  funciones.Confirmacion('¿Está seguro que desea Editar este Pedido?')
+    .then((value) => {
+       
+      if (value==true){
+    
+      }
+    });
+};
+
+function VentasEliminar(idPedido){
+  console.log('Eliminar id= ' + id);
+  funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Pedido?')
+  .then((value) => {
+       
+    if (value==true){
+  
+    }
+  });
+};
+
+function VentasEnviar(idPedido){
+  funciones.Confirmacion('¿Está seguro que desea ENVIAR este Pedido?')
+  .then((value) => {
+       
+    if (value==true){
+      
+      dbSendPedido(idPedido);
+      document.getElementById('btnVentasCancelar').click();
+    }
+  });
+};
+
