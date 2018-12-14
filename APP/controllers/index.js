@@ -1,5 +1,6 @@
 let nav;
 let user;
+let cmbEmpnit;
 
 async function CargarEmpresas(contenedor){
     try {
@@ -19,6 +20,7 @@ async function CargarEmpresas(contenedor){
 };
 
 async function fcnLogin(){
+    cmbEmpnit = document.getElementById('cmbEmpresas');
     user = document.getElementById('txtUser');
     let pass = document.getElementById('txtPass');
     nav = document.getElementById('navbar-general');
@@ -44,10 +46,13 @@ async function fcnLogin(){
 async function ComprobarUsuario(usuario) {
     if (usuario.NOMVEN==txtUser.value){
         if (usuario.CLAVE==txtPass.value){
-            
+            if (usuario.EMPNIT==cmbEmpnit.value){
+
+                                  
             GlobalUser = user.value;
             GlobalCoddoc = usuario.CODDOC;
             GlobalCodven = usuario.CODVEN;
+            
 
             funciones.loadView('./views/viewInicio.html')
                 .then(()=>{
@@ -58,6 +63,7 @@ async function ComprobarUsuario(usuario) {
                 });
             
             nav.style="visibility:visible";
+            };
         };
     };     
 };

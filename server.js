@@ -2,13 +2,14 @@ var express = require("express");
 var app = express();
 
 const sql = require('mssql')
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
 
-const empnit ='001';
+let empnit =''; //nit de la empresa
+let token = ''; //token del cliente
 
 const PORT = process.env.PORT || 5000;
 
@@ -28,19 +29,48 @@ router.use(function (req,res,next) {
 });
 
 app.get("/",function(req,res){
-	res.sendFile(path + 'APP/index.html');
-});
+	res.sendFile(path + 'APP/views/404.html');
+	/*
+	token = '';
+	token = req.query.token;
+
+	console.log('Su token es ' + token);
+
+	if (token==''){
+		res.send('Sitio web no encontrado');
+	}else{
+		res.sendFile(path + 'APP/index.html');
+	};
+	*/
+}); 
+
+app.get("/login",function(req,res){
+	token = '';
+	token = req.query.token;
+
+	console.log('Su token es ' + token);
+
+	if (token==''){
+		res.send('Sitio web no encontrado');
+	}else{
+		res.sendFile(path + 'APP/index.html');
+	};
+	
+}); 
 
 // OBTIENE TODAS LAS EMPRESAS
 app.get("/api/empresas/all", async(req,res)=>{
+	console.log('token en empresas ' + token);
 	const pool = await sql.connect(sqlString)
 	try {
 		//const pool = await sql.connect(sqlString)
-		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS ORDER BY EMPNOMBRE`
+		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS WHERE TOKEN=${token} ORDER BY EMPNOMBRE`
 		console.dir('Empresas cargadas exitosamente');
 		//sql.close()
 	
+		//console.log(result);
 		res.send(result);
+		
 	} catch (err) {
 		// ... error checks
 		console.log(String(err));
@@ -53,7 +83,8 @@ app.get("/api/ventas/dia", async(req,res)=>{
 	const pool = await sql.connect(sqlString)
 	try {
 		//const pool = await sql.connect(sqlString)
-		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA FROM VENTAS_DIA_VENDEDOR WHERE EMPNIT=${empnit}`
+		//const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA FROM VENTAS_DIA_VENDEDOR WHERE EMPNIT=${empnit} and TOKEN=${token}`
+		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA,EMPNIT FROM VENTAS_DIA_VENDEDOR WHERE TOKEN=${token}`
 		console.dir('Generado Ventas por vendedor por día');
 		//sql.close()
 		res.send(result);
@@ -68,7 +99,8 @@ app.get("/api/productos/all", async(req,res)=>{
 			const pool = await sql.connect(sqlString)		
 			try {
 				//const pool = await sql.connect(sqlString)
-				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA FROM PRECIOS WHERE EMPNIT=${empnit}`
+				//const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA FROM PRECIOS WHERE EMPNIT=${empnit} AND TOKEN=${token}`
+				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA, EMPNIT FROM PRECIOS WHERE TOKEN=${token}`
 				console.dir('Productos cargados');
 				//console.dir(result);
 				//sql.close()
@@ -85,10 +117,10 @@ app.get("/api/clientes/all", async(req,res)=>{
 	const pool = await sql.connect(sqlString)
 	try {
 		//const pool = await sql.connect(sqlString)
-		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO
+		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO, CLIENTES.EMPNIT
 									FROM CLIENTES LEFT OUTER JOIN DEPARTAMENTOS ON CLIENTES.CODDEPTO = DEPARTAMENTOS.CODDEPARTAMENTO LEFT OUTER JOIN
 								 				MUNICIPIOS ON CLIENTES.CODMUNICIPIO = MUNICIPIOS.CODMUNICIPIO
-									WHERE (CLIENTES.EMPNIT = ${empnit})`
+									WHERE (TOKEN=${token})`
 		console.dir('Productos cargados');
 		//sql.close()
 	
@@ -108,10 +140,11 @@ app.get("/api/usuarios/login", async(req,res)=>{
 
 	//console.log(usuario + ' - ' + clave)
 	//async () => {
+		console.log('token en usuarios ' + token);
 		const pool = await sql.connect(sqlString)
 		try {
 			//const pool = await sql.connect(sqlString)
-			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC FROM VENDEDORES WHERE EMPNIT = ${empnit}`
+			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC,EMPNIT FROM VENDEDORES WHERE TOKEN=${token}`
 			console.dir('La consulta usuario se generó');
 			//sql.close()
 			//return result;
@@ -123,7 +156,6 @@ app.get("/api/usuarios/login", async(req,res)=>{
 				console.log('Denegado')
 				res.send('Denegado');
 			}*/
-
 			res.send(result);
 			//console.log(result);
 		} catch (err) {
@@ -184,20 +216,21 @@ app.use("*",function(req,res){
   res.sendFile(path + "APP/views/404.html");
   //res.send('No hay nada');
 });
-
+/*
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg,user){
 	  io.emit('chat message', msg, user);
 	});
+});*/
+
+app.listen(PORT, function () {
+  console.log('Servidor iniciado en el puerto ' + String(PORT));
 });
 
-//app.listen(PORT, function () {
-  //console.log('Servidor iniciado en el puerto ' + String(PORT));
-//})
-
+/*
 http.listen(PORT, function(){
   console.log('listening on *:' + PORT);
-});
+});*/
 
 /*CODIGO PARA EL HTML Y SOCKET
    $(function () {

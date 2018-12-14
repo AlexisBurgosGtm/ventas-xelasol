@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 
-const DbName = "AresPOSv5";
+const DbName = "AresPOSv6";
 
 function initiateDb() {
     
@@ -29,6 +29,10 @@ function getTbl() {
             PrimaryKey: true,
             AutoIncrement: true
         },
+            {
+                Name: "empnit",
+                DataType: "string"
+            },
             {
                 Name: "coddoc",
                 DataType: "string"
@@ -74,6 +78,10 @@ function getTbl() {
             AutoIncrement: true
         },
             {
+                Name: "empnit",
+                DataType: "string"
+            },
+            {
                 Name: "coddoc",
                 NotNull: true,
                 DataType: "string"
@@ -112,6 +120,10 @@ function getTbl() {
             PrimaryKey: true,
             AutoIncrement: true
         },
+            {
+                Name: "empnit",
+                DataType: "string"
+            },
             {
                 Name: "coddoc",
                 NotNull: true,
@@ -166,10 +178,26 @@ function getTbl() {
             }
         ]
     }
-
+     //TABLA DOCUMENTOS
+     var tblSesion = {
+        Name: "sesion",
+        Columns: [{
+            Name: "Id",
+            PrimaryKey: true,
+            AutoIncrement: true
+        },
+            {
+                Name: "usuario",
+                DataType: "string"
+            },
+            {
+                Name: "empnit"
+            }
+        ]
+    }
     var DataBase = {
         Name: DbName,
-        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos]
+        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos,tblSesion]
     }
 
     return DataBase;
@@ -441,17 +469,19 @@ function dbSelectDocumentos(contenedor) {
 
         var HtmlString = "";
         documentos.forEach(function (doc) {
-            HtmlString += "<tr>" + 
-            "<td class='col-1-sm col-1-md'>" + doc.Id + "</td>" + 
-            "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
-            "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
-            "<td class='col-1-sm col-1-md'>" + 
-                `<button class='btn btn-round btn-icon btn-default btn-sm' 
-                    data-toggle='modal' data-target='#ModalOpcionesPedido' 
-                    onClick="fcnCargarDatosPedido('${doc.Id}','${doc.nomcliente}','${doc.totalventa}');">
-                    <i class='now-ui-icons design_bullet-list-67'></i>
-                </button>` + 
-            "</td></tr>";
+            if (doc.empnit==GlobalEmpnit){
+                HtmlString += "<tr>" + 
+                "<td class='col-1-sm col-1-md'>" + doc.Id + "</td>" + 
+                "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
+                "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
+                "<td class='col-1-sm col-1-md'>" + 
+                    `<button class='btn btn-round btn-icon btn-default btn-sm' 
+                        data-toggle='modal' data-target='#ModalOpcionesPedido' 
+                        onClick="fcnCargarDatosPedido('${doc.Id}','${doc.nomcliente}','${doc.totalventa}');">
+                        <i class='now-ui-icons design_bullet-list-67'></i>
+                    </button>` + 
+                "</td></tr>";
+            }
         }, function (error) {
             console.log(error);
         })

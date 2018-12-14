@@ -181,12 +181,13 @@
 <script>
 
     function CargarServiceWorker(){
+    /*    
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
             .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
-        };
+        };*/
     };   
     
     nav = document.getElementById('navbar-general');
@@ -194,11 +195,23 @@
 
     funciones.loadView('./views/viewLogin.html')
         .then(async ()=>{
-            CargarEmpresas(document.getElementById('cmbEmpresas'));
-            CargarServiceWorker();
+            try {
+                const response = await fetch('/api/empresas/all')
+                const json = await response.json();
+                let comboboxemp = document.getElementById('cmbEmpresas')
+
+                comboboxemp.innerHTML = ''
+                comboboxemp.innerHTML = json.recordset.map((empresa)=>{
+                return `<option value="${empresa.EMPNIT}">${empresa.EMPNOMBRE}</option>`;        
+               }).join('\n');
+   
+            } catch (error) {
+                console.log(error);
+            }
+          //  CargarServiceWorker();
         })
 
-    const socket = io();   
+    //const socket = io();   
 
     //StartRecognition();
    

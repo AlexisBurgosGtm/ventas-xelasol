@@ -25,11 +25,13 @@ try {
 
     
   function createArticle(article) {
+    if (article.empnit==GlobalEmpnit){
       return `<tr class="">
                 <td class="col-4-sm col-4-md">${article.DESPROD}</td>
                 <td class="col-4-sm col-4-md">${article.CODMEDIDA}</td> 
                 <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td> 
               </tr>`;
+    };
   };
   
   function CrearBusquedaProductos(){

@@ -13,10 +13,12 @@ try {
     let rows = json.recordset.map((field)=>{
     //contenedor.innerHTML = json.recordset.map((field)=>{
       if (field.CODVEN==GlobalCodven){
+        if(field.EMPNIT==GlobalEmpnit){
       return `<tr>
                 <td class="card">Dia: ${field.DIA} Total: ${funciones.setMoneda(field.VENTA,'Q')}</td>
               </tr>`
-            };
+        };
+      };
         }).join('\n');
     
         contenedor.innerHTML = head + rows + foot;
