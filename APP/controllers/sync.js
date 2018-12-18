@@ -1,4 +1,4 @@
-
+/*
 async function CargarListenersSync(){
   let btnSync = document.getElementById('btnSyncPedidos') ;
   btnSync.addEventListener('click',()=>{
@@ -7,6 +7,7 @@ async function CargarListenersSync(){
     btnSync.className ='btn disabled';
   })
 };
+*/
 
 function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa){
     //var request = new XMLHttpRequest();

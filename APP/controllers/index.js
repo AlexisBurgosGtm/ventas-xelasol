@@ -52,7 +52,7 @@ async function ComprobarUsuario(usuario) {
             GlobalUser = user.value;
             GlobalCoddoc = usuario.CODDOC;
             GlobalCodven = usuario.CODVEN;
-            
+            GlobalEmpnit = usuario.EMPNIT;
 
             funciones.loadView('./views/viewInicio.html')
                 .then(()=>{

@@ -286,8 +286,9 @@ function dbGetValCorrelativo(Id) {
 };
 
 // inserta un registro en temp ventas para hacer offline el pedido
-function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal) {
+function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal,empnit) {
     var data = {
+        empnit:empnit,
         coddoc:coddoc,
         correlativo:correlativo,
         codprod:codprod,
@@ -401,8 +402,9 @@ function dbDeleteTempProductoAll(confirm) {
 };
 
 // inserta un PEDIDO EN LA TABLA DOCUMENTOS
-function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa) {
+function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit) {
     var data = {
+        empnit:empnit,
         coddoc:coddoc,
         correlativo:correlativo,
         codcliente:codcliente,
@@ -423,7 +425,7 @@ function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa)
 };
 
 // inserta un PEDIDO EN LA TABLA DOCPRODUCTOS
-function dbInsertDocproductos(coddoc,correlativo) {
+function dbInsertDocproductos(coddoc,correlativo,empnit) {
     //declaro las variables a usar
     let strData = '';
 
@@ -433,6 +435,7 @@ function dbInsertDocproductos(coddoc,correlativo) {
 
         productos.forEach(function (prod) {
             let data ={
+                empnit:empnit,
                 coddoc:coddoc,
                 correlativo:correlativo,
                 codprod:prod.codprod,

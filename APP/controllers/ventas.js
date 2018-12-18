@@ -56,7 +56,7 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
 // Agrega el producto a la tabla temporal de la venta en curso
 function AgregarProducto(){
   // inserta los datos en indexdb
-  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal);
+  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal,GlobalEmpnit);
   
   // asigna la suma de los productos en temp ventas
   dbTotalTempVentas(txtTotalVenta);
@@ -189,8 +189,8 @@ async function dbGuardarVenta(codcliente,nomcliente){
   .then((value) => {
        
     if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta);
-      dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo);
+      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit);
+      dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
             dbSelectDocumentos(document.getElementById('tblDocumentos'));
@@ -276,7 +276,7 @@ function VentasEditar(idPedido){
 };
 
 function VentasEliminar(idPedido){
-  console.log('Eliminar id= ' + id);
+  console.log('Eliminar id= ' + idPedido);
   funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Pedido?')
   .then((value) => {
        

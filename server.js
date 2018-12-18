@@ -82,11 +82,8 @@ app.get("/api/empresas/all", async(req,res)=>{
 app.get("/api/ventas/dia", async(req,res)=>{
 	const pool = await sql.connect(sqlString)
 	try {
-		//const pool = await sql.connect(sqlString)
-		//const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA FROM VENTAS_DIA_VENDEDOR WHERE EMPNIT=${empnit} and TOKEN=${token}`
 		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA,EMPNIT FROM VENTAS_DIA_VENDEDOR WHERE TOKEN=${token}`
 		console.dir('Generado Ventas por vendedor por día');
-		//sql.close()
 		res.send(result);
 	} catch (err) {
 		console.log(String(err));
@@ -98,15 +95,10 @@ app.get("/api/ventas/dia", async(req,res)=>{
 app.get("/api/productos/all", async(req,res)=>{
 			const pool = await sql.connect(sqlString)		
 			try {
-				//const pool = await sql.connect(sqlString)
-				//const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA FROM PRECIOS WHERE EMPNIT=${empnit} AND TOKEN=${token}`
 				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA, EMPNIT FROM PRECIOS WHERE TOKEN=${token}`
 				console.dir('Productos cargados');
-				//console.dir(result);
-				//sql.close()
 				res.send(result);
 			} catch (err) {
-				// ... error checks
 				console.log(String(err));
 			}
 			sql.close()
@@ -116,48 +108,28 @@ app.get("/api/productos/all", async(req,res)=>{
 app.get("/api/clientes/all", async(req,res)=>{
 	const pool = await sql.connect(sqlString)
 	try {
-		//const pool = await sql.connect(sqlString)
 		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO, CLIENTES.EMPNIT
 									FROM CLIENTES LEFT OUTER JOIN DEPARTAMENTOS ON CLIENTES.CODDEPTO = DEPARTAMENTOS.CODDEPARTAMENTO LEFT OUTER JOIN
 								 				MUNICIPIOS ON CLIENTES.CODMUNICIPIO = MUNICIPIOS.CODMUNICIPIO
-									WHERE (TOKEN=${token})`
+									WHERE (CLIENTES.TOKEN=${token})`
 		console.dir('Productos cargados');
-		//sql.close()
-	
+		
 		res.send(result);
 	} catch (err) {
-		// ... error checks
 		console.log(String(err));
 	}
 	sql.close()
-//}
 });
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
-	//var usuario = req.query.usuario;
-	//var clave = req.query.clave;
-
-	//console.log(usuario + ' - ' + clave)
-	//async () => {
 		console.log('token en usuarios ' + token);
 		const pool = await sql.connect(sqlString)
 		try {
-			//const pool = await sql.connect(sqlString)
 			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC,EMPNIT FROM VENDEDORES WHERE TOKEN=${token}`
 			console.dir('La consulta usuario se generó');
-			//sql.close()
-			//return result;
-			/*
-			if (result.rowsAffected==1){
-				console.log('Autorizado')
-				res.send('Autorizado');
-			} else {
-				console.log('Denegado')
-				res.send('Denegado');
-			}*/
 			res.send(result);
-			//console.log(result);
+		
 		} catch (err) {
 			// ... error checks
 			res.send('Denegado');
