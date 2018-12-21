@@ -163,12 +163,14 @@ async function loadPreciosVentas(){
 }
   
 function createArticle2(article) {
+   if (article.EMPNIT==GlobalEmpnit){
     return `<tr class="">
               <td class="col-4-sm col-4-md">${article.DESPROD}</td>
               <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
               <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
               <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}');">+</button></td>
             </tr>`;
+  };
 };
 
 //AGREGAR CLIENTE A LA VENTA

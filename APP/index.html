@@ -179,8 +179,6 @@
 <script src="./onlineLibrary/socket.io.js"></script>
 
 <script>
-
-    function CargarServiceWorker(){
     
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
@@ -188,8 +186,7 @@
             .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
         };
-    };   
-    
+       
     nav = document.getElementById('navbar-general');
     nav.style="visibility:hidden";
 
@@ -208,9 +205,10 @@
             } catch (error) {
                 console.log(error);
             }
-          //  CargarServiceWorker();
+           
         })
 
+     
     //const socket = io();   
 
     //StartRecognition();
