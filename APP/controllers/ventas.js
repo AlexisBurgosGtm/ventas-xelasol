@@ -228,6 +228,7 @@ async function cargarListaClientesPedido(){
 }
 
 function createClientePedido(cliente) {
+  if(cliente.EMPNIT==GlobalEmpnit){
   return `<tr>
             <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
             <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
@@ -238,6 +239,7 @@ function createClientePedido(cliente) {
               </button>
             </td> 
           </tr>`;
+        }
 };
 
 //asigna código y nombre cliente según se seleccione en la lista

@@ -6,7 +6,7 @@ const sql = require('mssql')
 //var io = require('socket.io')(http);
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
-const sqlString = 'mssql://DB_A422CF_ARES_admin:razors1805@sql5003.site4now.net/DB_A422CF_ARES';
+const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
 
 let empnit =''; //nit de la empresa
 let token = ''; //token del cliente
@@ -142,7 +142,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 app.get("/api/ventas/documentos", async(req,res)=>{
 	
 	console.log('Llegó la solicitud ..');
-
+	let _empnit = req.query.empnit;
 	let _coddoc = req.query.coddoc;
 	let _correlativo = req.query.correlativo;
 	let _codcliente = req.query.codcliente;
@@ -160,7 +160,7 @@ app.get("/api/ventas/documentos", async(req,res)=>{
 		const pool = await sql.connect(sqlString)
 	    try {
 			let result = await pool.request()
-				.input('empnit', sql.VarChar(50), empnit)
+				.input('empnit', sql.VarChar(50), _empnit)
 				.input('token', sql.VarChar(255), _token)
 				.input('coddoc', sql.VarChar(50), _coddoc)
 				.input('correlativo', sql.Float, _correlativo)
