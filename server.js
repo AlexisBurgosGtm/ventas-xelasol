@@ -2,16 +2,33 @@ var express = require("express");
 var app = express();
 
 const sql = require('mssql')
+
+/*
+const serverdata = {
+	'server':'SERVERALEXIS\\SQLEXPRESS',
+	'database':'ARES_SYNC',
+	'user':'iEx',
+	'pass':'iEx'
+}
+*/
+const serverdata = {
+	'server':'sql5006.site4now.net',
+	'database':'DB_A43F6F_express',
+	'user':'DB_A43F6F_express_admin',
+	'pass':'razors1805'
+}
+
+
 //var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
-const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
+//const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
+const sqlString = 'mssql://' + serverdata.user + ':' + serverdata.pass + '@' + serverdata.server + '/' + serverdata.database;
 
-let empnit =''; //nit de la empresa
 let token = ''; //token del cliente
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 var router = express.Router();
 var bodyParser = require('body-parser');

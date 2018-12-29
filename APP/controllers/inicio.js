@@ -14,12 +14,17 @@ let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
 let btnChat = document.getElementById('btnChat');
 
+let btnVentas2;
+let btnPrecios2;
+let btnClientes2;
+
 // Dashboard
 btnDashboard.addEventListener('click',()=>{
     funciones.loadView('./views/viewInicio.html')
     .then(()=>{
         CargarDatosVendedor(GlobalUser);
         getVentasDiaVendedor('salescontainer');
+     
     })
     .catch(error => 
         funciones.showNotification('bottom','right','No se pudo cargar la vista')
@@ -90,7 +95,6 @@ async function CargarDatosVendedor(usuario){
     var txtNombreUsuario = document.getElementById('txtNombreUsuario');
     txtNombreUsuario.innerHTML = usuario;
 }
-
 
 function StartRecognition(){
     try {

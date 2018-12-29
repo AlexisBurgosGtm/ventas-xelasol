@@ -213,33 +213,35 @@ async function cargarListaClientesPedido(){
   newsArticles.innerHTML = '';
                           
   newsArticles.innerHTML =
-                  `<table class="table table-responsive" id="tblClientesTabla">
-                      <thead><tr>
-                        <td class="col-3-sm col-3-md">Cliente</td> 
-                        <td class="col-4-sm col-4-md">Dirección</td> 
-                        <td class="col-4-sm col-4-md">Telefono</td></tr> 
-                        <td class="col-1-sm col-1-md"></td>
+                  `<table class="table table-responsive table-bordered" id="tblClientesTabla">
+                      <thead>
+                        <tr>
+                          <td class="col-3-sm col-3-md">Cliente</td> 
+                          <td class="col-4-sm col-4-md">Dirección</td> 
+                          <td class="col-4-sm col-4-md">Telefono</td> 
+                          <td class="col-1-sm col-1-md"></td>
+                        </tr>
                       </thead>` + 
-  json.recordset.map(createClientePedido).join('\n');
+  json.recordset.map(
+      (cliente)=>{
+        if(cliente.EMPNIT==GlobalEmpnit){
+        return `<tr>
+                  <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
+                  <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
+                  <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
+                  <td class="col-1-sm col-1-md">
+                    <button class="btn btn-round btn-icon btn-primary" onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
+                      <i class='now-ui-icons ui-1_check'></i>
+                    </button>
+                  </td> 
+                </tr>`;
+              }
+            }
+  ).join('\n');
   
   document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
     funciones.FiltrarListaProductos('tblClientesTabla');
   })
-}
-
-function createClientePedido(cliente) {
-  if(cliente.EMPNIT==GlobalEmpnit){
-  return `<tr>
-            <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
-            <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
-            <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
-            <td class="col-1-sm col-1-md">
-              <button class="btn btn-round btn-icon btn-primary" onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
-                <i class='now-ui-icons ui-1_check'></i>
-              </button>
-            </td> 
-          </tr>`;
-        }
 };
 
 //asigna código y nombre cliente según se seleccione en la lista
