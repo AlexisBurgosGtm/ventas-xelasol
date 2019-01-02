@@ -1,38 +1,46 @@
-<div class="col-12">
-
-    <div class="squares square1"></div>
-    <div class="squares square2"></div>
-    <div class="squares square3"></div>
-    <div class="squares square4"></div>
-    <div class="squares square5"></div>
-    <div class="squares square6"></div>
-    <div class="squares square7"></div>
-    
-        <div class="card">
-            <div class="card-body">
-                <div class="author">
-                    <img class="avatar border-gray" src="./assets/img/usuario.png" alt="...">
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <div class="card card-user">
+                <div class="image">
+                    <img src="./assets/img/FONDO.jpg" alt="...">
                 </div>
-                <div class="form">
-                    <div class="form-group">
-                        <label>Empresa:</label>
-                        <select class="form-control" id="cmbEmpresas">
-                        </select>
+                <div class="card-body">
+                    <div class="author">
+                        <img class="avatar border-gray" src="./assets/img/usuario.png" alt="...">
+                        
                     </div>
-                    <div class="form-group">
-                        <label>Usuario:</label>
-                        <input type="text" class="form-control" placeholder="Usuario..." id="txtUser">
+                    <div class="form">
+                        <div class="form-group">
+                            <label>Empresa:</label>
+                            <select class="form-control" id="cmbEmpresas">
+                                
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Usuario:</label>
+                            <input type="text" class="form-control" placeholder="Usuario..." id="txtUser">
+                        </div>
+                        <div class="form-group">
+                            <label>Contraseña:</label>
+                            <input type="password" class="form-control" placeholder="Contraseña..." id="txtPass">
+                        </div>
+                        <div class="form-group">
+                            <button class=" btn btn-primary form-control" id="btnIniciar" onclick="fcnLogin();">Iniciar</button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Contraseña:</label>
-                        <input type="password" class="form-control" placeholder="Contraseña..." id="txtPass">
-                    </div>
-                    <div class="form-group">
-                        <button class=" btn btn-primary form-control" id="btnIniciar" onclick="fcnLogin();">Iniciar</button>
-                    </div>
+                </div>
+                    <hr>
+                <div class="button-container">
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button href="#" class="btn btn-neutral btn-icon btn-round btn-lg">
+                        <i class="fab fa-google-plus-g"></i>
+                    </button>
                 </div>
             </div>
-            <hr>
         </div>
-    <!--</div>-->
-</div>
+    </div>

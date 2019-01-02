@@ -24,6 +24,7 @@ const serverdata = {
 
 //const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
 //const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
+
 const sqlString = 'mssql://' + serverdata.user + ':' + serverdata.pass + '@' + serverdata.server + '/' + serverdata.database;
 
 let token = ''; //token del cliente
