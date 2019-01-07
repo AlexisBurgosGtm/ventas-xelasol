@@ -3,14 +3,16 @@ var app = express();
 
 const sql = require('mssql')
 
+const PORT = process.env.PORT || 3500;
+
 /*
 const serverdata = {
 	'server':'SERVERALEXIS\\SQLEXPRESS',
 	'database':'ARES_SYNC',
 	'user':'iEx',
 	'pass':'iEx'
-}
-*/
+}*/
+
 const serverdata = {
 	'server':'sql5006.site4now.net',
 	'database':'DB_A43F6F_express',
@@ -26,10 +28,6 @@ const serverdata = {
 //const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
 
 const sqlString = 'mssql://' + serverdata.user + ':' + serverdata.pass + '@' + serverdata.server + '/' + serverdata.database;
-
-let token = ''; //token del cliente
-
-const PORT = process.env.PORT || 3000;
 
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -47,50 +45,24 @@ router.use(function (req,res,next) {
 });
 
 app.get("/",function(req,res){
-	res.sendFile(path + 'APP/views/404.html');
-	/*
-	token = '';
-	token = req.query.token;
-
-	console.log('Su token es ' + token);
-
-	if (token==''){
-		res.send('Sitio web no encontrado');
-	}else{
-		res.sendFile(path + 'APP/index.html');
-	};
-	*/
-}); 
-
-app.get("/login",function(req,res){
-	token = '';
-	token = req.query.token;
-
-	console.log('Su token es ' + token);
-
-	if (token==''){
-		res.send('Sitio web no encontrado');
-	}else{
-		res.sendFile(path + 'APP/index.html');
-	};
-	
+	//res.sendFile(path + 'APP/Bienvenido.html');
+	res.sendFile(path + 'APP/index.html');
 }); 
 
 // OBTIENE TODAS LAS EMPRESAS
 app.get("/api/empresas/all", async(req,res)=>{
-	console.log('token en empresas ' + token);
+	
+	let token = req.query.token;
+
 	const pool = await sql.connect(sqlString)
 	try {
 		//const pool = await sql.connect(sqlString)
 		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS WHERE TOKEN=${token} ORDER BY EMPNOMBRE`
-		console.dir('Empresas cargadas exitosamente');
-		//sql.close()
+		console.dir('Empresas cargadas exitosamente token ' + token);
 	
-		//console.log(result);
 		res.send(result);
 		
 	} catch (err) {
-		// ... error checks
 		console.log(String(err));
 	}
 	sql.close()
@@ -98,6 +70,9 @@ app.get("/api/empresas/all", async(req,res)=>{
 
 //OBTIENE LAS VENTAS POR DIA Y VENDEDOR
 app.get("/api/ventas/dia", async(req,res)=>{
+	
+	let token = req.query.token;
+	
 	const pool = await sql.connect(sqlString)
 	try {
 		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA,EMPNIT FROM VENTAS_DIA_VENDEDOR WHERE TOKEN=${token}`
@@ -111,6 +86,7 @@ app.get("/api/ventas/dia", async(req,res)=>{
 
 //OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
 app.get("/api/productos/all", async(req,res)=>{
+	let token = req.query.token
 			const pool = await sql.connect(sqlString)		
 			try {
 				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA, EMPNIT FROM PRECIOS WHERE TOKEN=${token}`
@@ -124,6 +100,8 @@ app.get("/api/productos/all", async(req,res)=>{
 
 // OBTIENE TODOS LOS CLIENTES DE LA TABLA
 app.get("/api/clientes/all", async(req,res)=>{
+	let token = req.query.token;
+
 	const pool = await sql.connect(sqlString)
 	try {
 		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO, CLIENTES.EMPNIT
@@ -141,7 +119,8 @@ app.get("/api/clientes/all", async(req,res)=>{
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
-		console.log('token en usuarios ' + token);
+	let token = req.query.token;
+	
 		const pool = await sql.connect(sqlString)
 		try {
 			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC,EMPNIT FROM VENDEDORES WHERE TOKEN=${token}`
@@ -159,7 +138,6 @@ app.get("/api/usuarios/login", async(req,res)=>{
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 app.get("/api/ventas/documentos", async(req,res)=>{
 	
-	console.log('Llegó la solicitud ..');
 	let _empnit = req.query.empnit;
 	let _coddoc = req.query.coddoc;
 	let _correlativo = req.query.correlativo;
@@ -190,11 +168,13 @@ app.get("/api/ventas/documentos", async(req,res)=>{
 				.input('totalventa', sql.Float, _totalventa)
 				.query(sqlQry)
 				
-				console.dir('Api Documentos Success: ' + result)
-				//res.send('Se insertaron los Documentos');
+				//console.dir('Api Documentos Success: ' + result)
+				res.send('Pedido Enviado Exitosamente!!');
+
 		} catch (err) {
 			// ... error checks
-			console.log('Api Documentos Error: ' + String(err));
+			res.send('Error al enviar pedido')
+			console.log('Error: ' + String(err));
 		}
 	
 		sql.close()

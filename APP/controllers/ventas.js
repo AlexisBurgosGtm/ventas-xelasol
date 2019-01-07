@@ -138,7 +138,7 @@ async function loadPreciosVentas(){
   let newsArticles = document.getElementById('contenedorVentas');
   newsArticles.innerHTML = 'Cargando lista de productos...';
   
-  const response = await fetch(`/api/productos/all`);
+  const response = await fetch(`/api/productos/all?token=${GlobalToken}`);
   const json = await response.json();
             
   
@@ -206,7 +206,7 @@ async function dbGuardarVenta(codcliente,nomcliente){
 
 async function cargarListaClientesPedido(){
   
-  const response = await fetch(`/api/clientes/all`);
+  const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
   const json = await response.json();
               
   let newsArticles = document.getElementById('tblClientesPedido');
@@ -276,7 +276,7 @@ function VentasEditar(idPedido){
     .then((value) => {
        
       if (value==true){
-    
+        funciones.loadView('./views/viewVentasEditar.html')
       }
     });
 };

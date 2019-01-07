@@ -14,6 +14,7 @@ let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
 let btnChat = document.getElementById('btnChat');
 
+
 let btnVentas2;
 let btnPrecios2;
 let btnClientes2;
@@ -22,8 +23,8 @@ let btnClientes2;
 btnDashboard.addEventListener('click',()=>{
     funciones.loadView('./views/viewInicio.html')
     .then(()=>{
-        CargarDatosVendedor(GlobalUser);
-        getVentasDiaVendedor('salescontainer');
+        //CargarDatosVendedor(GlobalUser);
+        //getVentasDiaVendedor('salescontainer');
      
     })
     .catch(error => 
@@ -77,7 +78,7 @@ btnConfig.addEventListener('click',()=>{
 // Sync
 btnSync.addEventListener('click',()=>{
     funciones.loadView('./views/viewSync.html')
-            .then(CargarListenersSync);
+          
     toggler.click();
 })
 
@@ -89,6 +90,8 @@ btnChat.addEventListener('click',()=>{
             });
     toggler.click();
 })
+
+
 
 // Asigna valores a la vista de inicio
 async function CargarDatosVendedor(usuario){

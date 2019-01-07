@@ -1,6 +1,6 @@
-<div class="card col-12" id="VentasInicio">
+<div class="card" id="VentasInicio">
     <div class="card-header">
-        <span>Nueva Venta<span>
+        <span id="txtNomCliente">Consumidor Final<span>
         <div>
           <b>
             <h3 class="text-right text-primary" id="txtTotalVenta">
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<div class="card col-12">
+<div class="card">
   <!-- Contenedor de la lista de productos -->
   <div id="contenedorVentas">
 
@@ -38,7 +38,7 @@
 </div>
 
 <!-- Modal cantidad producto -->
-<div class="modal fade modal-black" id="ModalCantidadVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalCantidadVenta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -66,11 +66,11 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal" id="btnCancelarModalProducto">
-            <i class="tim-icons icon-simple-remove"></i>
+            <i class="now-ui-icons ui-1_simple-remove"></i>
             Cancelar
           </button>
           <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">
-            <i class="tim-icons icon-simple-add"></i>
+            <i class="now-ui-icons ui-1_simple-add"></i>
             Agregar
           </button>
         </div>
@@ -119,6 +119,7 @@
   </div>
 </div>
 </div>
+
 
 <div id="fixed-btn2">
     <button class="btn btn-circle btn-xl" id="btnPedidoFiltrarProducto">

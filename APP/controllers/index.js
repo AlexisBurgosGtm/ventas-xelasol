@@ -1,23 +1,7 @@
 let nav;
 let user;
 let cmbEmpnit;
-
-async function CargarEmpresas(contenedor){
-    try {
-        const response = await fetch('/api/empresas/all')
-        const json = await response.json();
-
-        //let contenedor = combobox;
-        contenedor.innerHTML = ''
-
-        contenedor.innerHTML = json.recordset.map((empresa)=>{
-            return `<option value="${empresa.EMPNIT}">${empresa.EMPNOMBRE}</option>`;        
-        }).join('\n');
-   
-    } catch (error) {
-      console.log(error);
-    }
-};
+let btnConfigTokenInicial;
 
 async function fcnLogin(){
     cmbEmpnit = document.getElementById('cmbEmpresas');
@@ -29,11 +13,11 @@ async function fcnLogin(){
         funciones.AvisoError('Escriba su nombre de usuario');
     };
     if(!pass.value){
-        funciones.AvisoError('Escriba su Constraseña');
+        funciones.AvisoError('Escriba su Contraseña');
     };
 
     try {
-        const response = await fetch('/api/usuarios/login')
+        const response = await fetch(`/api/usuarios/login?token=${GlobalToken}`)
         const json = await response.json();
 
         json.recordset.map(ComprobarUsuario).join('\n');
@@ -56,7 +40,9 @@ async function ComprobarUsuario(usuario) {
 
             funciones.loadView('./views/viewInicio.html')
                 .then(()=>{
-                    CargarDatosVendedor(GlobalUser);
+                    
+                    //CargarDatosVendedor(GlobalUser);
+                   
                 })
                 .then(()=>{
                     getVentasDiaVendedor('salescontainer');

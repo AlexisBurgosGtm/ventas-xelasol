@@ -42,6 +42,7 @@ const staticAssets = [
   './views/viewVentas.html',
   './views/viewVentasPedido.html',
   './views/viewVentasCliente.html',
+  './views/viewVentasEditar.html',
   './sw.js'
 ];
 

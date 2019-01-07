@@ -1,3 +1,4 @@
+let GlobalToken;
 let GlobalEmpnit;
 let GlobalUser;
 let GlobalCoddoc;

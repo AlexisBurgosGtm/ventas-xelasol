@@ -2,19 +2,25 @@ var DbConnection;
 window.onload = function () {
     initiateDb();
 };
-
-const DbName = "AresPOSv6";
+//nombre de la base de datos
+const DbName = "AresPOSv7";
 
 function initiateDb() {
     
     JsStore.isDbExist(DbName, function (isExist) {
         if (isExist) {
             DbConnection = new JsStore.Instance(DbName);
+            //inicializa el token existente
+            dbGetToken();
+           
           
         } else {
             var tbl = getTbl();
             DbConnection = new JsStore.Instance().createDb(tbl);
+            //inicializa el correlativo
             dbInsertCorrelativoDoc();
+            //inicializa el token
+            dbInsertToken('SN');
         }
     });
 }
@@ -191,8 +197,13 @@ function getTbl() {
                 DataType: "string"
             },
             {
-                Name: "empnit"
-            }
+                Name: "empnit",
+                DataType: "string"
+            },
+            {
+                Name: "token",
+                DataType: "string"
+            },
         ]
     }
     var DataBase = {
@@ -203,9 +214,93 @@ function getTbl() {
     return DataBase;
 };
 
+
+//****** MANEJO DEL TOKEN  *****/
+
+//inserta el token en la tabla de sesiones para ser usado en toda la app
+function dbInsertToken(token) {
+    //en la tabla sesion
+    var data = {
+        usuario:'SN',
+        empnit: 'SN',
+        token:token
+    }
+
+    DbConnection.insert({
+        Into: "sesion",
+        Values: [data]
+    }, function (rowsAdded) {
+        console.log('Token ingresado exitosamente')
+    }, function (err) {
+        console.log(err);
+    })
+};
+// OBTIENE EL TOKEN 
+function dbGetToken() {
+    DbConnection.select({
+        From: "sesion",
+        Where: {
+                Id: 1
+            }
+    }, function (token) {
+        let result = '';
+        token.forEach(function (prod) {
+           result = prod.token;
+        }, function (error) {
+            console.log(error);
+        })
+        GlobalToken = result;
+         //carga las empresas en el login
+         CargarComboEmpresas();    
+        //return result;
+        console.log('GlobalToken es: ' + GlobalToken)
+    });
+};
+
+function dbGetToken2(contenedor) {
+    let result = '';
+    DbConnection.select({
+        From: "sesion",
+        Where: {
+                Id: 1
+            }
+    }, function (token) {
+        token.forEach(function (prod) {
+           result = prod.token;
+        }, function (error) {
+            console.log(error);
+        })
+        contenedor.value = result;    
+    });
+};
+// Actualiza el token existente
+function dbUpdateToken(token) {
+    var data = {
+        token: token
+    }
+
+    DbConnection.update({
+        In: "sesion",
+        Set: data,
+        Where: {
+            Id: Number(1)
+        }
+    }, function (rowsAffected) {
+        //alert(rowsAffected + " rows Updated");
+        if (rowsAffected > 0) {
+            console.log('token actualizado');
+                funciones.Aviso('TOKEN Actualizado Exitosamente');
+        }
+    }, function (error) {
+        //alert(error.Message);
+        console.log(error.Message)
+    })
+};
+
 // crea un único registro al cargar la db por primera vez
 // para poder hacerle update luego con cada venta
 function dbInsertCorrelativoDoc() {
+    //en la tabla correlativos
     var data = {
         coddoc:'ENVIOS',
         correlativo:1
@@ -219,6 +314,8 @@ function dbInsertCorrelativoDoc() {
     }, function (err) {
         console.log(err);
     })
+
+ 
 };
 //actualiza el correlativo de documento de ventas
 function dbUpdateCorrelativoDoc(correlativo,aviso) {

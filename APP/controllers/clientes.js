@@ -1,5 +1,5 @@
 async function cargarListaClientes(){
-    const response = await fetch(`/api/clientes/all`);
+    const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
     const json = await response.json();
                 
     let newsArticles = document.getElementById('tblClientes');
