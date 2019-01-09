@@ -480,6 +480,7 @@ function dbDeleteTempProducto(prodId) {
         alert(error.Message);
     })
 };
+
 // Elimina toda la lista temporal de ventas
 function dbDeleteTempProductoAll(confirm) {
     DbConnection.delete({
@@ -577,7 +578,7 @@ function dbSelectDocumentos(contenedor) {
                 "<td class='col-1-sm col-1-md'>" + 
                     `<button class='btn btn-round btn-icon btn-default btn-sm' 
                         data-toggle='modal' data-target='#ModalOpcionesPedido' 
-                        onClick="fcnCargarDatosPedido('${doc.Id}','${doc.nomcliente}','${doc.totalventa}');">
+                        onClick="fcnCargarDatosPedido('${doc.Id}','${doc.correlativo}','${doc.nomcliente}','${doc.totalventa}');">
                         <i class='now-ui-icons design_bullet-list-67'></i>
                     </button>` + 
                 "</td></tr>";
@@ -589,12 +590,47 @@ function dbSelectDocumentos(contenedor) {
     });
 };
 
+
+// elimina pedido en tabla documentos
+function dbDeletePedido(correlativo) {
+    DbConnection.delete({
+            From: 'documentos',
+            Where: {
+                Correlativo: Number(correlativo)
+            }
+        }, function (rowsDeleted) {
+            if (rowsDeleted > 0) {
+                //funciones.Aviso('Pedido Eliminado Exitosamente')
+                dbDeletePedidoDetalle(correlativo);
+            }
+        }, function (error) {
+                alert(error.Message);
+        })
+};
+
+// elimina pedido en tabla docproductos
+function dbDeletePedidoDetalle(correlativo) {
+    DbConnection.delete({
+            From: 'docproductos',
+            Where: {
+                Correlativo: Number(correlativo)
+            }
+        }, function (rowsDeleted) {
+            if (rowsDeleted > 0) {
+                funciones.Aviso('Pedido Eliminado Exitosamente');
+                btnVentas.click();
+            }
+        }, function (error) {
+                alert(error.Message);
+        })
+};
+
 // ENVIAR UN PEDIDO SEGUN SU ID
 function dbSendPedido(Id) {
     DbConnection.select({
         From: "documentos",
         Where: {
-                Id: Number(Id)
+                correlativo: Number(Id)
             }
     }, function (documento) {
                         
@@ -603,7 +639,8 @@ function dbSendPedido(Id) {
            var codcliente = doc.codcliente;
            var totalventa = doc.totalventa;
             
-           SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
+           //SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
+           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa);
             //.then(funciones.Aviso('Datos enviados...'))
 
         }, function (error) {

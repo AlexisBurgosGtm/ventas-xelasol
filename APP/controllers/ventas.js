@@ -251,20 +251,20 @@ function GetDataCliente(idCliente,nomCliente){
 };
 
 // carga los datos del modal en la lista de pedidos sin enviar
-async function fcnCargarDatosPedido(id,nomcliente,totalventa){
+async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
   //console.log(id,nomcliente,totalventa)
   document.getElementById('txtNomClientePedido').innerText =nomcliente;
   document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;
 
   document.getElementById('btnVentasEditar').addEventListener('click', ()=>{
-     VentasEditar(id);
+     VentasEditar(correlativo);
   });
   document.getElementById('btnVentasEliminar').addEventListener('click',()=>{
-    VentasEliminar(id);
+    VentasEliminar(correlativo);
   });
   document.getElementById('btnVentasEnviar').addEventListener('click', ()=>{
-    VentasEnviar(id);
+    VentasEnviar(correlativo);
   });
 
 };
@@ -281,13 +281,13 @@ function VentasEditar(idPedido){
     });
 };
 
-function VentasEliminar(idPedido){
+function VentasEliminar(correlativo){
   console.log('Eliminar id= ' + idPedido);
   funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Pedido?')
   .then((value) => {
        
     if (value==true){
-  
+      dbDeletePedido(correlativo);
     }
   });
 };
@@ -297,7 +297,6 @@ function VentasEnviar(idPedido){
   .then((value) => {
        
     if (value==true){
-      
       dbSendPedido(idPedido);
       document.getElementById('btnVentasCancelar').click();
     }

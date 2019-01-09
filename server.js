@@ -11,7 +11,8 @@ const serverdata = {
 	'database':'ARES_SYNC',
 	'user':'iEx',
 	'pass':'iEx'
-}*/
+}
+*/
 
 const serverdata = {
 	'server':'sql5006.site4now.net',
@@ -134,6 +135,13 @@ app.get("/api/usuarios/login", async(req,res)=>{
 		}
 		sql.close()
 });
+
+app.post("/api/ventas/test", async(req,res)=>{
+	var param = req.query.param;
+	console.log(String(param));
+	res.send('funciona ok');
+})
+
 
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 app.get("/api/ventas/documentos", async(req,res)=>{
