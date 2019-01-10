@@ -1,4 +1,75 @@
 async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa){
+
+    var data =JSON.stringify({
+        token:token,
+        empnit:coddoc,
+        coddoc:correlativo,
+        correlativo:anio,
+        anio:mes,
+        mes:dia,
+        dia:codcliente,
+        codven:codven,
+        codcliente:codcliente,
+        totalventa:totalventa
+    });
+  
+    var peticion = new Request('/api/ventas/documentos', {
+        method: 'POST',
+        headers: new Headers({
+            // Encabezados
+           'Content-Type': 'application/json'
+        }),
+        body: data
+      });
+
+      await fetch(peticion)
+      .then(function(res) {
+        console.log('Estado: ', res.status);
+        if (res.status==200)
+        {
+            funciones.Aviso('Pedido enviado exitosamente!!');
+        }
+      })
+      .catch(
+          ()=>{
+            funciones.AvisoError('No se logró conectar con el servidor');
+          }
+      )
+
+  }
+  
+
+async function SyncTest(){
+    var data = JSON.stringify({nombre:"alexis",apellido:"burgos"});
+    console.log(data);
+
+    var peticion = new Request('/api/ventas/test', {
+        method: 'POST',
+        headers: new Headers({
+            // Encabezados
+           'Content-Type': 'application/json'
+        }),
+        body: data
+      });
+
+      // Ahora lo utilizamos
+     await fetch(peticion)
+      .then(function(res) {
+        console.log('Estado: ', res.status);
+        if (res.status==200)
+        {
+            funciones.Aviso('Solicitud enviada exitosamente!!');
+        }
+      })
+      .catch(
+          ()=>{
+            funciones.AvisoError('No se logró conectar con el servidor');
+          }
+      )
+}
+
+
+async function SyncDocumentos2(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa){
   var param = "?token=" + token + "&empnit=" + GlobalEmpnit + 
               "&coddoc=" + coddoc + "&correlativo=" + correlativo + 
               "&anio=" + anio + "&mes=" + mes + "&dia=" + dia + 
@@ -6,24 +77,7 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
 
   const response = await fetch('/api/ventas/documentos' + param);
   let respuesta = await response
-      .then(funciones.Aviso(respuesta));
-}
-
-async function SyncTest(){
-  
-  var data = JSON.stringify({"nombre": "a","apellido":"b"});
-
-  $.ajax({
-      url : '/api/ventas/test',
-      data : data,
-      method : 'post', //en este caso
-      dataType : 'json',
-      success : function(response){
-
-          alert("funciona bien / " + response);
-      },
-      error: function(error){
-          alert("No funciona");
-      }
-  });
+      .then(()=>{
+          funciones.Aviso(respuesta)
+        });
 }

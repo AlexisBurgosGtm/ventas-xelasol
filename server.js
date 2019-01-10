@@ -25,9 +25,6 @@ const serverdata = {
 //var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 
-//const sqlString = 'mssql://iEx:iEx@SERVERALEXIS\\SQLEXPRESS/ARES_SYNC';
-//const sqlString = 'mssql://DB_A43F6F_express_admin:razors1805@sql5006.site4now.net/DB_A43F6F_express';
-
 const sqlString = 'mssql://' + serverdata.user + ':' + serverdata.pass + '@' + serverdata.server + '/' + serverdata.database;
 
 var router = express.Router();
@@ -137,25 +134,30 @@ app.get("/api/usuarios/login", async(req,res)=>{
 });
 
 app.post("/api/ventas/test", async(req,res)=>{
-	var param = req.query.param;
-	console.log(String(param));
-	res.send('funciona ok');
+	await res.send(req.body)
+	
+	var nom = req.body.nombre;
+	var apellido = req.body.apellido
+	console.log('nombre: ' + nom + " " + apellido);
+	
+
 })
 
 
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
-app.get("/api/ventas/documentos", async(req,res)=>{
+//app.get("/api/ventas/documentos", async(req,res)=>{
+app.post("/api/ventas/documentos", async(req,res)=>{
 	
-	let _empnit = req.query.empnit;
-	let _coddoc = req.query.coddoc;
-	let _correlativo = req.query.correlativo;
-	let _codcliente = req.query.codcliente;
-	let _totalventa = req.query.totalventa;
-	let _token = req.query.token;
-	let _anio = req.query.anio;
-	let _mes = req.query.mes;
-	let _dia = req.query.dia;
-	let _codven = req.query.codven;
+	let _empnit = req.body.empnit;
+	let _coddoc = req.body.coddoc;
+	let _correlativo = req.body.correlativo;
+	let _codcliente = req.body.codcliente;
+	let _totalventa = req.body.totalventa;
+	let _token = req.body.token;
+	let _anio = req.body.anio;
+	let _mes = req.body.mes;
+	let _dia = req.body.dia;
+	let _codven = req.body.codven;
 		
 	console.log('Llegó la solicitud ' + _coddoc + _correlativo + _codcliente + _totalventa);
 
@@ -178,7 +180,7 @@ app.get("/api/ventas/documentos", async(req,res)=>{
 				
 				//console.dir('Api Documentos Success: ' + result)
 				res.send('Pedido Enviado Exitosamente!!');
-
+				console.log('Pedido ingresado exitosamente')
 		} catch (err) {
 			// ... error checks
 			res.send('Error al enviar pedido')

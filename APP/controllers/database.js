@@ -237,6 +237,9 @@ function dbInsertToken(token) {
 };
 // OBTIENE EL TOKEN 
 function dbGetToken() {
+    GlobalToken='SANBERNABE';
+    CargarComboEmpresas();    
+    /*
     DbConnection.select({
         From: "sesion",
         Where: {
@@ -255,6 +258,8 @@ function dbGetToken() {
         //return result;
         console.log('GlobalToken es: ' + GlobalToken)
     });
+    */
+
 };
 
 function dbGetToken2(contenedor) {
