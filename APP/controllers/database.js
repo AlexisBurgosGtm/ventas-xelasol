@@ -622,8 +622,8 @@ function dbDeletePedidoDetalle(correlativo) {
             }
         }, function (rowsDeleted) {
             if (rowsDeleted > 0) {
-                funciones.Aviso('Pedido Eliminado Exitosamente');
-                btnVentas.click();
+               // funciones.Aviso('Pedido Eliminado Exitosamente');
+                //btnVentas.click();
             }
         }, function (error) {
                 alert(error.Message);
@@ -648,6 +648,30 @@ function dbSendPedido(Id) {
            SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa);
             //.then(funciones.Aviso('Datos enviados...'))
 
+        }, function (error) {
+            console.log(error);
+        })
+       
+    });
+
+    DbConnection.select({
+        From: "docproductos",
+        Where: {
+                correlativo: Number(Id)
+            }
+    }, function (documento) {
+                        
+        documento.forEach(function (doc) {
+           var correlativo = doc.correlativo;
+           var codprod = doc.codprod;
+           var desprod = doc.desprod;
+           var cantidad = doc.cantidad;
+           var codmedida = doc.codmedida;
+           var precio = doc.precio;
+           var totalprecio = doc.subtotal;
+                      
+           SyncDocproductos(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
+  
         }, function (error) {
             console.log(error);
         })

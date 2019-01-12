@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 
 const sql = require('mssql')
+const sql2 = require('mssql')
 
 const PORT = process.env.PORT || 3500;
 
@@ -138,11 +139,9 @@ app.post("/api/ventas/test", async(req,res)=>{
 	
 	var nom = req.body.nombre;
 	var apellido = req.body.apellido
-	console.log('nombre: ' + nom + " " + apellido);
-	
+	console.log('nombre: ' + nom + " " + apellido);	
 
 })
-
 
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
@@ -178,8 +177,7 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 				.input('totalventa', sql.Float, _totalventa)
 				.query(sqlQry)
 				
-				//console.dir('Api Documentos Success: ' + result)
-				res.send('Pedido Enviado Exitosamente!!');
+				res.send(result);
 				console.log('Pedido ingresado exitosamente')
 		} catch (err) {
 			// ... error checks
@@ -190,18 +188,77 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 		sql.close()
 });
 
+// INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
+	app.post("/api/ventas/docproductos", async(req,res)=>{
+	
+		let _token = req.body.token;
+		let _empnit = req.body.empnit;
+		let _anio = req.body.anio;
+		let _mes = req.body.mes;
+		let _dia = req.body.dia;
+		let _coddoc = req.body.coddoc;
+		let _correlativo = req.body.correlativo;
+
+		let _codprod = req.body.codprod;
+		let _desprod = req.body.desprod;
+		let _codmedida = req.body.codmedida;
+		let _equivale = req.body.equivale;
+		let _cantidad = req.body.cantidad;
+		let _costo = req.body.costo;
+		let _precio = req.body.precio;
+		let _totalcosto = req.body.totalcosto;
+		let _totalprecio = req.body.totalprecio;
+		//let _ = req.body.;
+				
+		let sqlQry = 'insert into web_docproductos (token,empnit,anio,mes,dia,coddoc,correlativo,codprod,desprod,codmedida,equivale,cantidad,costo,precio,totalcosto,totalprecio) values (@token,@empnit,@anio,@mes,@dia,@coddoc,@correlativo,@codprod,@desprod,@codmedida,@equivale,@cantidad,@costo,@precio,@totalcosto,@totalprecio)'
+
+			
+			const pool2 = await sql2.connect(sqlString)	
+						
+			try {
+				let result = await pool2.request()
+					.input('token', sql2.VarChar(255), _token)
+					.input('empnit', sql2.VarChar(50), _empnit)
+					.input('anio', sql2.Int, _anio)
+					.input('mes', sql2.Int, _mes)
+					.input('dia', sql2.Int, _dia)
+					.input('coddoc', sql2.VarChar(50), _coddoc)
+					.input('correlativo', sql2.Float, _correlativo)
+					.input('codprod', sql2.VarChar(200), _codprod)
+					.input('desprod', sql2.VarChar(255), _desprod)
+					.input('codmedida', sql2.VarChar(50), _codmedida)
+					.input('equivale', sql2.Int, _equivale)
+					.input('cantidad', sql2.Int, _cantidad)
+					.input('costo', sql2.Float, _costo)
+					.input('totalcosto', sql2.Float, _totalcosto)
+					.input('precio', sql2.Float, _precio)
+					.input('totalprecio', sql2.Float, _totalprecio)
+					.query(sqlQry)
+					
+					res.send(result);
+					console.log('Pedido ingresado exitosamente ' + _desprod)
+			} catch (err) {
+				// ... error checks
+				res.send('Error al enviar pedido')
+				console.log('Error: ' + String(err));
+			}
+		
+			sql2.close()
+	});
+
 app.use("/",router);
 
 app.use("*",function(req,res){
   res.sendFile(path + "APP/views/404.html");
-  //res.send('No hay nada');
 });
+
 /*
 io.on('connection', function(socket){
 	socket.on('chat message', function(msg,user){
 	  io.emit('chat message', msg, user);
 	});
-});*/
+});
+*/
 
 app.listen(PORT, function () {
   console.log('Servidor iniciado en el puerto ' + String(PORT));
@@ -210,7 +267,8 @@ app.listen(PORT, function () {
 /*
 http.listen(PORT, function(){
   console.log('listening on *:' + PORT);
-});*/
+});
+*/
 
 /*CODIGO PARA EL HTML Y SOCKET
    $(function () {

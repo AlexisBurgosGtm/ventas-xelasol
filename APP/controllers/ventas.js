@@ -257,9 +257,11 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
   document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;
 
+  /*
   document.getElementById('btnVentasEditar').addEventListener('click', ()=>{
      VentasEditar(correlativo);
-  });
+  });*/
+  
   document.getElementById('btnVentasEliminar').addEventListener('click',()=>{
     VentasEliminar(correlativo);
   });
@@ -270,6 +272,7 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
 };
 
 // Opciones del modal de ventas guardadas
+/*
 function VentasEditar(idPedido){
   console.log('editar presionado ' + idPedido);
   funciones.Confirmacion('¿Está seguro que desea Editar este Pedido?')
@@ -280,9 +283,10 @@ function VentasEditar(idPedido){
       }
     });
 };
+*/
 
 function VentasEliminar(correlativo){
-  console.log('Eliminar id= ' + idPedido);
+  console.log('Eliminar id= ' + correlativo);
   funciones.Confirmacion('¿Está seguro que desea ELIMINAR este Pedido?')
   .then((value) => {
        
