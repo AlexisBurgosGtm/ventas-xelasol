@@ -1,7 +1,7 @@
 {
   "name": "AresPOS",
   "short_name": "AresPOS",
-  "theme_color": "#ffffff",
+  "theme_color": "rgb(83, 8, 223)",
   "background_color": "#ffffff",
   "display": "standalone",
   "orientation": "portrait",

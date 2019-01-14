@@ -76,13 +76,15 @@ btnConfig.addEventListener('click',()=>{
 })
 
 // Sync
+/*
 btnSync.addEventListener('click',()=>{
     funciones.loadView('./views/viewSync.html')
           
     toggler.click();
-})
+})*/
 
 // Chat
+/*
 btnChat.addEventListener('click',()=>{
     funciones.loadView('./views/viewChat.html')
             .then(()=>{
@@ -90,7 +92,7 @@ btnChat.addEventListener('click',()=>{
             });
     toggler.click();
 })
-
+*/
 
 
 // Asigna valores a la vista de inicio

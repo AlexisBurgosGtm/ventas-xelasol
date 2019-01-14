@@ -61,7 +61,7 @@ async function SyncDocproductos(token,empnit,coddoc,correlativo,anio,mes,dia,cod
         totalprecio:totalprecio
     });
   
-    var peticion = new Request('/api/ventas/docproductos', {
+    var peticion2 = new Request('/api/ventas/docproductos', {
         method: 'POST',
         headers: new Headers({
             // Encabezados
@@ -70,20 +70,20 @@ async function SyncDocproductos(token,empnit,coddoc,correlativo,anio,mes,dia,cod
         body: data
       });
 
-      await fetch(peticion)
-      /*
+      await fetch(peticion2)
+      
       .then(function(res) {
         console.log('Estado: ', res.status);
         if (res.status==200)
         {
-            funciones.Aviso('Pedido enviado exitosamente!!');
+            //funciones.Aviso('Pedido enviado exitosamente!!');
         }
       })
       .catch(
           ()=>{
-            funciones.AvisoError('No se logró conectar con el servidor');
+            //funciones.AvisoError('No se logró conectar con el servidor');
           }
-      )*/
+      )
 }
 
 

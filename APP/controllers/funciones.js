@@ -3,7 +3,7 @@ funciones = {
         return swal({
             title: 'Confirme',
             text: msn,
-            type: 'warning',
+            icon: 'warning',
             buttons: {
                 cancel: true,
                 confirm: true,
@@ -12,14 +12,14 @@ funciones = {
 
     Aviso: function(msn){
         swal(msn, {
-            timer: 900,
+            timer: 1500,
             icon: "success",
             buttons: false
             });
     },
     AvisoError: function(msn){
         swal(msn, {
-            timer: 900,
+            timer: 1500,
             icon: "danger",
             buttons: false
             });

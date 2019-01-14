@@ -4,7 +4,7 @@ var app = express();
 const sql = require('mssql')
 
 const PORT = process.env.PORT || 3600;
-/*
+
 const serverdata = {
 	'server':'SERVERALEXIS\\SQLEXPRESS',
 	'database':'ARES_SYNC',
@@ -18,26 +18,21 @@ const config = {
     server: 'SERVERALEXIS\\SQLEXPRESS',
     database: 'ARES_SYNC',
 }
-*/
 
-const config = {
-    user: 'DB_A43F6F_express_admin',
-    password: 'razors1805',
-    server: 'sql5006.site4now.net',
-    database: 'DB_A43F6F_express',
-}
-
-
+/*
 const serverdata = {
 	'server':'sql5006.site4now.net',
 	'database':'DB_A43F6F_express',
 	'user':'DB_A43F6F_express_admin',
 	'pass':'razors1805'
-}
+}*/
 
 
 //var http = require('http').Server(app);
 //var io = require('socket.io')(http);
+
+const sqlString = 'mssql://' + serverdata.user + ':' + serverdata.pass + '@' + serverdata.server + '/' + serverdata.database;
+const pool = sql.connect(sqlString);
 
 var router = express.Router();
 var bodyParser = require('body-parser');
@@ -55,6 +50,7 @@ router.use(function (req,res,next) {
 });
 
 app.get("/",function(req,res){
+	//res.sendFile(path + 'APP/Bienvenido.html');
 	res.sendFile(path + 'APP/index.html');
 }); 
 
@@ -63,9 +59,9 @@ app.get("/api/empresas/all", async(req,res)=>{
 	
 	let token = req.query.token;
 
-	const pool = await sql.connect(sqlString)
+	//const pool = await sql.connect(sqlString)
 	try {
-		
+		//const pool = await sql.connect(sqlString)
 		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS WHERE TOKEN=${token} ORDER BY EMPNOMBRE`
 		console.dir('Empresas cargadas exitosamente token ' + token);
 	
@@ -74,7 +70,7 @@ app.get("/api/empresas/all", async(req,res)=>{
 	} catch (err) {
 		console.log(String(err));
 	}
-	sql.close()
+	//sql.close()
 });
 
 //OBTIENE LAS VENTAS POR DIA Y VENDEDOR
@@ -82,7 +78,7 @@ app.get("/api/ventas/dia", async(req,res)=>{
 	
 	let token = req.query.token;
 	
-	const pool = await sql.connect(sqlString)
+	//const pool = await sql.connect(sqlString)
 	try {
 		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA,EMPNIT FROM VENTAS_DIA_VENDEDOR WHERE TOKEN=${token}`
 		console.dir('Generado Ventas por vendedor por día');
@@ -90,13 +86,13 @@ app.get("/api/ventas/dia", async(req,res)=>{
 	} catch (err) {
 		console.log(String(err));
 	}
-	sql.close()
+	//sql.close()
 });
 
 //OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
 app.get("/api/productos/all", async(req,res)=>{
 	let token = req.query.token
-			const pool = await sql.connect(sqlString)		
+			//const pool = await sql.connect(sqlString)		
 			try {
 				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA, EMPNIT FROM PRECIOS WHERE TOKEN=${token}`
 				console.dir('Productos cargados');
@@ -104,14 +100,14 @@ app.get("/api/productos/all", async(req,res)=>{
 			} catch (err) {
 				console.log(String(err));
 			}
-			sql.close()
+			//sql.close()
 });
 
 // OBTIENE TODOS LOS CLIENTES DE LA TABLA
 app.get("/api/clientes/all", async(req,res)=>{
 	let token = req.query.token;
 
-	const pool = await sql.connect(sqlString)
+	//const pool = await sql.connect(sqlString)
 	try {
 		const result = await sql.query`SELECT CLIENTES.CODCLIENTE, CLIENTES.NIT, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE, MUNICIPIOS.DESMUNICIPIO, DEPARTAMENTOS.DESDEPARTAMENTO, CLIENTES.TELEFONOS, CLIENTES.SALDO, CLIENTES.EMPNIT
 									FROM CLIENTES LEFT OUTER JOIN DEPARTAMENTOS ON CLIENTES.CODDEPTO = DEPARTAMENTOS.CODDEPARTAMENTO LEFT OUTER JOIN
@@ -123,14 +119,14 @@ app.get("/api/clientes/all", async(req,res)=>{
 	} catch (err) {
 		console.log(String(err));
 	}
-	sql.close()
+	//sql.close()
 });
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
 	let token = req.query.token;
 	
-		const pool = await sql.connect(sqlString)
+		//const pool = await sql.connect(sqlString)
 		try {
 			const result = await sql.query`SELECT CODVEN, NOMVEN, CLAVE, CODDOC,EMPNIT FROM VENDEDORES WHERE TOKEN=${token}`
 			console.dir('La consulta usuario se generó');
@@ -141,7 +137,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 			res.send('Denegado');
 			console.log('Error en la consulta usuarios');
 		}
-		sql.close()
+		//sql.close()
 });
 
 app.post("/api/ventas/test", async(req,res)=>{
