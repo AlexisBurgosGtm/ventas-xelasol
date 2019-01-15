@@ -172,13 +172,7 @@
         if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
-            .then(
-
-                registration => 
-                    console.log('Service Worker registered'),
-                    GlobalBoolean = true
-                    
-            )
+            .then(registration => GlobalBoolean=true)//console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
         };
 
@@ -213,12 +207,13 @@
 */
 
         //inicializa el botón para agregar el token inicial
+        /*
         btnConfigTokenInicial = document.getElementById('btnConfigTokenInicial');
         btnConfigTokenInicial.addEventListener('click',()=>{
             funciones.loadView('./views/viewConfig.html')
                 .then(()=>{CargarBotonesConfig();});
         });
-           
+          */ 
         })
 
     //const socket = io();   
