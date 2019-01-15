@@ -7,3 +7,4 @@ let GlobalCodCliente;
 let GlobalNomCliente;
 let GlobalCodven;
 let GlobalCorrelativo;
+let GlobalBoolean = false;

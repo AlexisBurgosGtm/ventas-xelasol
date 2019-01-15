@@ -670,11 +670,14 @@ function dbSendPedido(Id) {
            var precio = doc.precio;
            var totalprecio = doc.subtotal;
                       
-           SyncDocproductos(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
+           //SyncDocproductos(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
+           SyncDocproductos2(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
   
         }, function (error) {
             console.log(error);
         })
+
+        SyncCerrarServidor();
        
     });
 };

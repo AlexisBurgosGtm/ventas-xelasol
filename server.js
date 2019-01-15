@@ -4,37 +4,35 @@ var app = express();
 const sql = require('mssql')
 
 const PORT = process.env.PORT || 3600;
-/*
-const serverdata = {
-	'server':'SERVERALEXIS\\SQLEXPRESS',
-	'database':'ARES_SYNC',
-	'user':'iEx',
-	'pass':'iEx'
-}
 
-const config = {
-    user: 'iEx',
-    password: 'iEx',
-    server: 'SERVERALEXIS\\SQLEXPRESS',
-    database: 'ARES_SYNC',
-}
-*/
 
 const config = {
     user: 'DB_A43F6F_express_admin',
     password: 'razors1805',
     server: 'sql5006.site4now.net',
-    database: 'DB_A43F6F_express',
+	database: 'DB_A43F6F_express',
+	 pool: {
+        max: 100,
+        min: 0,
+        idleTimeoutMillis: 30000
+    }
 }
 
-
-const serverdata = {
-	'server':'sql5006.site4now.net',
-	'database':'DB_A43F6F_express',
-	'user':'DB_A43F6F_express_admin',
-	'pass':'razors1805'
+/*
+const config = {
+    user: 'iEx',
+    password: 'iEx',
+    server: 'SERVERALEXIS\\SQLEXPRESS',
+	database: 'ARES_SYNC',
+	pool: {
+        max: 100,
+        min: 0,
+        idleTimeoutMillis: 30000
+    }
 }
+*/
 
+const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
 //var http = require('http').Server(app);
 //var io = require('socket.io')(http);
@@ -65,7 +63,7 @@ app.get("/api/empresas/all", async(req,res)=>{
 
 	const pool = await sql.connect(sqlString)
 	try {
-		
+		//const pool = await sql.connect(sqlString)
 		const result = await sql.query`SELECT EMPNIT,EMPNOMBRE FROM EMPRESAS WHERE TOKEN=${token} ORDER BY EMPNOMBRE`
 		console.dir('Empresas cargadas exitosamente token ' + token);
 	
@@ -77,11 +75,12 @@ app.get("/api/empresas/all", async(req,res)=>{
 	sql.close()
 });
 
+
 //OBTIENE LAS VENTAS POR DIA Y VENDEDOR
 app.get("/api/ventas/dia", async(req,res)=>{
 	
 	let token = req.query.token;
-	
+	/*
 	const pool = await sql.connect(sqlString)
 	try {
 		const result = await sql.query`SELECT ANIO,MES,DIA,CODVEN,NOMVEN,VENTA,EMPNIT FROM VENTAS_DIA_VENDEDOR WHERE TOKEN=${token}`
@@ -90,13 +89,13 @@ app.get("/api/ventas/dia", async(req,res)=>{
 	} catch (err) {
 		console.log(String(err));
 	}
-	sql.close()
+	sql.close()*/
 });
 
 //OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
 app.get("/api/productos/all", async(req,res)=>{
 	let token = req.query.token
-			const pool = await sql.connect(sqlString)		
+			const pool = await sql.connect(config)		
 			try {
 				const result = await sql.query`SELECT CODPROD,DESPROD,DESMARCA,CODMEDIDA,EQUIVALE,COSTO,PRECIO,concat('Q',PRECIO) as QPRECIO, EXISTENCIA, EMPNIT FROM PRECIOS WHERE TOKEN=${token}`
 				console.dir('Productos cargados');
@@ -144,14 +143,13 @@ app.get("/api/usuarios/login", async(req,res)=>{
 		sql.close()
 });
 
-app.post("/api/ventas/test", async(req,res)=>{
-	await res.send(req.body)
-	
-	var nom = req.body.nombre;
-	var apellido = req.body.apellido
-	console.log('nombre: ' + nom + " " + apellido);	
 
+app.post("/api/cerrarconexion", async(req,res)=>{
+	await sql.close()
+	res.send('Servidor Cerrado')
+	console.log('Conexión cerrada');
 })
+
 
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
@@ -192,7 +190,9 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 				if (result.rowsAffected){
 					res.send('Ingreso exitoso')
 				}
-			})
+			});
+			//sql.close()
+			//pool1.release();
 		 
 		})
 		 
@@ -203,6 +203,12 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 
 
 // INSERTA DATOS EN LA TABLA DOCPRODUCTOS DEL SERVER
+app.post("/api/ventas/docproductos2", async(req,res)=>{
+	
+	req.body.forEach(function (data) {
+		console.log(String(data.desprod));
+	})
+})
 
 app.post("/api/ventas/docproductos", async(req,res)=>{
 
@@ -235,10 +241,10 @@ app.post("/api/ventas/docproductos", async(req,res)=>{
 				
 		let sqlQry = 'insert into web_docproductos (token,empnit,anio,mes,dia,coddoc,correlativo,codprod,desprod,codmedida,equivale,cantidad,costo,precio,totalcosto,totalprecio) values (@token,@empnit,@anio,@mes,@dia,@coddoc,@correlativo,@codprod,@desprod,@codmedida,@equivale,@cantidad,@costo,@precio,@totalcosto,@totalprecio)'
 			
-		const pool1 = new sql.ConnectionPool(config, err => {
+		const pool1 = new sql.ConnectionPool(config, async err => {
 			// ... error checks
 		 
-			pool1.request()
+			await pool1.request()
 			.input('token', sql.VarChar(255), _token)
 			.input('empnit', sql.VarChar(50), _empnit)
 			.input('anio', sql.Int, _anio)
@@ -259,7 +265,8 @@ app.post("/api/ventas/docproductos", async(req,res)=>{
 				// ... error checks
 				 //console.dir(result)
 				 
-			})
+			});
+			//sql.close()
 		 
 		})
 		 
