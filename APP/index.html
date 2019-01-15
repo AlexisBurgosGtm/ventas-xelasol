@@ -168,15 +168,15 @@
 <script>
     //inicializa el token
     
-    if (GlobalBoolean==false){
+    
         if ('serviceWorker' in navigator) {
         window.addEventListener('load', () =>
             navigator.serviceWorker.register('sw.js')
-            .then(registration => GlobalBoolean=true)//console.log('Service Worker registered'))
+            .then(registration => console.log('Service Worker registered'))
             .catch(err => 'SW registration failed'));
         };
 
-    }
+    
     
 
     //oculta el navbar para evitar que entren sin logearse

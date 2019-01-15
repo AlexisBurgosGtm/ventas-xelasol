@@ -3,7 +3,7 @@ var CACHE = 'arespos-online';
 const staticAssets = [
   './',
   './manifest.json',
-  './favicon.ico',
+  './favicon.png',
   './assets/img/FONDO.jpg',
   './assets/img/usuario.png',
   './assets/img/imgventas.png',
