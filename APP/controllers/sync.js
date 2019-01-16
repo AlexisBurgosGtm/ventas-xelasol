@@ -83,7 +83,7 @@ async function SyncDocproductos2(token,empnit,coddoc,correlativo,anio,mes,dia,co
         totalprecio:totalprecio
     });
   
-    var peticion2 = new Request('/api/ventas/docproductos2', {
+    var peticion2 = new Request('/api/ventas/docproductos', {
         method: 'POST',
         headers: new Headers({
             // Encabezados
