@@ -5,7 +5,6 @@ const sql = require('mssql')
 
 const PORT = process.env.PORT || 3600;
 
-
 const config = {
     user: 'DB_A43F6F_express_admin',
     password: 'razors1805',
@@ -74,7 +73,6 @@ app.get("/api/empresas/all", async(req,res)=>{
 	}
 	sql.close()
 });
-
 
 //OBTIENE LAS VENTAS POR DIA Y VENDEDOR
 app.get("/api/ventas/dia", async(req,res)=>{

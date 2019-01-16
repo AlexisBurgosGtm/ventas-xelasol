@@ -38,11 +38,10 @@ async function ComprobarUsuario(usuario) {
             GlobalCodven = usuario.CODVEN;
             GlobalEmpnit = usuario.EMPNIT;
 
-            funciones.loadView('./views/viewInicio.html')
+            //funciones.loadView('./views/viewInicio.html')
+            funciones.loadView('./views/viewVentas.html')
                 .then(()=>{
-                    
                     //CargarDatosVendedor(GlobalUser);
-                   
                 })
                 .then(()=>{
                     getVentasDiaVendedor('salescontainer');
