@@ -1,8 +1,6 @@
 var express = require("express");
 var app = express();
 
-const sql = require('mssql')
-
 const PORT = process.env.PORT || 3600;
 
 const config = {
@@ -57,7 +55,8 @@ app.get("/",function(req,res){
 
 // OBTIENE TODAS LAS EMPRESAS
 app.get("/api/empresas/all", async(req,res)=>{
-	
+
+	const sql = require('mssql')
 	let token = req.query.token;
 
 	const pool = await sql.connect(sqlString)
@@ -77,6 +76,7 @@ app.get("/api/empresas/all", async(req,res)=>{
 //OBTIENE LAS VENTAS POR DIA Y VENDEDOR
 app.get("/api/ventas/dia", async(req,res)=>{
 	
+	const sql = require('mssql')
 	let token = req.query.token;
 	/*
 	const pool = await sql.connect(sqlString)
@@ -92,6 +92,7 @@ app.get("/api/ventas/dia", async(req,res)=>{
 
 //OBTIENE LA LISTA DE PRODUCTOS Y PRECIOS CON EXISTENCIA
 app.get("/api/productos/all", async(req,res)=>{
+	const sql = require('mssql')
 	let token = req.query.token
 			const pool = await sql.connect(config)		
 			try {
@@ -106,6 +107,7 @@ app.get("/api/productos/all", async(req,res)=>{
 
 // OBTIENE TODOS LOS CLIENTES DE LA TABLA
 app.get("/api/clientes/all", async(req,res)=>{
+	const sql = require('mssql')
 	let token = req.query.token;
 
 	const pool = await sql.connect(sqlString)
@@ -125,6 +127,7 @@ app.get("/api/clientes/all", async(req,res)=>{
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
+	const sql = require('mssql')
 	let token = req.query.token;
 	
 		const pool = await sql.connect(sqlString)
@@ -143,6 +146,7 @@ app.get("/api/usuarios/login", async(req,res)=>{
 
 
 app.post("/api/cerrarconexion", async(req,res)=>{
+	const sql = require('mssql')
 	await sql.close()
 	res.send('Servidor Cerrado')
 	console.log('Conexión cerrada');
@@ -152,7 +156,7 @@ app.post("/api/cerrarconexion", async(req,res)=>{
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
 app.post("/api/ventas/documentos", async(req,res)=>{
-	
+	const sql = require('mssql')
 	let _empnit = req.body.empnit;
 	let _coddoc = req.body.coddoc;
 	let _correlativo = req.body.correlativo;
@@ -209,7 +213,7 @@ app.post("/api/ventas/docproductos2", async(req,res)=>{
 })
 
 app.post("/api/ventas/docproductos", async(req,res)=>{
-
+	const sql = require('mssql')
 	/*
 	const json = await req.json();
 	json.recordset.map(

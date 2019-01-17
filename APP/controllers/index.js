@@ -38,14 +38,22 @@ async function ComprobarUsuario(usuario) {
             GlobalCodven = usuario.CODVEN;
             GlobalEmpnit = usuario.EMPNIT;
 
-            //funciones.loadView('./views/viewInicio.html')
+            funciones.Aviso('Bienvenido ' + GlobalUser);
+
             funciones.loadView('./views/viewVentas.html')
                 .then(()=>{
+                    dbSelectDocumentos(document.getElementById('tblDocumentos'));
+                });
+
+            /*
+            funciones.loadView('./views/viewInicio.html')
+               .then(()=>{
                     //CargarDatosVendedor(GlobalUser);
                 })
                 .then(()=>{
                     getVentasDiaVendedor('salescontainer');
                 });
+                */
             
             nav.style="visibility:visible";
             };

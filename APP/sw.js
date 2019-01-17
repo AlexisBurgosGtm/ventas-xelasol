@@ -1,5 +1,5 @@
 
-var CACHE = 'arespos-online';
+var CACHE = 'arespos-onlineV3';
 const staticAssets = [
   './',
   './manifest.json',
@@ -58,7 +58,7 @@ self.addEventListener('fetch', function(evt) {
   evt.respondWith(fromCache(evt.request));
   evt.waitUntil(
     update(evt.request)
-    .then(refresh)
+    .then()//refresh)
   );
 });
 
@@ -68,7 +68,7 @@ function fromCache(request) {
   });
 }
 
-function update(request) {
+async function update(request) {
   return caches.open(CACHE).then(function (cache) {
     return fetch(request).then(function (response) {
       return cache.put(request, response.clone()).then(function () {
@@ -79,6 +79,7 @@ function update(request) {
   });
 }
 
+/*
 function refresh(response) {
   return self.clients.matchAll().then(function (clients) {
     clients.forEach(function (client) {
@@ -90,4 +91,4 @@ function refresh(response) {
       client.postMessage(JSON.stringify(message));
     });
   });
-}
+}*/

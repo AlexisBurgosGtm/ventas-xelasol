@@ -29,11 +29,13 @@
 
 <body id="up">
     <div class="wrapper ">
-        <div class="sidebar fixed-top" data-color="orange">
+        <div class="sidebar fixed-top" data-color="purple">
             <div class="sidebar-wrapper">
+                <!--
                 <div class="">
                     <img src="./assets/img/FONDO.jpg">
                 </div>
+                -->
                 <ul class="nav" id="navbar-general">
                     <li>
                         <a href="#" id="btnDashboard">
@@ -87,7 +89,7 @@
         -->
         <div class="main-panel">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg bg-primary fixed-top ">
+            <nav class="navbar navbar-expand-lg bg-purple fixed-top ">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
                         <div class="navbar-toggle">
@@ -126,12 +128,16 @@
 
         </div>
     </div>
-<!-- botón subir <a href="#up" class="simplescrollup__button simplescrollup__button--hide"> -->
+<!-- botón subir <a href="#up" class="simplescrollup__button simplescrollup__button--hide"> 
 <a href="#up" class="simplescrollup__button simplescrollup__button--hide btn-circle btn-icon">
     <i class="now-ui-icons arrows-1_minimal-up"></i>
 </a>
+-->
+    
+<!--
+<script src="./controllers/simplescrollup.js"></script>
+-->
 
-    <script src="./controllers/simplescrollup.js"></script>
 </body>
 <!--   Core JS Files   -->
 <script src="./assets/js/core/jquery.min.js"></script>
@@ -170,14 +176,13 @@
     
     
         if ('serviceWorker' in navigator) {
-            if (GlobalBoolean==false){
+            
                 window.addEventListener('load', () =>
                     navigator.serviceWorker.register('sw.js')
-                    .then(registration => GlobalBoolean=true) //console.log('Service Worker registered'))
+                    .then(registration => console.log('Service Worker registered'))
                     .catch(err => 'SW registration failed'));
 
-            }
-        
+                 
         };
 
 
