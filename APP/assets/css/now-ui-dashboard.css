@@ -24,6 +24,11 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 
 Copyright (c) 2015 Daniel Eden
 */
+
+.body-bg-gray {
+  background-color: #0c2646
+}
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -449,19 +454,19 @@ Copyright (c) 2015 Daniel Eden
 
 
 .btn-primary {
-  background-color: #e14eca;
+  background-color: #a04592;
   color: #FFFFFF; }
   .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary:active:focus, .btn-primary:active:hover, .btn-primary.active:focus, .btn-primary.active:hover,
   .show > .btn-primary.dropdown-toggle,
   .show > .btn-primary.dropdown-toggle:focus,
   .show > .btn-primary.dropdown-toggle:hover {
-    background-color: #e14eca;
+    background-color: #a04592;
     color: #FFFFFF;
     -webkit-box-shadow: none;
             box-shadow: none; }
   .btn-primary:not([data-action]):hover {
-    -webkit-box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.17);
-            box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.17); }
+    -webkit-box-shadow: 0 3px 8px 0 rgba(31, 30, 30, 0.17);
+            box-shadow: 0 3px 8px 0 rgba(46, 45, 45, 0.17); }
   .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled.focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary:disabled, .btn-primary:disabled:hover, .btn-primary:disabled:focus, .btn-primary:disabled.focus, .btn-primary:disabled:active, .btn-primary:disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled].focus, .btn-primary[disabled]:active, .btn-primary[disabled].active,
   fieldset[disabled] .btn-primary,
   fieldset[disabled] .btn-primary:hover,
@@ -469,22 +474,22 @@ Copyright (c) 2015 Daniel Eden
   fieldset[disabled] .btn-primary.focus,
   fieldset[disabled] .btn-primary:active,
   fieldset[disabled] .btn-primary.active {
-    background-color: #e14eca;
-    border-color: #e14eca; }
+    background-color: #a04592;
+    border-color:#a04592; }
   .btn-primary.btn-simple {
-    color: #e14eca;
-    border-color: #e14eca; }
+    color: #a04592;
+    border-color: #a04592; }
     .btn-primary.btn-simple:hover, .btn-primary.btn-simple:focus, .btn-primary.btn-simple:active {
       background-color: transparent;
-      color: #e14eca;
-      border-color: #e14eca;
+      color: #a04592;
+      border-color: #a04592;
       -webkit-box-shadow: none;
               box-shadow: none; }
   .btn-primary.btn-link {
-    color: #e14eca; }
+    color: #a04592; }
     .btn-primary.btn-link:hover, .btn-primary.btn-link:focus, .btn-primary.btn-link:active {
       background-color: transparent;
-      color: #e14eca;
+      color: #a04592;
       text-decoration: none;
       -webkit-box-shadow: none;
               box-shadow: none; }
@@ -1351,10 +1356,12 @@ a.text-gray:focus, a.text-gray:hover {
 
 body {
   color: #2c2c2c;
+  background-color: #141E30;
   font-size: 14px;
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased; }
+  -webkit-font-smoothing: antialiased; 
+}
 
 .main {
   position: relative;
@@ -1724,7 +1731,7 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
   background-color: #FFFFFF !important; }
 
 .bg-purple {
-  background-color: #e14eca !important; }
+  background-color: #a04592 !important; }
 
 .page-header {
   min-height: 100vh;
@@ -2841,13 +2848,13 @@ Created using IcoMoon - icomoon.io
   
       .sidebar[data-color="purple"]:after,
       .off-canvas-sidebar[data-color="purple"]:after {
-        background: #e14eca; }
+        background: #a04592; }
       .sidebar[data-color="purple"] .nav li.active > a,
       .off-canvas-sidebar[data-color="purple"] .nav li.active > a {
-        color: #e14eca; }
+        color: #a04592; }
         .sidebar[data-color="purple"] .nav li.active > a i,
         .off-canvas-sidebar[data-color="purple"] .nav li.active > a i {
-          color: #e14eca; }
+          color: #a04592; }
     
 
 .visible-on-sidebar-regular {
