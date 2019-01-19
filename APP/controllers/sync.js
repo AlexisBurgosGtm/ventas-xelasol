@@ -108,6 +108,9 @@ async function SyncDocproductos2(token,empnit,coddoc,correlativo,anio,mes,dia,co
       )
 }
 
+
+
+//DESCARTAR ESTA
 async function SyncDocproductos(token,empnit,coddoc,correlativo,anio,mes,dia,codprod,desprod,codmedida,equivale,cantidad,costo,totalcosto,precio,totalprecio){
 
     var data =JSON.stringify({

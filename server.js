@@ -3,31 +3,32 @@ var app = express();
 
 const PORT = process.env.PORT || 3600;
 
-const config = {
-    user: 'DB_A43F6F_express_admin',
-    password: 'razors1805',
-    server: 'sql5006.site4now.net',
-	database: 'DB_A43F6F_express',
-	 pool: {
-        max: 100,
-        min: 0,
-        idleTimeoutMillis: 30000
-    }
-}
 
 /*
-const config = {
-    user: 'iEx',
-    password: 'iEx',
-    server: 'SERVERALEXIS\\SQLEXPRESS',
-	database: 'ARES_SYNC',
-	pool: {
-        max: 100,
-        min: 0,
-        idleTimeoutMillis: 30000
-    }
-}
+	const config = {
+		user: 'iEx',
+		password: 'iEx',
+		server: 'SERVERALEXIS\\SQLEXPRESS',
+		database: 'ARES_SYNC',
+		pool: {
+			max: 100,
+			min: 0,
+			idleTimeoutMillis: 30000
+		}
+	}
 */
+
+	const config = {
+		user: 'DB_A43F6F_express_admin',
+		password: 'razors1805',
+		server: 'sql5006.site4now.net',
+		database: 'DB_A43F6F_express',
+		 pool: {
+			max: 100,
+			min: 0,
+			idleTimeoutMillis: 30000
+		}
+	}
 
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
@@ -173,7 +174,7 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
 
 		//const pool = await sql.connect(sqlString)
-		const pool1 = new sql.ConnectionPool(config, err => {
+		const pool1 = await new sql.ConnectionPool(config, err => {
 			// ... error checks
 					 
 			// Query
@@ -243,10 +244,10 @@ app.post("/api/ventas/docproductos", async(req,res)=>{
 				
 		let sqlQry = 'insert into web_docproductos (token,empnit,anio,mes,dia,coddoc,correlativo,codprod,desprod,codmedida,equivale,cantidad,costo,precio,totalcosto,totalprecio) values (@token,@empnit,@anio,@mes,@dia,@coddoc,@correlativo,@codprod,@desprod,@codmedida,@equivale,@cantidad,@costo,@precio,@totalcosto,@totalprecio)'
 			
-		const pool1 = new sql.ConnectionPool(config, async err => {
+		const pool1 = await  new sql.ConnectionPool(config, err => {
 			// ... error checks
 		 
-			await pool1.request()
+			pool1.request()
 			.input('token', sql.VarChar(255), _token)
 			.input('empnit', sql.VarChar(50), _empnit)
 			.input('anio', sql.Int, _anio)

@@ -1,10 +1,12 @@
 async function cargarListaClientes(){
+    let newsArticles = document.getElementById('tblClientes');
+    newsArticles.innerHTML = 'Cargando Clientes....';
+
     const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
     const json = await response.json();
                 
-    let newsArticles = document.getElementById('tblClientes');
+  
     newsArticles.innerHTML = '';
-                            
     newsArticles.innerHTML =
                     `<table class="table table-responsive" id="tblClientesTablaLista">
                         <thead><tr>

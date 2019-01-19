@@ -29,6 +29,9 @@
 
         }).join('\n');
 
+        //vacia la tabla para mejorar la velocidad de búsqueda
+        funciones.OcultarRows('tblProductos');
+
         //asigna el listener al botón de búsqueda
         document.getElementById('btnPreciosFiltrar').addEventListener('click',()=>{
           funciones.FiltrarListaProductos('tblProductos');

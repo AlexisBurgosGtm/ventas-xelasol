@@ -37,6 +37,7 @@ funciones = {
         .then(name => {
           if (!name) throw null;
             funciones.FiltrarTabla(idTabla,name);
+
             //'tblProductosVentas'
         })
       },
@@ -319,6 +320,23 @@ funciones = {
                       tableReg.rows[i].style.display = 'none';
                   }
               }
+        funciones.scrollUp(1000, 'easing');
+  },
+
+  OcultarRows: function(idTabla){
+    var tableReg = document.getElementById(idTabla);
+        // Recorremos todas las filas con contenido de la tabla
+        for (var i = 1; i < tableReg.rows.length; i++)
+        {
+            if(i>20){
+                tableReg.rows[i].style.display = 'none';
+            }
+        }
+  },
+
+
+   scrollUp: function(duration, easing) {
+      window.scroll(0, 0);
   },
 
 

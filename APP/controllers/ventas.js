@@ -156,6 +156,8 @@ async function loadPreciosVentas(){
                     </thead>` + 
   json.recordset.map(createArticle2).join('\n');
   //await caches.match('data/productos.json');
+
+  funciones.OcultarRows('tblProductosVentas')
   AsignarElementos();
   ClearCantidad();
   AgregarListeners();
@@ -205,11 +207,11 @@ async function dbGuardarVenta(codcliente,nomcliente){
   };
 
 async function cargarListaClientesPedido(){
-  
   const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
   const json = await response.json();
               
   let newsArticles = document.getElementById('tblClientesPedido');
+  newsArticles.innerHTML = 'Cargando lista de clientes...';
   newsArticles.innerHTML = '';
                           
   newsArticles.innerHTML =
@@ -238,9 +240,12 @@ async function cargarListaClientesPedido(){
               }
             }
   ).join('\n');
+
+  funciones.OcultarRows('tblClientesTabla');
   
   document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
     funciones.FiltrarListaProductos('tblClientesTabla');
+    //window.location('#container');
   })
 };
 
@@ -257,10 +262,9 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
   document.getElementById('txtTotalPedido').innerText = funciones.setMoneda(totalventa,'Q');
   document.getElementById('txtIdPedido').innerHTML = id;
 
-  /*
   document.getElementById('btnVentasEditar').addEventListener('click', ()=>{
      VentasEditar(correlativo);
-  });*/
+  });
   
   document.getElementById('btnVentasEliminar').addEventListener('click',()=>{
     VentasEliminar(correlativo);
@@ -271,19 +275,20 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
 
 };
 
-// Opciones del modal de ventas guardadas
-/*
+
 function VentasEditar(idPedido){
   console.log('editar presionado ' + idPedido);
   funciones.Confirmacion('¿Está seguro que desea Editar este Pedido?')
     .then((value) => {
        
       if (value==true){
-        funciones.loadView('./views/viewVentasEditar.html')
+        //funciones.loadView('./views/viewVentasEditar.html')
+        funciones.AvisoError('Esta opción aún no está disponible ;(');
+        document.getElementById('btnVentasCancelar').click();
       }
     });
 };
-*/
+
 
 function VentasEliminar(correlativo){
   console.log('Eliminar id= ' + correlativo);
@@ -291,7 +296,10 @@ function VentasEliminar(correlativo){
   .then((value) => {
        
     if (value==true){
+      console.log('correlativo : ' + correlativo);
       dbDeletePedido(correlativo);
+      dbSelectDocumentos(document.getElementById('tblDocumentos'));
+      document.getElementById('btnVentasCancelar').click();
     }
   });
 };

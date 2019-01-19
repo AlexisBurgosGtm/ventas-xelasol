@@ -581,7 +581,7 @@ function dbSelectDocumentos(contenedor) {
                 "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
                 "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
                 "<td class='col-1-sm col-1-md'>" + 
-                    `<button class='btn btn-round btn-icon btn-default btn-sm' 
+                    `<button class='btn btn-round btn-icon btn-warning btn-sm' 
                         data-toggle='modal' data-target='#ModalOpcionesPedido' 
                         onClick="fcnCargarDatosPedido('${doc.Id}','${doc.correlativo}','${doc.nomcliente}','${doc.totalventa}');">
                         <i class='now-ui-icons design_bullet-list-67'></i>
@@ -601,12 +601,13 @@ function dbDeletePedido(correlativo) {
     DbConnection.delete({
             From: 'documentos',
             Where: {
-                Correlativo: Number(correlativo)
+                correlativo: Number(correlativo)
             }
         }, function (rowsDeleted) {
             if (rowsDeleted > 0) {
                 //funciones.Aviso('Pedido Eliminado Exitosamente')
                 dbDeletePedidoDetalle(correlativo);
+                
             }
         }, function (error) {
                 alert(error.Message);
@@ -618,7 +619,7 @@ function dbDeletePedidoDetalle(correlativo) {
     DbConnection.delete({
             From: 'docproductos',
             Where: {
-                Correlativo: Number(correlativo)
+                correlativo: Number(correlativo)
             }
         }, function (rowsDeleted) {
             if (rowsDeleted > 0) {
@@ -677,7 +678,7 @@ function dbSendPedido(Id) {
             console.log(error);
         })
 
-        SyncCerrarServidor();
+        //SyncCerrarServidor();
        
     });
 };
