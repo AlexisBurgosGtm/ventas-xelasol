@@ -3,19 +3,18 @@ var app = express();
 
 const PORT = process.env.PORT || 3600;
 
-
 /*
-	const config = {
-		user: 'iEx',
-		password: 'iEx',
-		server: 'SERVERALEXIS\\SQLEXPRESS',
-		database: 'ARES_SYNC',
-		pool: {
-			max: 100,
-			min: 0,
-			idleTimeoutMillis: 30000
-		}
+const config = {
+	user: 'iEx',
+	password: 'iEx',
+	server: 'SERVERALEXIS\\SQLEXPRESS',
+	database: 'ARES_SYNC',
+	pool: {
+		max: 100,
+		min: 0,
+		idleTimeoutMillis: 30000
 	}
+}
 */
 
 	const config = {
@@ -29,6 +28,7 @@ const PORT = process.env.PORT || 3600;
 			idleTimeoutMillis: 30000
 		}
 	}
+
 
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
@@ -106,6 +106,23 @@ app.get("/api/productos/all", async(req,res)=>{
 			sql.close()
 });
 
+//OBTIENE LA LISTA DE PRODUCTOS CON EXISTENCIA ÚNICA
+app.get("/api/productos/inventario", async(req,res)=>{
+	const sql = require('mssql')
+	let token = req.query.token
+			const pool = await sql.connect(config)		
+			try {
+				const result = await sql.query`SELECT CODPROD, DESPROD, EXISTENCIA, LASTUPDATE FROM PRECIOS GROUP BY TOKEN, EMPNIT, CODPROD, DESPROD, EXISTENCIA, LASTUPDATE HAVING (TOKEN = ${token})`
+				console.dir('Existencias cargadas');
+				res.send(result);
+			} catch (err) {
+				console.log(String(err));
+			}
+			sql.close()
+});
+
+
+
 // OBTIENE TODOS LOS CLIENTES DE LA TABLA
 app.get("/api/clientes/all", async(req,res)=>{
 	const sql = require('mssql')
@@ -153,7 +170,6 @@ app.post("/api/cerrarconexion", async(req,res)=>{
 	console.log('Conexión cerrada');
 })
 
-
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
 app.post("/api/ventas/documentos", async(req,res)=>{
@@ -169,7 +185,7 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 	let _dia = req.body.dia;
 	let _codven = req.body.codven;
 		
-	console.log('Llegó la solicitud ' + _coddoc + _correlativo + _codcliente + _totalventa);
+	console.log('Llegó la solicitud ' + 'coddoc:' + _coddoc + ' correlativo: ' + _correlativo + ' cliente: ' + _codcliente + ' total: ' + _totalventa);
 
 	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
 
@@ -204,79 +220,62 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 		})
 });
 
-
 // INSERTA DATOS EN LA TABLA DOCPRODUCTOS DEL SERVER
-app.post("/api/ventas/docproductos2", async(req,res)=>{
-	
-	req.body.forEach(function (data) {
-		console.log(String(data.desprod));
-	})
-})
-
 app.post("/api/ventas/docproductos", async(req,res)=>{
 	const sql = require('mssql')
-	/*
-	const json = await req.json();
-	json.recordset.map(
-		(data)=>{
-		console.log(String(data.desprod));
-		}
-	)*/
+	let _token = req.body.token;
+	let _empnit = req.body.empnit;
 
-		let _token = req.body.token;
-		let _empnit = req.body.empnit;
-		let _anio = req.body.anio;
-		let _mes = req.body.mes;
-		let _dia = req.body.dia;
-		let _coddoc = req.body.coddoc;
-		let _correlativo = req.body.correlativo;
-
-		let _codprod = req.body.codprod;
-		let _desprod = req.body.desprod;
-		let _codmedida = req.body.codmedida;
-		let _equivale = req.body.equivale;
-		let _cantidad = req.body.cantidad;
-		let _costo = req.body.costo;
-		let _precio = req.body.precio;
-		let _totalcosto = req.body.totalcosto;
-		let _totalprecio = req.body.totalprecio;
-		//let _ = req.body.;
-				
-		let sqlQry = 'insert into web_docproductos (token,empnit,anio,mes,dia,coddoc,correlativo,codprod,desprod,codmedida,equivale,cantidad,costo,precio,totalcosto,totalprecio) values (@token,@empnit,@anio,@mes,@dia,@coddoc,@correlativo,@codprod,@desprod,@codmedida,@equivale,@cantidad,@costo,@precio,@totalcosto,@totalprecio)'
-			
-		const pool1 = await  new sql.ConnectionPool(config, err => {
-			// ... error checks
-		 
-			pool1.request()
-			.input('token', sql.VarChar(255), _token)
-			.input('empnit', sql.VarChar(50), _empnit)
-			.input('anio', sql.Int, _anio)
-			.input('mes', sql.Int, _mes)
-			.input('dia', sql.Int, _dia)
-			.input('coddoc', sql.VarChar(50), _coddoc)
-			.input('correlativo', sql.Float, _correlativo)
-			.input('codprod', sql.VarChar(200), _codprod)
-			.input('desprod', sql.VarChar(255), _desprod)
-			.input('codmedida', sql.VarChar(50), _codmedida)
-			.input('equivale', sql.Int, _equivale)
-			.input('cantidad', sql.Int, _cantidad)
-			.input('costo', sql.Float, _costo)
-			.input('totalcosto', sql.Float, _totalcosto)
-			.input('precio', sql.Float, _precio)
-			.input('totalprecio', sql.Float, _totalprecio)
-			.query(sqlQry, (err, result) => {
-				// ... error checks
-				 //console.dir(result)
-				 
+	let _anio = req.body.anio;
+	let _mes = req.body.mes;
+	let _dia = req.body.dia;
+	
+	let _coddoc = req.body.coddoc;
+	let _correlativo = req.body.correlativo;
+	let _codprod = req.body.codprod;
+	let _desprod = req.body.desprod;
+	let _codmedida = req.body.codmedida;
+	let _equivale = req.body.equivale;
+	let _cantidad = req.body.cantidad;
+	let _costo = req.body.costo;
+	let _precio = req.body.precio;
+	let _totalcosto = req.body.totalcosto;
+	let _totalprecio = req.body.totalprecio;
+	
+	console.log('peticion de insert en docprodutos: ' + _desprod)
+	
+		const pool2 = await new sql.ConnectionPool(config, err => {
+			 var sqlQry = 'insert into web_docproductos (token,empnit,anio,mes,dia,coddoc,correlativo,codprod,desprod,codmedida,equivale,cantidad,costo,precio,totalcosto,totalprecio) values (@token,@empnit,@anio,@mes,@dia,@coddoc,@correlativo,@codprod,@desprod,@codmedida,@equivale,@cantidad,@costo,@precio,@totalcosto,@totalprecio)'
+			 pool2.request() // or: new sql.Request(pool1)
+			 .input('token', sql.VarChar(255), _token)
+			 .input('empnit', sql.VarChar(50), _empnit)
+			 .input('anio', sql.Int, _anio)
+			 .input('mes', sql.Int, _mes)
+			 .input('dia', sql.Int, _dia)
+			 .input('coddoc', sql.VarChar(50), _coddoc)
+			 .input('correlativo', sql.Float, _correlativo)
+			 .input('codprod', sql.VarChar(100), _codprod)
+			 .input('desprod', sql.VarChar(250), _desprod)
+			 .input('codmedida', sql.VarChar(50), _codmedida)
+			 .input('equivale', sql.Int, _equivale )
+			 .input('cantidad', sql.Int, _cantidad)
+			 .input('costo', sql.Float, _costo)
+			 .input('precio', sql.Float, _precio)
+			 .input('totalcosto', sql.Float, _totalcosto)
+			 .input('totalprecio', sql.Float, _totalprecio)
+			 .query(sqlQry, (err, result) => {
+				if (result.rowsAffected){
+					res.send('Ingreso exitoso docproductos... ' + _desprod)
+				}
 			});
 			//sql.close()
+			//pool1.release();
 		 
 		})
 		 
-		pool1.on('error', err => {
+		pool2.on('error', err => {
 			// ... error handler
 		})
-	
 });
 
 app.use("/",router);

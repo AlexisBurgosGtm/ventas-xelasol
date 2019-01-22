@@ -25,7 +25,8 @@ btnDashboard.addEventListener('click',()=>{
     .then(()=>{
         //CargarDatosVendedor(GlobalUser);
         //getVentasDiaVendedor('salescontainer');
-     
+        GlobalSelectedForm = 'viewInicio';
+        GlobalBool = true;
     })
     .catch(error => 
         funciones.showNotification('bottom','right','No se pudo cargar la vista')
@@ -37,7 +38,8 @@ btnDashboard.addEventListener('click',()=>{
 btnPrecios.addEventListener('click',()=>{
     funciones.loadView('./views/viewPrecios.html')
             .then(loadPrecios)
-
+            GlobalSelectedForm = 'viewPrecios';
+            GlobalBool = true;
     toggler.click();
 })
 
@@ -45,17 +47,21 @@ btnPrecios.addEventListener('click',()=>{
 btnClientes.addEventListener('click',()=>{
     funciones.loadView('./views/viewClientes.html')
             .then(cargarListaClientes)
-            
+            GlobalSelectedForm = 'viewClientes';
+            GlobalBool = true;
     toggler.click();
 })
 
 // Ventas
 btnVentas.addEventListener('click',()=>{
+   
     funciones.loadView('./views/viewVentas.html')
     .then(()=>{
         dbSelectDocumentos(document.getElementById('tblDocumentos'));
+        //GlobalBool = true;
     });
     toggler.click();
+   
 })
 
 // Tools
@@ -63,6 +69,8 @@ btnTools.addEventListener('click',()=>{
     funciones.loadView('./views/viewTools.html')
             .then(()=>{
                 CargarBotonesTools();
+                GlobalSelectedForm = 'viewTools';
+                GlobalBool = true;
             });
             
     toggler.click();
@@ -71,7 +79,11 @@ btnTools.addEventListener('click',()=>{
 // Configuraciones
 btnConfig.addEventListener('click',()=>{
     funciones.loadView('./views/viewConfig.html')
-        .then(()=>{CargarBotonesConfig();});
+        .then(()=>{
+            CargarBotonesConfig();
+            GlobalSelectedForm = 'viewConfig';
+            GlobalBool = true;
+        });
     toggler.click();
 })
 

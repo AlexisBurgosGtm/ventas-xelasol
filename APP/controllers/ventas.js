@@ -30,9 +30,10 @@ let _Precio;
 let _QPrecio;
 let _TotalVenta = parseFloat(0); //total de la venta en curso
 let _SubTotal = parseFloat(0); // almacena el subtotal
+let _equivale = 0; //equivalente de la medida
 
 // ventana modal
-async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,QPrecio){
+async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,QPrecio,equivale){
   //asigna el valor a las variables cada vez que se abre el modal
   _Codprod = CodProd;
   _Desprod = DesProd;
@@ -40,6 +41,7 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
   _Costo = Costo;
   _Precio = parseFloat(Precio);
   _QPrecio = QPrecio;
+  _equivale = equivale;
   
   //carga los datos de la ventana modal
   txtDesProd.innerHTML = DesProd;
@@ -56,7 +58,7 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
 // Agrega el producto a la tabla temporal de la venta en curso
 function AgregarProducto(){
   // inserta los datos en indexdb
-  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal,GlobalEmpnit);
+  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal,GlobalEmpnit,_equivale);
   
   // asigna la suma de los productos en temp ventas
   dbTotalTempVentas(txtTotalVenta);
@@ -170,7 +172,7 @@ function createArticle2(article) {
               <td class="col-4-sm col-4-md">${article.DESPROD}</td>
               <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
               <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
-              <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}');">+</button></td>
+              <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
             </tr>`;
   };
 };

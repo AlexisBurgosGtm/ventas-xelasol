@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "AresPOSv7";
+const DbName = "AresPOSv8";
 
 function initiateDb() {
     
@@ -15,6 +15,7 @@ function initiateDb() {
            
           
         } else {
+
             var tbl = getTbl();
             DbConnection = new JsStore.Instance().createDb(tbl);
             //inicializa el correlativo
@@ -72,7 +73,8 @@ function getTbl() {
             {
                 Name: "subtotal",
                 NotNull: true
-            }
+            },
+            {Name: "equivale"}
         ]
     }
     //TABLA DOCUMENTOS
@@ -164,7 +166,8 @@ function getTbl() {
             {
                 Name: "subtotal",
                 NotNull: true
-            }
+            },
+            {Name: "equivale"}
         ]
     }
     //TABLA DOCUMENTOS
@@ -218,7 +221,7 @@ function getTbl() {
 //****** MANEJO DEL TOKEN  *****/
 
 //inserta el token en la tabla de sesiones para ser usado en toda la app
-function dbInsertToken(token) {
+async function dbInsertToken(token) {
     //en la tabla sesion
     var data = {
         usuario:'SN',
@@ -226,7 +229,7 @@ function dbInsertToken(token) {
         token:token
     }
 
-    DbConnection.insert({
+    await DbConnection.insert({
         Into: "sesion",
         Values: [data]
     }, function (rowsAdded) {
@@ -235,12 +238,22 @@ function dbInsertToken(token) {
         console.log(err);
     })
 };
+
 // OBTIENE EL TOKEN 
+//async function dbGetToken() {
 function dbGetToken() {
+ 
     GlobalToken='SANBERNABE';
-    CargarComboEmpresas();    
+
+        try {
+            CargarComboEmpresas();            
+        } catch (error) {
+            
+        }
+    
+    
     /*
-    DbConnection.select({
+    await DbConnection.select({
         From: "sesion",
         Where: {
                 Id: 1
@@ -262,22 +275,7 @@ function dbGetToken() {
 
 };
 
-function dbGetToken2(contenedor) {
-    let result = '';
-    DbConnection.select({
-        From: "sesion",
-        Where: {
-                Id: 1
-            }
-    }, function (token) {
-        token.forEach(function (prod) {
-           result = prod.token;
-        }, function (error) {
-            console.log(error);
-        })
-        contenedor.value = result;    
-    });
-};
+
 // Actualiza el token existente
 function dbUpdateToken(token) {
     var data = {
@@ -293,8 +291,7 @@ function dbUpdateToken(token) {
     }, function (rowsAffected) {
         //alert(rowsAffected + " rows Updated");
         if (rowsAffected > 0) {
-            console.log('token actualizado');
-                funciones.Aviso('TOKEN Actualizado Exitosamente');
+            funciones.Aviso('TOKEN Actualizado Exitosamente');
         }
     }, function (error) {
         //alert(error.Message);
@@ -304,14 +301,14 @@ function dbUpdateToken(token) {
 
 // crea un único registro al cargar la db por primera vez
 // para poder hacerle update luego con cada venta
-function dbInsertCorrelativoDoc() {
+async function dbInsertCorrelativoDoc() {
     //en la tabla correlativos
     var data = {
         coddoc:'ENVIOS',
         correlativo:1
     }
 
-    DbConnection.insert({
+    await DbConnection.insert({
         Into: "tipodocumentos",
         Values: [data]
     }, function (rowsAdded) {
@@ -388,7 +385,7 @@ function dbGetValCorrelativo(Id) {
 };
 
 // inserta un registro en temp ventas para hacer offline el pedido
-function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal,empnit) {
+function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal,empnit,equivale) {
     var data = {
         empnit:empnit,
         coddoc:coddoc,
@@ -398,7 +395,8 @@ function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantida
         codmedida:codmedida,
         cantidad:cantidad,
         precio:precio,
-        subtotal:subtotal
+        subtotal:subtotal,
+        equivale:equivale
     }
 
     DbConnection.insert({
@@ -546,7 +544,8 @@ function dbInsertDocproductos(coddoc,correlativo,empnit) {
                 codmedida:prod.codmedida,
                 cantidad:prod.cantidad,
                 precio:prod.precio,
-                subtotal:prod.subtotal
+                subtotal:prod.subtotal,
+                equivale:prod.equivale
             };
               // inserta los datos en la tabla docproductos
             DbConnection.insert({
@@ -588,6 +587,9 @@ function dbSelectDocumentos(contenedor) {
                     </button>` + 
                 "</td></tr>";
             }
+            GlobalSelectedForm= 'viewVentas';
+            GlobalBool = false;
+            
         }, function (error) {
             console.log(error);
         })
@@ -595,7 +597,7 @@ function dbSelectDocumentos(contenedor) {
     });
 };
 
-
+//********* ELIMINACIÓN DE UN PEDIDO *******/
 // elimina pedido en tabla documentos
 function dbDeletePedido(correlativo) {
     DbConnection.delete({
@@ -631,8 +633,13 @@ function dbDeletePedidoDetalle(correlativo) {
         })
 };
 
+//********* ELIMINACIÓN DE UN PEDIDO *******/
+/*******************************************/
+
+
 // ENVIAR UN PEDIDO SEGUN SU ID
 function dbSendPedido(Id) {
+      
     DbConnection.select({
         From: "documentos",
         Where: {
@@ -670,15 +677,15 @@ function dbSendPedido(Id) {
            var codmedida = doc.codmedida;
            var precio = doc.precio;
            var totalprecio = doc.subtotal;
-                      
-           //SyncDocproductos(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
-           SyncDocproductos2(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,0,cantidad,0,0,precio,totalprecio);
+           var equivale = doc.equivale;
+
+           //console.log(doc.desprod);                      
+           SyncDocumentosDet(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,equivale,cantidad,0,0,precio,totalprecio);
   
         }, function (error) {
             console.log(error);
         })
 
-        //SyncCerrarServidor();
-       
+     
     });
 };
