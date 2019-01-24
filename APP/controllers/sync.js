@@ -1,6 +1,10 @@
 
-async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa){
+async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa,totalcosto){
     var empnit = GlobalEmpnit;
+    var fecha = new Date;
+    anio = fecha.getFullYear();
+    mes = fecha.getMonth()+1;
+    dia = fecha.getDate();
 
         var data =JSON.stringify({
             token:token,
@@ -12,7 +16,8 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
             dia:dia,
             codven:codven,
             codcliente:codcliente,
-            totalventa:totalventa
+            totalventa:totalventa,
+            totalcosto:totalcosto
         });
       
         var peticion = new Request('/api/ventas/documentos', {
@@ -42,7 +47,10 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
 
 
 async function SyncDocumentosDet(token,empnit,coddoc,correlativo,anio,mes,dia,codprod,desprod,codmedida,equivale,cantidad,costo,totalcosto,precio,totalprecio){
-            
+    var fecha = new Date;
+    anio = fecha.getFullYear();
+    mes = fecha.getMonth()+1;
+    dia = fecha.getDate();
         console.log('LLamado fetch en docproductos ' + desprod);
 
             var data =JSON.stringify({

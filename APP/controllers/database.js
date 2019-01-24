@@ -12,7 +12,6 @@ function initiateDb() {
             DbConnection = new JsStore.Instance(DbName);
             //inicializa el token existente
             dbGetToken();
-           
           
         } else {
 
@@ -74,7 +73,9 @@ function getTbl() {
                 Name: "subtotal",
                 NotNull: true
             },
-            {Name: "equivale"}
+            { Name: "equivale" },
+            { Name: "costo", NotNull: true },
+            { Name: "totalcosto", NotNull: true }
         ]
     }
     //TABLA DOCUMENTOS
@@ -85,39 +86,16 @@ function getTbl() {
             PrimaryKey: true,
             AutoIncrement: true
         },
-            {
-                Name: "empnit",
-                DataType: "string"
-            },
-            {
-                Name: "coddoc",
-                NotNull: true,
-                DataType: "string"
-            },
-            {
-                Name: "correlativo"
-            },
-            {
-                Name: "anio"
-            },
-            {
-                Name: "mes"
-            },
-            {
-                Name: "dia"
-            },
-            {
-                Name: "codcliente",
-                NotNull: true
-            },
-            {
-                Name: "nomcliente",
-                DataType: "string"
-            },
-            {
-                Name: "totalventa",
-                NotNull: true
-            }
+            { Name: "empnit", DataType: "string" },
+            { Name: "coddoc", NotNull: true, DataType: "string" },
+            { Name: "correlativo" },
+            { Name: "anio" },
+            { Name: "mes" },
+            { Name: "dia" },
+            { Name: "codcliente", NotNull: true },
+            { Name: "nomcliente", DataType: "string" },
+            { Name: "totalventa", NotNull: true },
+            { Name: "totalcosto", NotNull: true }
         ]
     }
     //TABLA DOCPRODUCTOS
@@ -128,46 +106,18 @@ function getTbl() {
             PrimaryKey: true,
             AutoIncrement: true
         },
-            {
-                Name: "empnit",
-                DataType: "string"
-            },
-            {
-                Name: "coddoc",
-                NotNull: true,
-                DataType: "string"
-            },
-            {
-                Name: "correlativo"
-            },
-            {
-                Name: "codprod",
-                NotNull: true,
-                DataType: "string"
-            },
-            {
-                Name: "desprod",
-                NotNull: true,
-                DataType: "string",
-            },
-            {
-                Name: "codmedida",
-                NotNull: true,
-                DataType: "string"
-            },
-            {
-                Name: "cantidad",
-                NotNull: true
-            },
-            {
-                Name: "precio",
-                NotNull: true
-            },
-            {
-                Name: "subtotal",
-                NotNull: true
-            },
-            {Name: "equivale"}
+            { Name: "empnit", DataType: "string" },
+            { Name: "coddoc", NotNull: true, DataType: "string" },
+            { Name: "correlativo" },
+            { Name: "codprod", NotNull: true, DataType: "string" },
+            { Name: "desprod", NotNull: true, DataType: "string" },
+            { Name: "codmedida", NotNull: true, DataType: "string" },
+            { Name: "cantidad", NotNull: true },
+            { Name: "precio", NotNull: true },
+            { Name: "subtotal", NotNull: true },
+            { Name: "equivale"},
+            { Name: "costo", NotNull: true },
+            { Name: "totalcosto", NotNull: true }
         ]
     }
     //TABLA DOCUMENTOS
@@ -217,9 +167,7 @@ function getTbl() {
     return DataBase;
 };
 
-
 //****** MANEJO DEL TOKEN  *****/
-
 //inserta el token en la tabla de sesiones para ser usado en toda la app
 async function dbInsertToken(token) {
     //en la tabla sesion
@@ -243,7 +191,7 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
  
-    GlobalToken='SANBERNABE';
+    GlobalToken='PROCTERREU';
 
         try {
             CargarComboEmpresas();            
@@ -274,7 +222,6 @@ function dbGetToken() {
     */
 
 };
-
 
 // Actualiza el token existente
 function dbUpdateToken(token) {
@@ -385,7 +332,7 @@ function dbGetValCorrelativo(Id) {
 };
 
 // inserta un registro en temp ventas para hacer offline el pedido
-function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal,empnit,equivale) {
+function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantidad,precio,subtotal,empnit,equivale,costo,totalcosto) {
     var data = {
         empnit:empnit,
         coddoc:coddoc,
@@ -396,7 +343,9 @@ function dbInsertTempVentas(coddoc,correlativo,codprod,desprod,codmedida,cantida
         cantidad:cantidad,
         precio:precio,
         subtotal:subtotal,
-        equivale:equivale
+        equivale:equivale,
+        costo:costo,
+        totalcosto:totalcosto
     }
 
     DbConnection.insert({
@@ -438,14 +387,17 @@ function dbTotalTempVentas(contenedor) {
     }, function (productos) {
         
         let varSubtotal = parseFloat(0);
+        let varSubtotalCosto = parseFloat(0);
         
         productos.forEach(function (prod) {
            varSubtotal += parseFloat(prod.subtotal);
+           varSubtotalCosto += parseFloat(prod.totalcosto);
         }, function (error) {
             console.log(error);
         })
         contenedor.innerHTML = funciones.setMoneda(varSubtotal,'Q');
         GlobalTotalVenta = varSubtotal;
+        GlobalTotalCosto = varSubtotalCosto;
     });
 };
 
@@ -503,14 +455,15 @@ function dbDeleteTempProductoAll(confirm) {
 };
 
 // inserta un PEDIDO EN LA TABLA DOCUMENTOS
-function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit) {
+function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit,totalcosto) {
     var data = {
         empnit:empnit,
         coddoc:coddoc,
         correlativo:correlativo,
         codcliente:codcliente,
         nomcliente:nomcliente,
-        totalventa:totalventa
+        totalventa:totalventa,
+        totalcosto:totalcosto
     }
 
     DbConnection.insert({
@@ -545,7 +498,9 @@ function dbInsertDocproductos(coddoc,correlativo,empnit) {
                 cantidad:prod.cantidad,
                 precio:prod.precio,
                 subtotal:prod.subtotal,
-                equivale:prod.equivale
+                equivale:prod.equivale,
+                costo:prod.costo,
+                totalcosto:prod.totalcosto
             };
               // inserta los datos en la tabla docproductos
             DbConnection.insert({
@@ -651,9 +606,10 @@ function dbSendPedido(Id) {
            var correlativo = doc.correlativo;
            var codcliente = doc.codcliente;
            var totalventa = doc.totalventa;
+           var totalcosto = doc.totalcosto;
             
            //SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
-           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa);
+           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa,totalcosto);
             //.then(funciones.Aviso('Datos enviados...'))
 
         }, function (error) {
@@ -678,9 +634,11 @@ function dbSendPedido(Id) {
            var precio = doc.precio;
            var totalprecio = doc.subtotal;
            var equivale = doc.equivale;
+           var costo = doc.costo;
+           var totalcosto = doc.totalcosto;1
 
            //console.log(doc.desprod);                      
-           SyncDocumentosDet(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,equivale,cantidad,0,0,precio,totalprecio);
+           SyncDocumentosDet(GlobalToken,GlobalEmpnit,GlobalCoddoc,correlativo,2019,1,6,codprod,desprod,codmedida,equivale,cantidad,costo,totalcosto,precio,totalprecio);
   
         }, function (error) {
             console.log(error);

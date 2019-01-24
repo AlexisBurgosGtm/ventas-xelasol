@@ -173,21 +173,24 @@ app.post("/api/cerrarconexion", async(req,res)=>{
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
 app.post("/api/ventas/documentos", async(req,res)=>{
+
 	const sql = require('mssql')
 	let _empnit = req.body.empnit;
 	let _coddoc = req.body.coddoc;
 	let _correlativo = req.body.correlativo;
 	let _codcliente = req.body.codcliente;
 	let _totalventa = req.body.totalventa;
+	let _totalcosto = req.body.totalcosto;
 	let _token = req.body.token;
-	let _anio = req.body.anio;
+	let _anio =  req.body.anio;
 	let _mes = req.body.mes;
 	let _dia = req.body.dia;
 	let _codven = req.body.codven;
+	let _fecha = new Date(_anio,_mes,_dia);
 		
 	console.log('Llegó la solicitud ' + 'coddoc:' + _coddoc + ' correlativo: ' + _correlativo + ' cliente: ' + _codcliente + ' total: ' + _totalventa);
 
-	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,codven,codcliente,totalventa) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@codven,@codcliente,@totalventa)'
+	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,fecha,codven,codcliente,totalventa,totalcosto) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@fecha,@codven,@codcliente,@totalventa,@totalcosto)'
 
 		//const pool = await sql.connect(sqlString)
 		const pool1 = await new sql.ConnectionPool(config, err => {
@@ -202,9 +205,11 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 			 .input('anio', sql.Int, _anio)
 			 .input('mes', sql.Int, _mes)
 			 .input('dia', sql.Int, _dia)
+			 .input('fecha', sql.Date, _fecha)
 			 .input('codven', sql.Int, _codven)
 			 .input('codcliente', sql.Int, _codcliente)
 			 .input('totalventa', sql.Float, _totalventa)
+			 .input('totalcosto', sql.Float, _totalcosto)
 			 .query(sqlQry, (err, result) => {
 				if (result.rowsAffected){
 					res.send('Ingreso exitoso')
@@ -222,11 +227,12 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 
 // INSERTA DATOS EN LA TABLA DOCPRODUCTOS DEL SERVER
 app.post("/api/ventas/docproductos", async(req,res)=>{
+
 	const sql = require('mssql')
 	let _token = req.body.token;
 	let _empnit = req.body.empnit;
 
-	let _anio = req.body.anio;
+	let _anio =  req.body.anio;
 	let _mes = req.body.mes;
 	let _dia = req.body.dia;
 	

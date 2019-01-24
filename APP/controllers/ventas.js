@@ -30,15 +30,16 @@ let _Precio;
 let _QPrecio;
 let _TotalVenta = parseFloat(0); //total de la venta en curso
 let _SubTotal = parseFloat(0); // almacena el subtotal
+let _SubTotalCosto = parseFloat(0); // almacena el costo unitario * cantidad
 let _equivale = 0; //equivalente de la medida
 
-// ventana modal
+// Carga los datos de la Ventana Modal donde seleccionas la cantidad a vender
 async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,QPrecio,equivale){
   //asigna el valor a las variables cada vez que se abre el modal
   _Codprod = CodProd;
   _Desprod = DesProd;
   _CodMedida = CodMedida;
-  _Costo = Costo;
+  _Costo = parseFloat(Costo);
   _Precio = parseFloat(Precio);
   _QPrecio = QPrecio;
   _equivale = equivale;
@@ -50,6 +51,8 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
   txtCantidad.value = 1;
 
   _SubTotal = parseFloat(_Precio);
+  _SubTotalCosto = parseFloat(_Costo);
+
   txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
   // oculta el botón de búsqueda
   document.getElementById('btnPedidoFiltrarProducto').style = "visibility:hidden";
@@ -58,12 +61,13 @@ async function CargarDatosProductoModal(CodProd,DesProd,CodMedida,Costo,Precio,Q
 // Agrega el producto a la tabla temporal de la venta en curso
 function AgregarProducto(){
   // inserta los datos en indexdb
-  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal,GlobalEmpnit,_equivale);
+  dbInsertTempVentas(GlobalCoddoc,0,_Codprod,_Desprod,_CodMedida,parseInt(txtCantidad.value),_Precio,_SubTotal,GlobalEmpnit,_equivale,_Costo,_SubTotalCosto);
   
   // asigna la suma de los productos en temp ventas
   dbTotalTempVentas(txtTotalVenta);
  
   _SubTotal = parseFloat(0);
+  _SubTotalCosto = parseFloat(0);
   
   //vuelve a mostrar el botón de búsqueda
   document.getElementById('btnPedidoFiltrarProducto').style = "visibility:visible";
@@ -74,6 +78,7 @@ async function ClearCantidad(){
   txtCantidad.addEventListener('click',()=>{txtCantidad.value =''});
   txtCantidad.addEventListener('keyup',()=>{
     _SubTotal = parseFloat(_Precio) * parseFloat(txtCantidad.value);
+    _SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
     txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
   })
 };
@@ -195,7 +200,7 @@ async function dbGuardarVenta(codcliente,nomcliente){
   .then((value) => {
        
     if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit);
+      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto);
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{

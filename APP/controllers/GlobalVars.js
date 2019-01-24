@@ -3,6 +3,7 @@ let GlobalEmpnit;
 let GlobalUser;
 let GlobalCoddoc;
 let GlobalTotalVenta;
+let GlobalTotalCosto;
 let GlobalCodCliente;
 let GlobalNomCliente;
 let GlobalCodven;
