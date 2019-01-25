@@ -161,7 +161,27 @@ async function loadPreciosVentas(){
                         <td class="col-1-sm col-1-md"></td>
                       </tr>
                     </thead>` + 
-  json.recordset.map(createArticle2).join('\n');
+  json.recordset.map((article)=>{
+    if (article.EMPNIT==GlobalEmpnit){
+      if (article.EXISTENCIA<=0){
+          return `<tr class="">
+            <td class="col-4-sm col-4-md">${article.DESPROD}</td>
+            <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
+            <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
+            <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
+            </tr>`;
+      }else{
+        return `<tr class="bg-danger">
+        <td class="col-4-sm col-4-md">${article.DESPROD}</td>
+        <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
+        <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
+        <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
+        </tr>`;
+      }
+
+      
+    };
+  }).join('\n');
   //await caches.match('data/productos.json');
 
   funciones.OcultarRows('tblProductosVentas')
@@ -170,17 +190,7 @@ async function loadPreciosVentas(){
   AgregarListeners();
   dbTotalTempVentas(txtTotalVenta);
 }
-  
-function createArticle2(article) {
-   if (article.EMPNIT==GlobalEmpnit){
-    return `<tr class="">
-              <td class="col-4-sm col-4-md">${article.DESPROD}</td>
-              <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
-              <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
-              <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
-            </tr>`;
-  };
-};
+ 
 
 //AGREGAR CLIENTE A LA VENTA
 async function AgregarCliente(){
