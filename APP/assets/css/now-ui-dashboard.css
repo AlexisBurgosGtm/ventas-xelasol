@@ -1733,6 +1733,9 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 .bg-purple {
   background-color: #a04592 !important; }
 
+.bg-orange {
+  background-color: #f095957c !important; }
+
 .page-header {
   min-height: 100vh;
   max-height: 999px;

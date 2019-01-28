@@ -1,5 +1,5 @@
 let GlobalSelectedForm = 'viewLogin';
-let GlobalBool = true;
+let GlobalBool = 0;
 
 var CACHE = 'arespos-onlineV3';
 const staticAssets = [
@@ -35,7 +35,6 @@ const staticAssets = [
   './controllers/GlobalVars.js',
   './controllers/simplescrollup.js',
   './index.html',
-  './ventas.html',
   './views/viewLogin.html',
   './views/viewClientes.html',
   './views/viewInicio.html',
@@ -57,13 +56,10 @@ self.addEventListener('install', function(evt) {
 });
 
 self.addEventListener('fetch', function(evt) {
-
     console.log('El service worker está cargando el caché');
     evt.respondWith(fromCache(evt.request));
     evt.waitUntil(update(evt.request));
-
-
-
+   
 });
 
 function fromCache(request) {
@@ -74,16 +70,16 @@ function fromCache(request) {
 
 async function update(request) {
 
-    return caches.open(CACHE).then(function (cache) {
-      return fetch(request)
-          .then(function (response) {
-            return cache.put(request, response.clone())
-                        .then(function () {
-                          console.log('Cache actualizado');
-            return response;
-        });
+  return caches.open(CACHE).then(function (cache) {
+    return fetch(request)
+        .then(function (response) {
+          return cache.put(request, response.clone())
+                      .then(function () {
+                        console.log('Cache actualizado');
+          return response;
       });
     });
-  }
+  });
+}
     
 

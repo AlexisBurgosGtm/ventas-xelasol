@@ -171,7 +171,7 @@ async function loadPreciosVentas(){
             <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
             </tr>`;
       }else{
-        return `<tr class="bg-danger">
+        return `<tr class="bg-orange">
         <td class="col-4-sm col-4-md">${article.DESPROD}</td>
         <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
         <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
@@ -246,7 +246,7 @@ async function cargarListaClientesPedido(){
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
                   <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
-                  <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
+                  <td class="col-4-sm col-4-md" font-size=8>${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
                   <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
                   <td class="col-1-sm col-1-md">
                     <button class="btn btn-round btn-icon btn-primary" onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
@@ -326,6 +326,8 @@ function VentasEnviar(idPedido){
   .then((value) => {
        
     if (value==true){
+
+      GlobalBool=1;
       dbSendPedido(idPedido);
       document.getElementById('btnVentasCancelar').click();
     }

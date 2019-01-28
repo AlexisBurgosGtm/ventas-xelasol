@@ -588,6 +588,29 @@ function dbDeletePedidoDetalle(correlativo) {
         })
 };
 
+
+function dbEliminarPedidosTodos() {
+    DbConnection.delete({From: 'documentos'}
+        , function (rowsDeleted) {
+            if (rowsDeleted > 0) {
+                              
+            }
+        }, function (error) {
+                alert(error.Message);
+        })
+
+        DbConnection.delete({ From: 'docproductos' }, 
+                function (rowsDeleted) {
+                    if (rowsDeleted > 0) {
+                        funciones.Aviso('Pedidos Eliminados Exitosamente!!');
+                //btnVentas.click();
+                    }
+                }, function (error) {
+                        alert(error.Message);
+                })
+};
+
+
 //********* ELIMINACIÓN DE UN PEDIDO *******/
 /*******************************************/
 

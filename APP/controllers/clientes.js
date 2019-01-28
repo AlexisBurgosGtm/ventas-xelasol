@@ -19,14 +19,15 @@ async function cargarListaClientes(){
         if(cliente.EMPNIT==GlobalEmpnit){
             return `<tr>
             <td class="col-4-sm col-4-md">${cliente.NOMCLIENTE}</td>
-            <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE}</td>
+            <td class="col-4-sm col-4-md">${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
             <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
             <td></td> 
             </tr>`;
         }
     }).join('\n');
-    //await caches.match('data/productos.json');
-    //CrearBusquedaClientes();
+    
+    funciones.OcultarRows('tblClientesTablaLista');
+
     document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
         funciones.FiltrarListaProductos('tblClientesTablaLista');
     })

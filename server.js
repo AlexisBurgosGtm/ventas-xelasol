@@ -29,7 +29,6 @@ const config = {
 		}
 	}
 
-
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
 //var http = require('http').Server(app);

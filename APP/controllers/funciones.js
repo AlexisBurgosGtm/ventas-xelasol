@@ -328,7 +328,7 @@ funciones = {
         // Recorremos todas las filas con contenido de la tabla
         for (var i = 1; i < tableReg.rows.length; i++)
         {
-            if(i>20){
+            if(i>15){
                 tableReg.rows[i].style.display = 'none';
             }
         }
