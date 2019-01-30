@@ -192,7 +192,7 @@ async function dbInsertToken(token) {
 function dbGetToken() {
  
     //GlobalToken='PROCTERREU';
-    obalToken='SANBERNABE';
+    GlobalToken='SANBERNABE';
 
         try {
             CargarComboEmpresas();            
