@@ -96,7 +96,6 @@ btnSync.addEventListener('click',()=>{
 })*/
 
 // Chat
-/*
 btnChat.addEventListener('click',()=>{
     funciones.loadView('./views/viewChat.html')
             .then(()=>{
@@ -104,7 +103,7 @@ btnChat.addEventListener('click',()=>{
             });
     toggler.click();
 })
-*/
+
 
 
 // Asigna valores a la vista de inicio

@@ -3,6 +3,21 @@ var app = express();
 
 const PORT = process.env.PORT || 3600;
 
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
+
+const config = {
+	user: 'DB_A45479_EXPRESS_admin',
+	password: 'razors1805',
+	server: 'sql7002.site4now.net',
+	database: 'DB_A45479_EXPRESS',
+	pool: {
+		max: 100,
+		min: 0,
+		idleTimeoutMillis: 30000
+	}
+}
+
 /*
 const config = {
 	user: 'iEx',
@@ -16,7 +31,7 @@ const config = {
 	}
 }
 */
-
+/*
 	const config = {
 		user: 'DB_A43F6F_express_admin',
 		password: 'razors1805',
@@ -28,11 +43,10 @@ const config = {
 			idleTimeoutMillis: 30000
 		}
 	}
-
+*/
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
-//var http = require('http').Server(app);
-//var io = require('socket.io')(http);
+
 
 var router = express.Router();
 var bodyParser = require('body-parser');

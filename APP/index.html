@@ -82,6 +82,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" id="btnChat">
+                            <i class="now-ui-icons loader_gear"></i>
+                            <p>Chat</p>
+                        </a>
+                    </li>
+                    <li>
                         <a href="index.html">
                             <i class="now-ui-icons users_single-02"></i>
                             <p>Salir(x)</p>
@@ -222,9 +228,9 @@
 <script async src="./controllers/index.js"></script>
 <script async src="./controllers/config.js"></script>
 <script async src="./controllers/sync.js"></script>
-<!--
+
 <script src="./onlineLibrary/socket.io.js"></script>
--->
+
 <script>
     //inicializa el token
     if ('serviceWorker' in navigator) {
@@ -313,12 +319,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
 -->
 
-<script async>
+<script>
     
-function CargarFuncionesChat () {
+async function CargarFuncionesChat () {
        
         //var socket = io.connect('http://localhost:5000');
-        /*              
+        var socket = io();
+                      
         document.getElementById('btnEnviar').addEventListener('click',()=>{
             socket.emit('chat message', $('#m').val(), GlobalUser);
             $('#m').val('');
@@ -329,7 +336,7 @@ function CargarFuncionesChat () {
           $('#messages').append($('<li>').text(msg));
           window.scrollTo(0, document.body.scrollHeight);
         });
-    */ 
+     
     };
 </script>
 
