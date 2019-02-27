@@ -1,5 +1,5 @@
 
-async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa,totalcosto){
+async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa,totalcosto,obs,st){
     var empnit = GlobalEmpnit;
     var fecha = new Date;
     anio = fecha.getFullYear();
@@ -17,7 +17,9 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
             codven:codven,
             codcliente:codcliente,
             totalventa:totalventa,
-            totalcosto:totalcosto
+            totalcosto:totalcosto,
+            obs:obs,
+            st:st
         });
       
         var peticion = new Request('/api/ventas/documentos', {

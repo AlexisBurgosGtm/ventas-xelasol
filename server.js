@@ -1,10 +1,14 @@
 var express = require("express");
 var app = express();
+var router = express.Router();
+var bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3600;
 
-//var http = require('http').Server(app);
-//var io = require('socket.io')(http);
+/*
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+*/
 
 const config = {
 	user: 'DB_A45479_EXPRESS_admin',
@@ -31,25 +35,8 @@ const config = {
 	}
 }
 */
-/*
-	const config = {
-		user: 'DB_A43F6F_express_admin',
-		password: 'razors1805',
-		server: 'sql5006.site4now.net',
-		database: 'DB_A43F6F_express',
-		 pool: {
-			max: 100,
-			min: 0,
-			idleTimeoutMillis: 30000
-		}
-	}
-*/
+
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
-
-
-
-var router = express.Router();
-var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
 
@@ -156,6 +143,21 @@ app.get("/api/clientes/all", async(req,res)=>{
 	sql.close()
 });
 
+//OBTIENE LA LISTA DE REPARTIDORES
+app.get("/api/repartidores/all", async(req,res)=>{
+	const sql = require('mssql')
+	let token = req.query.token
+			const pool = await sql.connect(config)		
+			try {
+				const result = await sql.query`SELECT EMPNIT,CODREP,NITREP,DESREP,DIRREP,TELREP,CONTACTO,TELCONTACTO,EMAIL,WHATSAPP FROM REPARTIDORES WHERE TOKEN=${token}`
+				console.dir('Repartidores cargados...');
+				res.send(result);
+			} catch (err) {
+				console.log(String(err));
+			}
+			sql.close()
+});
+
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
 	const sql = require('mssql')
@@ -200,10 +202,12 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 	let _dia = req.body.dia;
 	let _codven = req.body.codven;
 	let _fecha = new Date(_anio,_mes,_dia);
+	let _obs = req.body.obs;
+	let _st = req.body.st;
 		
 	console.log('Llegó la solicitud ' + 'coddoc:' + _coddoc + ' correlativo: ' + _correlativo + ' cliente: ' + _codcliente + ' total: ' + _totalventa);
 
-	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,fecha,codven,codcliente,totalventa,totalcosto) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@fecha,@codven,@codcliente,@totalventa,@totalcosto)'
+	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,fecha,codven,codcliente,totalventa,totalcosto,obs,codst) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@fecha,@codven,@codcliente,@totalventa,@totalcosto,@obs,@codst)'
 
 		//const pool = await sql.connect(sqlString)
 		const pool1 = await new sql.ConnectionPool(config, err => {
@@ -223,6 +227,8 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 			 .input('codcliente', sql.Int, _codcliente)
 			 .input('totalventa', sql.Float, _totalventa)
 			 .input('totalcosto', sql.Float, _totalcosto)
+			 .input('obs', sql.VarChar(255), _obs)
+			 .input('codst', sql.Int, _st)
 			 .query(sqlQry, (err, result) => {
 				if (result.rowsAffected){
 					res.send('Ingreso exitoso')
@@ -310,7 +316,6 @@ io.on('connection', function(socket){
 	});
 });
 */
-
 app.listen(PORT, function () {
   console.log('Servidor iniciado en el puerto ' + String(PORT));
 });

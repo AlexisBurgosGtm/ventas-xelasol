@@ -199,18 +199,26 @@ async function AgregarCliente(){
 
 };
 
-//guarda la venta
+//guarda la venta - guarda los datos de cliente antes de terminar la venta
 async function dbGuardarVenta(codcliente,nomcliente){
   GlobalCodCliente = codcliente;
   GlobalNomCliente = nomcliente;
 
+  document.getElementById('txtNomClienteSelected').innerText = GlobalNomCliente;
+
+  let btnFinalizarPedido = document.getElementById('btnPedidoTerminar');
+  btnFinalizarPedido.addEventListener('click',()=>{
+    dbFinalizarPedido()
+  })
+
+  /*
   dbGetValCorrelativo(1); //carga el correlativo de documentos en la global
 
   funciones.Confirmacion('¿Está seguro que desea Guardar esta Venta?')
   .then((value) => {
        
     if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto);
+      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto);
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
@@ -221,7 +229,32 @@ async function dbGuardarVenta(codcliente,nomcliente){
           });
         };
     });
+    */
   };
+
+async function dbFinalizarPedido(){
+  let obs = document.getElementById('txtPedidoObs').value;
+  let stReparto = document.getElementById('cmbPedidoTipoEntrega').value;
+
+
+  dbGetValCorrelativo(1); //carga el correlativo de documentos en la global
+
+  funciones.Confirmacion('¿Está seguro que desea Guardar esta Venta?')
+  .then((value) => {
+       
+    if (value==true){
+      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto);
+      dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
+      funciones.loadView('./views/viewVentas.html')
+          .then(()=>{
+            dbSelectDocumentos(document.getElementById('tblDocumentos'));
+                let num = parseInt(GlobalCorrelativo) + parseInt(1);
+                dbUpdateCorrelativoDoc(num);
+                dbDeleteTempProductoAll();
+          });
+        };
+    });
+}
 
 async function cargarListaClientesPedido(){
   const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
@@ -249,7 +282,9 @@ async function cargarListaClientesPedido(){
                   <td class="col-4-sm col-4-md" font-size=8>${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
                   <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
                   <td class="col-1-sm col-1-md">
-                    <button class="btn btn-round btn-icon btn-primary" onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
+                    <button class="btn btn-round btn-icon btn-primary"
+                    data-toggle='modal' data-target='#ModalOpcionesObs'
+                    onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
                       <i class='now-ui-icons ui-1_check'></i>
                     </button>
                   </td> 

@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "AresPOSv8";
+const DbName = "AresPOSv9";
 
 function initiateDb() {
     
@@ -95,7 +95,9 @@ function getTbl() {
             { Name: "codcliente", NotNull: true },
             { Name: "nomcliente", DataType: "string" },
             { Name: "totalventa", NotNull: true },
-            { Name: "totalcosto", NotNull: true }
+            { Name: "totalcosto", NotNull: true },
+            { Name: "obs", DataType: "string" },
+            { Name: "st"}
         ]
     }
     //TABLA DOCPRODUCTOS
@@ -456,7 +458,7 @@ function dbDeleteTempProductoAll(confirm) {
 };
 
 // inserta un PEDIDO EN LA TABLA DOCUMENTOS
-function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit,totalcosto) {
+function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit,totalcosto,obs,st) {
     var data = {
         empnit:empnit,
         coddoc:coddoc,
@@ -464,7 +466,9 @@ function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,
         codcliente:codcliente,
         nomcliente:nomcliente,
         totalventa:totalventa,
-        totalcosto:totalcosto
+        totalcosto:totalcosto,
+        obs:obs,
+        st: Number(st)
     }
 
     DbConnection.insert({
@@ -631,9 +635,11 @@ function dbSendPedido(Id) {
            var codcliente = doc.codcliente;
            var totalventa = doc.totalventa;
            var totalcosto = doc.totalcosto;
+           var obs = doc.obs;
+           var st = doc.st;
             
            //SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
-           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa,totalcosto);
+           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa,totalcosto,obs,st);
             //.then(funciones.Aviso('Datos enviados...'))
 
         }, function (error) {

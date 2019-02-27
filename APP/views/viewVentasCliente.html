@@ -29,4 +29,44 @@
 </div>
 
 
-    
+<!-- Modal Tipo Reparto // obs -->
+<div class="modal fade" id="ModalOpcionesObs" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <span class="text-right">
+          <!--<label class="text-primary" id="txtPedidoClienteSelected"></label>-->
+        </span>
+      <div class="modal-header">
+        <label class="modal-title" id="txtNomClienteSelected">Consumidor Final</label>
+      </div>
+
+      <div class="modal-body">
+        <div class="col-8">
+          <div class="row form-group">
+              <label>Tipo de Entrega:</label>
+              <select class="form-control" id="cmbPedidoTipoEntrega">
+                <option value="1">Reparto/Mensajero</option>
+                <option value="2">Cargo Expresso</option>
+              </select>
+
+              <label>Observaciones:</label>
+              <input class="form-control" id="txtPedidoObs" type="text" placeholder="Escriba sus observaciones...">
+          </div>
+
+        </div>
+        
+      </div>
+
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-round btn-lg" data-dismiss="modal">
+              <i class="now-ui-icons ui-1_simple-remove"></i>Cancelar
+          </button>
+          
+          <button type="button" class="btn btn-primary btn-round btn-lg" data-dismiss="modal" id="btnPedidoTerminar">
+              <i class="now-ui-icons ui-1_check"></i>Guardar
+          </button>          
+      </div>
+
+    </div>
+  </div>
+</div>
