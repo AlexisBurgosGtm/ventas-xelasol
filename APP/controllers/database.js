@@ -192,8 +192,8 @@ async function dbInsertToken(token) {
 // OBTIENE EL TOKEN 
 //async function dbGetToken() {
 function dbGetToken() {
-    //GlobalToken= 'FUTURA';
-    GlobalToken = 'TEST';
+    GlobalToken= 'FUTURA';
+    //GlobalToken = 'TEST';
     //GlobalToken='PROCTERREU';
     //GlobalToken='SANBERNABE';
 
