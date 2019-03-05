@@ -22,6 +22,7 @@ const config = {
 	}
 }
 
+
 /*
 const config = {
 	user: 'iEx',
@@ -51,8 +52,9 @@ router.use(function (req,res,next) {
 });
 
 app.get("/",function(req,res){
-	res.sendFile(path + 'APP/index.html');
+	res.sendFile(path + 'index.html');
 }); 
+
 
 // OBTIENE TODAS LAS EMPRESAS
 app.get("/api/empresas/all", async(req,res)=>{
@@ -144,12 +146,12 @@ app.get("/api/clientes/all", async(req,res)=>{
 });
 
 //OBTIENE LA LISTA DE REPARTIDORES
-app.get("/api/repartidores/all", async(req,res)=>{
+app.get("/api/reparto/repartidores/all", async(req,res)=>{
 	const sql = require('mssql')
 	let token = req.query.token
 			const pool = await sql.connect(config)		
 			try {
-				const result = await sql.query`SELECT EMPNIT,CODREP,NITREP,DESREP,DIRREP,TELREP,CONTACTO,TELCONTACTO,EMAIL,WHATSAPP FROM REPARTIDORES WHERE TOKEN=${token}`
+				const result = await sql.query`SELECT EMPNIT,CODREP,NITREP,DESREP,DIRREP,TELREP,CONTACTO,TELCONTACTO,EMAIL,WHATSAPP,CLAVE FROM REPARTIDORES WHERE TOKEN=${token}`
 				console.dir('Repartidores cargados...');
 				res.send(result);
 			} catch (err) {
@@ -157,6 +159,44 @@ app.get("/api/repartidores/all", async(req,res)=>{
 			}
 			sql.close()
 });
+
+app.get("/api/reparto/usuarios/login", async(req,res)=>{
+	const sql = require('mssql')
+	let token = req.query.token;
+	
+		const pool = await sql.connect(sqlString)
+		try {
+			const result = await sql.query`SELECT EMPNIT,CODREP,DESREP,CLAVE FROM REPARTIDORES WHERE TOKEN=${token}`
+			console.dir('La consulta usuario se generó');
+			res.send(result);
+		
+		} catch (err) {
+			// ... error checks
+			res.send('Denegado');
+			console.log('Error en la consulta usuarios');
+		}
+		sql.close()
+});
+
+app.get("/api/reparto/enviospendientes", async(req,res)=>{
+	const sql = require('mssql');
+	let token = req.query.token
+			const pool = await sql.connect(config)		
+			try {
+				const result = await sql.query`SELECT WEB_DOCUMENTOS.EMPNIT, WEB_DOCUMENTOS.CODDOC, WEB_DOCUMENTOS.CORRELATIVO, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE,CLIENTES.TELEFONOS,WEB_DOCUMENTOS.TOTALVENTA, concat('Q',WEB_DOCUMENTOS.TOTALVENTA) as QPRECIO, WEB_DOCUMENTOS.CODREP, 
+												REPARTIDORES.DESREP, WEB_DOCUMENTOS.ENTREGADO FROM WEB_DOCUMENTOS LEFT OUTER JOIN
+												REPARTIDORES ON WEB_DOCUMENTOS.CODREP = REPARTIDORES.CODREP AND WEB_DOCUMENTOS.EMPNIT = REPARTIDORES.EMPNIT AND 
+												WEB_DOCUMENTOS.TOKEN = REPARTIDORES.TOKEN LEFT OUTER JOIN
+												CLIENTES ON WEB_DOCUMENTOS.CODCLIENTE = CLIENTES.CODCLIENTE AND WEB_DOCUMENTOS.EMPNIT = CLIENTES.EMPNIT AND WEB_DOCUMENTOS.TOKEN = CLIENTES.TOKEN
+												WHERE (WEB_DOCUMENTOS.ENTREGADO = 'NO') AND (WEB_DOCUMENTOS.TOKEN=${token})`
+				console.dir('Envios pendientes Cargados...');
+				res.send(result);
+			} catch (err) {
+				console.log(String(err));
+			}
+			sql.close()
+});
+
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{

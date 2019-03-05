@@ -20,7 +20,7 @@ funciones = {
     AvisoError: function(msn){
         swal(msn, {
             timer: 1500,
-            icon: "danger",
+            icon: "error",
             buttons: false
             });
     },

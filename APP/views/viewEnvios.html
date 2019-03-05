@@ -1,0 +1,81 @@
+<div class="card">
+    <label id="txtNomRepartidor">CargoExpresso</label>
+    <div class="card-header">
+        <h5>Envios Pendientes</h5>
+    </div>
+    <div class="card-body">
+   
+    </div>
+    
+</div>
+
+<div class="card table-responsive" id="">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <td class="col-1-sm col-4-md">Cliente</td>
+                <td class="col-6-sm col-4-md">Dirección</td>
+                <td class="col-3-sm col-3-md">Importe</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody id="tblEnviosPendientes">
+            
+        </tbody>
+
+    </table>
+    
+        
+    
+</div>
+
+<!-- Modal Opciones Envio -->
+<div class="modal fade" id="ModalOpcionesEnvios" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <span class="text-right"><label class="text-primary" id="txtIdPedido">pedido1</label> </span>
+            <div class="modal-header">
+              <label class="modal-title" id="txtNomClientePedido">Consumidor Final</label>
+    
+            </div>
+
+            <div class="modal-body">
+
+              <div class="col-8">
+                <div class="row">
+                    <label>Total Venta:</label>
+                    <b>
+                      <h3 class="text-right"  id="txtTotalPedido">Q 5000.00</h3>
+                    </b>
+                </div>
+    
+              </div>
+
+            </div>
+            <div class="">
+                <div class="card">
+                    <button type="button" class="btn btn-secondary btn-icon btn-round btn-lg" data-dismiss="modal" id="btnVentasCancelar">
+                        <i class="now-ui-icons ui-1_simple-remove"></i>
+                    </button>
+                    Cancelar
+                </div>
+
+                <div class="card">
+                    <button class="btn btn-info btn-icon btn-round btn-lg" id="btnVentasEditar">
+                        <i class="now-ui-icons ui-1_lock-circle-open"></i>
+                    </button>
+                    Ver Detalle
+                </div>
+                
+                <div class="card">
+                    <button type="button" class="btn btn-primary btn-icon btn-round btn-lg" id="btnVentasEnviar">
+                        <i class="now-ui-icons ui-1_send"></i> 
+                    </button>
+                  Marcar Como Enviado/No Enviado
+                </div>
+         
+            </div>
+          </div>
+        </div>
+</div>
+

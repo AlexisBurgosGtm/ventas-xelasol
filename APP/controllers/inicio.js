@@ -3,7 +3,7 @@ window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndex
     if (!window.indexedDB) {
       window.alert("Lo siento pero su Teléfono no soporta el guardado de Datos");
     }
-
+// Ventas
 let toggler = document.getElementById('btnToggler');
 let btnDashboard = document.getElementById('btnDashboard');
 let btnPrecios = document.getElementById('btnPrecios');
@@ -13,7 +13,12 @@ let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
 let btnChat = document.getElementById('btnChat');
+let btnCalcularMargenMen = document.getElementById('btnCalcularMargenMen');
+// Repartidores
+let btnEnviosPendientes = document.getElementById('btnEnviosPendientes');
+let btnEnviosRealizados = document.getElementById('btnEnviosRealizados');
 
+let btnSalir = document.getElementById('btnSalir');
 
 let btnVentas2;
 let btnPrecios2;
@@ -104,13 +109,93 @@ btnChat.addEventListener('click',()=>{
     toggler.click();
 })
 
+// Pedidos Pendientes
+btnEnviosPendientes.addEventListener('click',()=>{
+    funciones.loadView('./views/viewEnvios.html')
+            .then(()=>{
+                classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
+            });
+    toggler.click();
+});
 
+// Pedidos Entregados
+btnEnviosRealizados.addEventListener('click',()=>{
+    funciones.loadView('./views/viewEnviosEntregados.html')
+            .then(()=>{
+                classEnvios.CargarEnviosRealizados('tblEnviosRealizados');
+            });
+    toggler.click();
+});
 
 // Asigna valores a la vista de inicio
 async function CargarDatosVendedor(usuario){
     var txtNombreUsuario = document.getElementById('txtNombreUsuario');
     txtNombreUsuario.innerHTML = usuario;
 }
+
+
+
+/* ********************************
+// CONTROLA EL MENU PRINCIPAL
+******************************** */
+async function ControllerMenu(TipoApp){
+    switch (TipoApp) {
+        case 'LOGIN':
+            btnDashboard.style="visibility:hidden";
+            btnPrecios.style="visibility:hidden";
+            btnClientes.style="visibility:hidden";
+            btnVentas.style="visibility:hidden";
+            btnTools.style="visibility:hidden";
+            btnConfig.style="visibility:hidden";
+            //btnSync.style="visibility:hidden";
+            btnCalcularMargenMen.style="visibility:hidden";
+            btnChat.style="visibility:hidden";
+            btnEnviosPendientes.style="visibility:hidden";
+            btnEnviosRealizados.style="visibility:hidden";
+            btnSalir.style="visibility:hidden";
+            break;
+    
+        case 'SALES':
+            btnDashboard.style="visibility:visible";
+            btnPrecios.style="visibility:visible";
+            btnClientes.style="visibility:visible";
+            btnVentas.style="visibility:visible";
+            btnTools.style="visibility:visible";
+            btnConfig.style="visibility:visible";
+            //btnSync.style="visibility:visible";
+            btnCalcularMargenMens.style="visibility:visible";
+            btnChat.style="visibility:visible";
+            btnEnviosPendientes.style="visibility:hidden";
+            btnEnviosRealizados.style="visibility:hidden";
+            btnSalir.style="visibility:visible";
+            break;
+    
+        case 'DELIVERY':
+            btnDashboard.style="visibility:hidden";
+            btnPrecios.style="visibility:hidden";
+            btnClientes.style="visibility:hidden";
+            btnVentas.style="visibility:hidden";
+            btnTools.style="visibility:hidden";
+            btnConfig.style="visibility:hidden";
+            //btnSync.style="visibility:hidden";
+            btnCalcularMargenMen.style="visibility:hidden";
+            btnChat.style="visibility:hidden";
+            btnEnviosPendientes.style="visibility:visible";
+            btnEnviosRealizados.style="visibility:visible";
+            btnSalir.style="visibility:visible";
+            break;
+    
+        default:
+            break;
+    }
+    
+    }
+       
+    
+    /* ********************************
+    // CONTROLA EL MENU PRINCIPAL
+    ******************************** */
+
 
 function StartRecognition(){
     try {

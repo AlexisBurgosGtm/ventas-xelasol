@@ -1,6 +1,6 @@
 {
-  "name": "arespos-online",
-  "version": "0.0.4",
+  "name": "express-pwa",
+  "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {

@@ -7,10 +7,12 @@ let GlobalTotalCosto;
 let GlobalCodCliente;
 let GlobalNomCliente;
 let GlobalCodven;
+let GlobalCodrep;
 let GlobalCorrelativo;
 let GlobalBoolean = false;
 let GlobalObsPedido;
 let GlobalTipoReparto;
+let GlobalTipoApp;
 
 
 /*
