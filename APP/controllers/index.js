@@ -98,6 +98,7 @@ async function ComprobarRepartidor(usuario) {
             funciones.loadView('./views/viewEnvios.html')
                 .then(()=>{
                     ControllerMenu('DELIVERY');
+                    classEnvios.CargarDatosRepartidor();
                     classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
                     //dbSelectDocumentos(document.getElementById('tblDocumentos'));
 

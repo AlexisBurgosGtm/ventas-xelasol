@@ -14,6 +14,8 @@ let GlobalObsPedido;
 let GlobalTipoReparto;
 let GlobalTipoApp;
 
+let GlobalSelectedCoddoc;
+let GlobalSelectedCorrelativo;
 
 /*
 1) viewLogin = login de inicio

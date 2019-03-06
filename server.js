@@ -10,6 +10,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 */
 
+
 const config = {
 	user: 'DB_A45479_EXPRESS_admin',
 	password: 'razors1805',
@@ -21,7 +22,6 @@ const config = {
 		idleTimeoutMillis: 30000
 	}
 }
-
 
 /*
 const config = {
@@ -197,6 +197,91 @@ app.get("/api/reparto/enviospendientes", async(req,res)=>{
 			sql.close()
 });
 
+app.get("/api/reparto/enviosentregados", async(req,res)=>{
+	const sql = require('mssql');
+	let token = req.query.token
+			const pool = await sql.connect(config)		
+			try {
+				const result = await sql.query`SELECT WEB_DOCUMENTOS.EMPNIT, WEB_DOCUMENTOS.CODDOC, WEB_DOCUMENTOS.CORRELATIVO, CLIENTES.NOMCLIENTE, CLIENTES.DIRCLIENTE,CLIENTES.TELEFONOS,WEB_DOCUMENTOS.TOTALVENTA, concat('Q',WEB_DOCUMENTOS.TOTALVENTA) as QPRECIO, WEB_DOCUMENTOS.CODREP, 
+												REPARTIDORES.DESREP, WEB_DOCUMENTOS.ENTREGADO FROM WEB_DOCUMENTOS LEFT OUTER JOIN
+												REPARTIDORES ON WEB_DOCUMENTOS.CODREP = REPARTIDORES.CODREP AND WEB_DOCUMENTOS.EMPNIT = REPARTIDORES.EMPNIT AND 
+												WEB_DOCUMENTOS.TOKEN = REPARTIDORES.TOKEN LEFT OUTER JOIN
+												CLIENTES ON WEB_DOCUMENTOS.CODCLIENTE = CLIENTES.CODCLIENTE AND WEB_DOCUMENTOS.EMPNIT = CLIENTES.EMPNIT AND WEB_DOCUMENTOS.TOKEN = CLIENTES.TOKEN
+												WHERE (WEB_DOCUMENTOS.ENTREGADO = 'SI') AND (WEB_DOCUMENTOS.TOKEN=${token})`
+				console.dir('Envios pendientes Cargados...');
+				res.send(result);
+			} catch (err) {
+				console.log(String(err));
+			}
+			sql.close()
+});
+
+app.post("/api/reparto/marcarenviado", async(req,res)=>{
+	const sql = require('mssql');
+	let token = req.body.token;
+	let empnit = req.body.empnit;
+	let coddoc = req.body.coddoc;
+	let correlativo = Number(req.body.correlativo);
+
+	let sqlQry = `UPDATE WEB_DOCUMENTOS SET ENTREGADO='SI' WHERE TOKEN='${token}' AND EMPNIT='${empnit}' AND CODDOC='${coddoc}' AND CORRELATIVO=${correlativo}`
+
+	//const pool = await sql.connect(sqlString)
+	const pool1 = await new sql.ConnectionPool(config, err => {
+		// ... error checks
+				 
+		// Query
+		 pool1.request() // or: new sql.Request(pool1)
+		 //.input('entregado', sql.VarChar(2), 'NO')
+		 .query(sqlQry, (err, result) => {
+			if (result.rowsAffected){
+				res.send('Ingreso exitoso')
+			}
+		});
+		//sql.close()
+		//pool1.release();
+ 
+	})
+	 
+	pool1.on('error', err => {
+		// ... error handler
+	})
+
+});
+
+app.post("/api/reparto/marcarnoenviado", async(req,res)=>{
+	const sql = require('mssql');
+	
+	let token = req.body.token;
+	let empnit = req.body.empnit;
+	let coddoc = req.body.coddoc;
+	let correlativo = Number(req.body.correlativo);
+
+	let sqlQry = `UPDATE WEB_DOCUMENTOS SET ENTREGADO='NO' WHERE TOKEN='${token}' AND EMPNIT='${empnit}' AND CODDOC='${coddoc}' AND CORRELATIVO=${correlativo}`
+
+			//const pool = await sql.connect(sqlString)
+			const pool1 = await new sql.ConnectionPool(config, err => {
+				// ... error checks
+						 
+				// Query
+				 pool1.request() // or: new sql.Request(pool1)
+				 //.input('entregado', sql.VarChar(2), 'NO')
+				 .query(sqlQry, (err, result) => {
+					if (result.rowsAffected){
+						res.send('Ingreso exitoso')
+					}
+				});
+				//sql.close()
+				//pool1.release();
+		 
+			})
+			 
+			pool1.on('error', err => {
+				// ... error handler
+			})
+
+
+
+});
 
 // OBTIENE LA LISTA DE VENDEDORES
 app.get("/api/usuarios/login", async(req,res)=>{
@@ -247,7 +332,7 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 		
 	console.log('Llegó la solicitud ' + 'coddoc:' + _coddoc + ' correlativo: ' + _correlativo + ' cliente: ' + _codcliente + ' total: ' + _totalventa);
 
-	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,fecha,codven,codcliente,totalventa,totalcosto,obs,codst) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@fecha,@codven,@codcliente,@totalventa,@totalcosto,@obs,@codst)'
+	let sqlQry = 'insert into web_documentos (empnit,token,coddoc,correlativo,anio,mes,dia,fecha,codven,codcliente,totalventa,totalcosto,obs,codst,entregado) values (@empnit,@token,@coddoc,@correlativo,@anio,@mes,@dia,@fecha,@codven,@codcliente,@totalventa,@totalcosto,@obs,@codst,@entregado)'
 
 		//const pool = await sql.connect(sqlString)
 		const pool1 = await new sql.ConnectionPool(config, err => {
@@ -269,6 +354,7 @@ app.post("/api/ventas/documentos", async(req,res)=>{
 			 .input('totalcosto', sql.Float, _totalcosto)
 			 .input('obs', sql.VarChar(255), _obs)
 			 .input('codst', sql.Int, _st)
+			 .input('entregado', sql.VarChar(2), 'NO')
 			 .query(sqlQry, (err, result) => {
 				if (result.rowsAffected){
 					res.send('Ingreso exitoso')

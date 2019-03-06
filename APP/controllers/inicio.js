@@ -113,6 +113,7 @@ btnChat.addEventListener('click',()=>{
 btnEnviosPendientes.addEventListener('click',()=>{
     funciones.loadView('./views/viewEnvios.html')
             .then(()=>{
+                classEnvios.CargarDatosRepartidor();
                 classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
             });
     toggler.click();
