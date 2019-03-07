@@ -18,7 +18,7 @@ funciones = {
             });
 
         try {
-            navigator.vibrate(300);
+            navigator.vibrate(500);
         } catch (error) {
             
         }
@@ -30,7 +30,7 @@ funciones = {
             buttons: false
             });
         try {
-            navigator.vibrate([100,200,200,500]);
+            navigator.vibrate([100,200,500]);
         } catch (error) {
             
         }

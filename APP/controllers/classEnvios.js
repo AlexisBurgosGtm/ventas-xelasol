@@ -100,6 +100,7 @@ classEnvios={
                     {
                         funciones.Aviso('Pedido Marcado exitosamente!!');
                         classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
+                        classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
                     }
                   })
                   .catch(
@@ -134,6 +135,7 @@ classEnvios={
             if (res.status==200)
             {
                 funciones.Aviso('Pedido Marcado exitosamente!!');
+                classEnvios.CargarEnviosRealizados('tblEnviosPendientes');
                 classEnvios.CargarEnviosRealizados('tblEnviosPendientes');
             }
           })
