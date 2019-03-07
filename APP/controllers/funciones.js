@@ -16,6 +16,12 @@ funciones = {
             icon: "success",
             buttons: false
             });
+
+        try {
+            navigator.vibrate(300);
+        } catch (error) {
+            
+        }
     },
     AvisoError: function(msn){
         swal(msn, {
@@ -23,6 +29,11 @@ funciones = {
             icon: "error",
             buttons: false
             });
+        try {
+            navigator.vibrate([100,200,200,500]);
+        } catch (error) {
+            
+        }
     },
 
     FiltrarListaProductos: function(idTabla){

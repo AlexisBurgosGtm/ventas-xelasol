@@ -14,9 +14,7 @@ let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
 let btnChat = document.getElementById('btnChat');
 let btnCalcularMargenMen = document.getElementById('btnCalcularMargenMen');
-// Repartidores
-let btnEnviosPendientes = document.getElementById('btnEnviosPendientes');
-let btnEnviosRealizados = document.getElementById('btnEnviosRealizados');
+
 
 let btnSalir = document.getElementById('btnSalir');
 
@@ -109,24 +107,6 @@ btnChat.addEventListener('click',()=>{
     toggler.click();
 })
 
-// Pedidos Pendientes
-btnEnviosPendientes.addEventListener('click',()=>{
-    funciones.loadView('./views/viewEnvios.html')
-            .then(()=>{
-                classEnvios.CargarDatosRepartidor();
-                classEnvios.CargarEnviosPendientes('tblEnviosPendientes');
-            });
-    toggler.click();
-});
-
-// Pedidos Entregados
-btnEnviosRealizados.addEventListener('click',()=>{
-    funciones.loadView('./views/viewEnviosEntregados.html')
-            .then(()=>{
-                classEnvios.CargarEnviosRealizados('tblEnviosRealizados');
-            });
-    toggler.click();
-});
 
 // Asigna valores a la vista de inicio
 async function CargarDatosVendedor(usuario){
@@ -151,8 +131,7 @@ async function ControllerMenu(TipoApp){
             //btnSync.style="visibility:hidden";
             btnCalcularMargenMen.style="visibility:hidden";
             btnChat.style="visibility:hidden";
-            btnEnviosPendientes.style="visibility:hidden";
-            btnEnviosRealizados.style="visibility:hidden";
+            
             btnSalir.style="visibility:hidden";
             break;
     
@@ -164,10 +143,9 @@ async function ControllerMenu(TipoApp){
             btnTools.style="visibility:visible";
             btnConfig.style="visibility:visible";
             //btnSync.style="visibility:visible";
-            btnCalcularMargenMens.style="visibility:visible";
+            btnCalcularMargenMen.style="visibility:visible";
             btnChat.style="visibility:visible";
-            btnEnviosPendientes.style="visibility:hidden";
-            btnEnviosRealizados.style="visibility:hidden";
+            
             btnSalir.style="visibility:visible";
             break;
     
@@ -181,8 +159,7 @@ async function ControllerMenu(TipoApp){
             //btnSync.style="visibility:hidden";
             btnCalcularMargenMen.style="visibility:hidden";
             btnChat.style="visibility:hidden";
-            btnEnviosPendientes.style="visibility:visible";
-            btnEnviosRealizados.style="visibility:visible";
+            
             btnSalir.style="visibility:visible";
             break;
     

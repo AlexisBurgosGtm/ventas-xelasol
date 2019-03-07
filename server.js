@@ -224,8 +224,7 @@ app.post("/api/reparto/marcarenviado", async(req,res)=>{
 	let correlativo = Number(req.body.correlativo);
 
 	let sqlQry = `UPDATE WEB_DOCUMENTOS SET ENTREGADO='SI' WHERE TOKEN='${token}' AND EMPNIT='${empnit}' AND CODDOC='${coddoc}' AND CORRELATIVO=${correlativo}`
-
-	//const pool = await sql.connect(sqlString)
+	
 	const pool1 = await new sql.ConnectionPool(config, err => {
 		// ... error checks
 				 
@@ -301,14 +300,6 @@ app.get("/api/usuarios/login", async(req,res)=>{
 		}
 		sql.close()
 });
-
-
-app.post("/api/cerrarconexion", async(req,res)=>{
-	const sql = require('mssql')
-	await sql.close()
-	res.send('Servidor Cerrado')
-	console.log('Conexión cerrada');
-})
 
 // INSERTA DATOS EN LA TABLA DOCUMENTOS DEL SERVER
 //app.get("/api/ventas/documentos", async(req,res)=>{
