@@ -1,4 +1,4 @@
-var DbConnection;
+﻿var DbConnection;
 window.onload = function () {
     initiateDb();
 };
@@ -192,10 +192,11 @@ async function dbInsertToken(token) {
 // OBTIENE EL TOKEN 
 //async function dbGetToken() {
 function dbGetToken() {
-    GlobalToken= 'FUTURA';
+    //GlobalToken= 'FUTURA';
     //GlobalToken = 'TEST';
     //GlobalToken='PROCTERREU';
     //GlobalToken='SANBERNABE';
+      GlobalToken='TETOS';
 
         try {
             CargarComboEmpresas();            

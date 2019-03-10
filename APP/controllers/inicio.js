@@ -120,6 +120,8 @@ async function CargarDatosVendedor(usuario){
 // CONTROLA EL MENU PRINCIPAL
 ******************************** */
 async function ControllerMenu(TipoApp){
+    SetMainMenu;
+    
     switch (TipoApp) {
         case 'LOGIN':
             btnDashboard.style="visibility:hidden";
@@ -170,6 +172,30 @@ async function ControllerMenu(TipoApp){
     }
        
     
+    async function SetMainMenu(){
+        let generalnavbar = document.getElementById('navbar-general');
+        let btnVentas = document.createElement('li');
+        let btnVentasLink = document.createElement('a');
+        let btnVentasI = document.createElement('i');
+
+        btnVentasLink.href = "#"
+        btnVentasLink.id = "btnVentas"
+        btnVentasI.className = "now-ui-icons design_app"
+        btnVentasLink.appendChild(btnVentasI)
+        btnVentas.appendChild(btnVentasLink)
+
+        generalnavbar.appendChild(btnVentas);
+
+/*
+        <li>
+        <a href="#" id="btnDashboard">
+            <i class="now-ui-icons design_app"></i>
+            <p>Inicio</p>
+        </a>
+    </li>
+*/
+    }
+
     /* ********************************
     // CONTROLA EL MENU PRINCIPAL
     ******************************** */
