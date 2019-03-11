@@ -207,30 +207,10 @@ async function dbGuardarVenta(codcliente,nomcliente){
   document.getElementById('txtNomClienteSelected').innerText = GlobalNomCliente;
 
   let btnFinalizarPedido = document.getElementById('btnPedidoTerminar');
-  btnFinalizarPedido.addEventListener('click',()=>{
-    dbFinalizarPedido()
-  })
-
-  /*
-  dbGetValCorrelativo(1); //carga el correlativo de documentos en la global
-
-  funciones.Confirmacion('¿Está seguro que desea Guardar esta Venta?')
-  .then((value) => {
-       
-    if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto);
-      dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
-      funciones.loadView('./views/viewVentas.html')
-          .then(()=>{
-            dbSelectDocumentos(document.getElementById('tblDocumentos'));
-                let num = parseInt(GlobalCorrelativo) + parseInt(1);
-                dbUpdateCorrelativoDoc(num);
-                dbDeleteTempProductoAll();
-          });
-        };
-    });
-    */
-  };
+    btnFinalizarPedido.addEventListener('click',()=>{
+      dbFinalizarPedido()
+    })
+};
 
 async function dbFinalizarPedido(){
   let obs = document.getElementById('txtPedidoObs').value;
@@ -334,8 +314,12 @@ function VentasEditar(idPedido){
     .then((value) => {
        
       if (value==true){
-        //funciones.loadView('./views/viewVentasEditar.html')
-        funciones.AvisoError('Esta opción aún no está disponible ;(');
+        funciones.loadView('./views/viewVentasEditar.html')
+            .then(()=>{
+              var contenedor = document.getElementById('tblProductosAgregados');
+              dbSelectTempVentasEditar(contenedor,idPedido);
+            })
+        //funciones.AvisoError('Esta opción aún no está disponible ;(');
         document.getElementById('btnVentasCancelar').click();
       }
     });
@@ -360,9 +344,8 @@ function VentasEnviar(idPedido){
   funciones.Confirmacion('¿Está seguro que desea ENVIAR este Pedido?')
   .then((value) => {
        
-    if (value==true){
+   if (value==true){
 
-      GlobalBool=1;
       dbSendPedido(idPedido);
       document.getElementById('btnVentasCancelar').click();
     }

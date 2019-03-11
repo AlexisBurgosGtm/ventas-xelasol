@@ -192,11 +192,11 @@ async function dbInsertToken(token) {
 // OBTIENE EL TOKEN 
 //async function dbGetToken() {
 function dbGetToken() {
-    //GlobalToken= 'FUTURA';
+    GlobalToken= 'FUTURA';
     //GlobalToken = 'TEST';
     //GlobalToken='PROCTERREU';
     //GlobalToken='SANBERNABE';
-      GlobalToken='TETOS';
+    //GlobalToken='TETOS';
 
         try {
             CargarComboEmpresas();            
@@ -385,10 +385,38 @@ function dbSelectTempVentas(contenedor) {
         contenedor.innerHTML = HtmlString;
     });
 };
+// CARGA LA LISTA DE PRODUCTOS DEL PEDIDO SELECCIONADO
+function dbSelectTempVentasEditar(contenedor, correlativo) {
+
+
+    DbConnection.select({
+        From: "docproductos",
+        Where: {
+            correlativo: Number(correlativo)
+        }
+    }, function (productos) {
+
+        var HtmlString = "";
+        productos.forEach(function (prod) {
+            HtmlString += "<tr Id=" + prod.Id + ">" + 
+            "<td class='col-4'>" + prod.desprod + "</td>" + 
+            "<td class='col-2'>" + prod.codmedida + "</td>" + 
+            "<td class='col-1'>" + prod.cantidad + "</td>" + 
+            "<td class='col-2'>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
+            "<td class='col-1'>" + 
+              "<button class='btn btn-round btn-icon btn-danger' onclick='dbDeleteTempProductoEditar(" + prod.Id +");'> x </button>" + 
+            "</td></tr>";
+        }, function (error) {
+            console.log(error);
+        })
+        contenedor.innerHTML = HtmlString;
+    });
+};
 // CALCULA EL TOTAL DE LA VENTA SEGÚN LA TABLA TEMP VENTAS
 function dbTotalTempVentas(contenedor) {
     DbConnection.select({
         From: "tempVentas"
+        
     }, function (productos) {
         
         let varSubtotal = parseFloat(0);
@@ -423,10 +451,10 @@ function dbGetTotalTempVentas() {
     });
 };
 
-// elimina un registro del pedido temp
-function dbDeleteTempProducto(prodId) {
+// elimina un producto de la tabla docproductos en editar
+function dbDeleteTempProductoEditar(prodId) {
       DbConnection.delete({
-        From: 'tempVentas',
+        From: 'docproductos',
         Where: {
             Id: Number(prodId)
         }
@@ -434,11 +462,30 @@ function dbDeleteTempProducto(prodId) {
         console.log(rowsDeleted + ' rows deleted');
         if (rowsDeleted > 0) {
             document.getElementById(prodId).remove();
-            dbTotalTempVentas(txtTotalVenta);
+            //dbTotalTempVentas(txtTotalVenta);
         }
     }, function (error) {
         alert(error.Message);
     })
+};
+
+
+// elimina un registro del pedido temp
+function dbDeleteTempProducto(prodId) {
+    DbConnection.delete({
+      From: 'tempVentas',
+      Where: {
+          Id: Number(prodId)
+      }
+  }, function (rowsDeleted) {
+      console.log(rowsDeleted + ' rows deleted');
+      if (rowsDeleted > 0) {
+          document.getElementById(prodId).remove();
+          dbTotalTempVentas(txtTotalVenta);
+      }
+  }, function (error) {
+      alert(error.Message);
+  })
 };
 
 // Elimina toda la lista temporal de ventas

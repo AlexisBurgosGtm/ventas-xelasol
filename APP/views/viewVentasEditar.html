@@ -1,4 +1,4 @@
-<div class="card" id="VentasInicio">
+<div class="card">
     <div class="card-header">
         <span id="txtNomCliente">Consumidor Final<span>
         <div>
@@ -11,30 +11,29 @@
     </div>
     <div class="card-body">
      
-      <button id="btnMostrarLista" class="btn btn-warning btn-round btn-icon" data-toggle="modal" data-target="#ModalListadoProductos">
-        <i class="now-ui-icons design_bullet-list-67"></i>
-      </button>
-            
-      <button id="btnCancelarVenta" class="btn btn-default btn-round btn-sm">
-        <!--<i class="now-ui-icons shopping_cart-simple"></i>-->
-        Cancelar
-      </button>
-
-      <button id="btnGuardarVenta" class="btn btn-success btn-round btn-sm">
-          <i class="now-ui-icons shopping_cart-simple"></i>
-          Guardar
-      </button>
 
     </div>
 </div>
 
 <div class="card">
   <!-- Contenedor de la lista de productos -->
-  <div id="contenedorVentas">
-
-
-    
+  <div class="table table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <td class="col-4">Producto</td>
+          <td class="col-2">Medida</td>
+          <td class="col-1">Cantidad</td>
+          <td class="col-2">Subtotal</td>
+          <td class="col-1"></td>
+        </tr>
+      </thead>
+      <tbody id="tblProductosAgregados">
+        
+      </tbody>
+    </table>  
   </div>
+  
 </div>
 
 <!-- Modal cantidad producto -->
@@ -78,51 +77,4 @@
     </div>
   </div>
 
-  <!-- Modal Lista Productos -->
-<div class="modal fade" id="ModalListadoProductos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <label class="modal-title" id="">Productos Agregados al Pedido</label>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-          <div class="table table-responsive">
-            <table>
-              <thead>
-                <tr>
-                  <td class="col-4">Producto</td>
-                  <td class="col-2">Medida</td>
-                  <td class="col-1">Cantidad</td>
-                  <td class="col-2">Subtotal</td>
-                  <td class="col-1"></td>
-                </tr>
-              </thead>
-              <tbody id="tblProductosAgregados">
-                
-              </tbody>
-            </table>  
-          </div>
-
-        </div>
-
-      </div>
-    <div class="modal-footer">
-      <!--
-      <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Cancelar</button>
-      <button type="button" class="btn btn-primary btn-round" data-dismiss="modal" id="btnAgregarProducto">Agregar</button>
-      -->
-    </div>
-  </div>
-</div>
-</div>
-
-
-<div id="fixed-btn2">
-    <button class="btn btn-circle btn-xl" id="btnPedidoFiltrarProducto">
-        <i class="now-ui-icons ui-1_zoom-bold"></i>
-    </button>
 </div>
