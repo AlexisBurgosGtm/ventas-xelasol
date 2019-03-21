@@ -388,13 +388,15 @@ function dbSelectTempVentas(contenedor) {
 // CARGA LA LISTA DE PRODUCTOS DEL PEDIDO SELECCIONADO
 function dbSelectTempVentasEditar(contenedor, correlativo) {
 
-
+    GlobalSelectedCorrelativo = correlativo;
+    
     DbConnection.select({
         From: "docproductos",
         Where: {
             correlativo: Number(correlativo)
         }
     }, function (productos) {
+        
 
         var HtmlString = "";
         productos.forEach(function (prod) {
@@ -434,6 +436,33 @@ function dbTotalTempVentas(contenedor) {
     });
 };
 
+// CALCULA EL TOTAL DE LA VENTA SEGÚN LA TABLA DOCPRODUCTOS PARA EDITAR
+function dbTotalTempVentasEditar(contenedor,correlativo) {
+    DbConnection.select({
+        From: "docproductos",
+        Where: {
+            correlativo: Number(correlativo)
+        }
+        
+    }, function (productos) {
+        
+        let varSubtotal = parseFloat(0);
+        let varSubtotalCosto = parseFloat(0);
+
+             
+        productos.forEach(function (prod) {
+           varSubtotal += parseFloat(prod.subtotal);
+           varSubtotalCosto += parseFloat(prod.totalcosto);
+        }, function (error) {
+            console.log(error);
+        })
+
+        contenedor.innerHTML = funciones.setMoneda(varSubtotal,'Q');
+        //GlobalTotalVenta = varSubtotal;
+        //GlobalTotalCosto = varSubtotalCosto;
+    });
+};
+
 function dbGetTotalTempVentas() {
     DbConnection.select({
         From: "tempVentas"
@@ -453,20 +482,25 @@ function dbGetTotalTempVentas() {
 
 // elimina un producto de la tabla docproductos en editar
 function dbDeleteTempProductoEditar(prodId) {
-      DbConnection.delete({
-        From: 'docproductos',
-        Where: {
-            Id: Number(prodId)
-        }
-    }, function (rowsDeleted) {
-        console.log(rowsDeleted + ' rows deleted');
-        if (rowsDeleted > 0) {
-            document.getElementById(prodId).remove();
-            //dbTotalTempVentas(txtTotalVenta);
-        }
-    }, function (error) {
-        alert(error.Message);
-    })
+    funciones.Confirmacion('¿Está seguro que desea quitar este item?')
+        .then((value)=>{
+            if (value==true){
+                DbConnection.delete({
+                    From: 'docproductos',
+                    Where: {
+                        Id: Number(prodId)
+                    }
+                }, function (rowsDeleted) {
+                    console.log(rowsDeleted + ' rows deleted');
+                    if (rowsDeleted > 0) {
+                        document.getElementById(prodId).remove();
+                        dbTotalTempVentasEditar(document.getElementById('txtTotalVenta'),GlobalSelectedCorrelativo);
+                    }
+                }, function (error) {
+                    alert(error.Message);
+                })
+            }   
+        })
 };
 
 

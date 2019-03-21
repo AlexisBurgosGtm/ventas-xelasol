@@ -318,6 +318,9 @@ function VentasEditar(idPedido){
             .then(()=>{
               var contenedor = document.getElementById('tblProductosAgregados');
               dbSelectTempVentasEditar(contenedor,idPedido);
+              GlobalSelectedCorrelativo= idPedido;              
+              dbTotalTempVentasEditar(document.getElementById('txtTotalVenta'),idPedido);
+
             })
         //funciones.AvisoError('Esta opción aún no está disponible ;(');
         document.getElementById('btnVentasCancelar').click();

@@ -37,6 +37,12 @@
                 </div>
                 
                 <ul class="nav" id="navbar-general">
+                    <li>
+                        <a href="index.html" id="btnSalir">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p>Salir(x)</p>
+                        </a>
+                    </li>
                     
                     <li>
                         <a href="#" id="btnDashboard">
@@ -87,13 +93,6 @@
                             <p>Chat</p>
                         </a>
                     </li>
-                    <li>
-                        <a href="index.html" id="btnSalir">
-                            <i class="now-ui-icons users_single-02"></i>
-                            <p>Salir(x)</p>
-                        </a>
-                    </li>
-
                 </ul>
             </div>
         </div>
@@ -180,7 +179,7 @@
                         &copy;
                         <script>
                             document.write(new Date().getFullYear())
-                        </script>, <a class="text-warning" href="https://api.whatsapp.com/send?phone=50257255092&text=Hola,%20me%20interesa%20este%20sistema%20(AresPos)">Desarrollado por Alexis Burgos (AlexisBurgosGtm@gmail.com)</a>
+                        </script>, <a class="text-warning" href="https://api.whatsapp.com/send?phone=50257255092&text=Hola,%20me%20interesa%20este%20sistema%20(Express-Pos)">Desarrollado por Alexis Burgos (AlexisBurgosGtm@gmail.com)</a>
                     </div>
                 </div>
             </footer>
@@ -242,6 +241,16 @@
             .catch(err => 'SW registration failed'));
     };
 
+function handleStateChange(online) {
+  if (online==true){
+      funciones.showNotification('bottom','right','Conectado','success');
+  }else{
+    funciones.showNotification('bottom','right','Desconectado','danger');
+  };
+};
+
+window.addEventListener('online', handleStateChange(true));
+window.addEventListener('offline', handleStateChange(false));
 
     //oculta el navbar para evitar que entren sin logearse
     //nav = document.getElementById('navbar-general');
@@ -323,6 +332,23 @@
 -->
 
 <script>
+    function appendLocation(location, verb) {
+        let newLocation = "https://maps.google.com/maps?&z=15&q=' + location.coords.latitude + '+' + location.coords.longitude + '&ll=' + location.coords.latitude + '+' + location.coords.longitude"
+        window.location = newLocation;
+    };
+
+    async function ObtenerLocalizacion(){
+        if ('geolocation' in navigator) {
+            document.getElementById('askButton').addEventListener('click', function () {
+            navigator.geolocation.getCurrentPosition(function (location) {
+            appendLocation(location, 'fetched');
+            });
+                watchId = navigator.geolocation.watchPosition(appendLocation);
+            });
+        } else {
+            //target.innerText = 'Geolocation API not supported.';
+        }
+    };
  /*   
 async function CargarFuncionesChat () {
        
