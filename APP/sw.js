@@ -1,7 +1,7 @@
 let GlobalSelectedForm = 'viewLogin';
 let GlobalBool = 0;
 
-var CACHE = 'arespos-onlineV3';
+var CACHE = 'express-online';
 const staticAssets = [
   './',
   './manifest.json',

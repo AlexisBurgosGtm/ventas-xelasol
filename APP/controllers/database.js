@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "AresPOSv10";
+const DbName = "express";
 
 function initiateDb() {
     
