@@ -13,8 +13,8 @@ let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
 let btnChat = document.getElementById('btnChat');
+let btnCenso = document.getElementById('btnCenso');
 let btnCalcularMargenMen = document.getElementById('btnCalcularMargenMen');
-
 
 let btnSalir = document.getElementById('btnSalir');
 
@@ -66,6 +66,16 @@ btnVentas.addEventListener('click',()=>{
     toggler.click();
    
 })
+
+btnCenso.addEventListener('click',()=>{
+    funciones.loadView('./views/viewCenso.html')
+        .then(()=>{
+            classCenso.CargarFuncionesCenso();
+            classCenso.SelectCensoAll(GlobalEmpnit,GlobalCodven,document.getElementById('tblCenso'));
+        });    
+    
+    toggler.click();
+});
 
 // Tools
 btnTools.addEventListener('click',()=>{
@@ -130,6 +140,7 @@ async function ControllerMenu(TipoApp){
             btnVentas.style="visibility:hidden";
             btnTools.style="visibility:hidden";
             btnConfig.style="visibility:hidden";
+            btnCenso.style="visibility:hidden";
             //btnSync.style="visibility:hidden";
             btnCalcularMargenMen.style="visibility:hidden";
             btnChat.style="visibility:hidden";
@@ -144,6 +155,7 @@ async function ControllerMenu(TipoApp){
             btnVentas.style="visibility:visible";
             btnTools.style="visibility:visible";
             btnConfig.style="visibility:visible";
+            btnCenso.style="visibility:visible";
             //btnSync.style="visibility:visible";
             btnCalcularMargenMen.style="visibility:visible";
             btnChat.style="visibility:visible";
@@ -158,6 +170,7 @@ async function ControllerMenu(TipoApp){
             btnVentas.style="visibility:hidden";
             btnTools.style="visibility:hidden";
             btnConfig.style="visibility:hidden";
+            btnCenso.style="visibility:hidden";
             //btnSync.style="visibility:hidden";
             btnCalcularMargenMen.style="visibility:hidden";
             btnChat.style="visibility:hidden";

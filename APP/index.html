@@ -40,23 +40,24 @@
                     <li>
                         <a href="index.html" id="btnSalir">
                             <i class="now-ui-icons users_single-02"></i>
-                            <p>Salir(x)</p>
+                            <p>Inicio(x)</p>
                         </a>
                     </li>
-                    
-                    <li>
-                        <a href="#" id="btnDashboard">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>Inicio</p>
-                        </a>
-                    </li>
-                    
+                                                            
                     <li>
                         <a href="#" id="btnVentas">
                             <i class="now-ui-icons shopping_cart-simple"></i>
                             <p>Ventas</p>
                         </a>
                     </li>
+                                                            
+                    <li>
+                        <a href="#" id="btnCenso">
+                            <i class="now-ui-icons location_map-big"></i>
+                            <p>Censo</p>
+                        </a>
+                    </li>
+
                     <li>
                         <a href="#" id="btnPrecios">
                             <i class="now-ui-icons design_bullet-list-67"></i>
@@ -91,6 +92,12 @@
                         <a href="#" id="btnChat">
                             <i class="now-ui-icons loader_gear"></i>
                             <p>Chat</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btnDashboard">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>.</p>
                         </a>
                     </li>
                 </ul>
@@ -224,6 +231,7 @@
 <script async src="./controllers/precios.js"></script>
 <script async src="./controllers/clientes.js"></script>
 <script async src="./controllers/ventas.js"></script>
+<script async src="./controllers/classCenso.js"></script>
 <script async src="./controllers/tools.js"></script>
 <script async src="./controllers/classEnvios.js"></script>
 <script async src="./controllers/index.js"></script>
@@ -241,16 +249,6 @@
             .catch(err => 'SW registration failed'));
     };
 
-function handleStateChange(online) {
-  if (online==true){
-      funciones.showNotification('bottom','right','Conectado','success');
-  }else{
-    funciones.showNotification('bottom','right','Desconectado','danger');
-  };
-};
-
-window.addEventListener('online', handleStateChange(true));
-window.addEventListener('offline', handleStateChange(false));
 
     //oculta el navbar para evitar que entren sin logearse
     //nav = document.getElementById('navbar-general');
@@ -332,23 +330,7 @@ window.addEventListener('offline', handleStateChange(false));
 -->
 
 <script>
-    function appendLocation(location, verb) {
-        let newLocation = "https://maps.google.com/maps?&z=15&q=' + location.coords.latitude + '+' + location.coords.longitude + '&ll=' + location.coords.latitude + '+' + location.coords.longitude"
-        window.location = newLocation;
-    };
-
-    async function ObtenerLocalizacion(){
-        if ('geolocation' in navigator) {
-            document.getElementById('askButton').addEventListener('click', function () {
-            navigator.geolocation.getCurrentPosition(function (location) {
-            appendLocation(location, 'fetched');
-            });
-                watchId = navigator.geolocation.watchPosition(appendLocation);
-            });
-        } else {
-            //target.innerText = 'Geolocation API not supported.';
-        }
-    };
+   
  /*   
 async function CargarFuncionesChat () {
        

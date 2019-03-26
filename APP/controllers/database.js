@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "AresPOSv9";
+const DbName = "AresPOSv10";
 
 function initiateDb() {
     
@@ -29,6 +29,7 @@ function initiateDb() {
 function getTbl() {
     //TABLA VENTAS TEMPORAL
     var TblTemp = {
+
         Name: "tempVentas",
         Columns: [{
             Name: "Id",
@@ -100,6 +101,23 @@ function getTbl() {
             { Name: "st"}
         ]
     }
+        //TABLA CENSO
+        var TblCenso = {
+            Name: "censo",
+            Columns: [
+                {Name: "Id",PrimaryKey: true,AutoIncrement: true},
+                { Name: "empnit"},
+                { Name: "codven"},
+                { Name: "nomcliente"},
+                { Name: "dircliente"},
+                { Name: "codmun" },
+                { Name: "coddep" },
+                { Name: "telefono"},
+                { Name: "latitud"},
+                { Name: "longitud"},
+                { Name: "obs", DataType: "string" },
+           ]
+        }
     //TABLA DOCPRODUCTOS
     var TblDocproductos = {
         Name: "docproductos",
@@ -142,28 +160,16 @@ function getTbl() {
      //TABLA DOCUMENTOS
      var tblSesion = {
         Name: "sesion",
-        Columns: [{
-            Name: "Id",
-            PrimaryKey: true,
-            AutoIncrement: true
-        },
-            {
-                Name: "usuario",
-                DataType: "string"
-            },
-            {
-                Name: "empnit",
-                DataType: "string"
-            },
-            {
-                Name: "token",
-                DataType: "string"
-            },
+        Columns: [
+            {Name: "Id",PrimaryKey: true,AutoIncrement: true},
+            {Name: "usuario",DataType: "string"},
+            {Name: "empnit", DataType: "string"},
+            {Name: "token", DataType: "string" },
         ]
     }
     var DataBase = {
         Name: DbName,
-        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos,tblSesion]
+        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos,tblSesion,TblCenso]
     }
 
     return DataBase;

@@ -5,10 +5,10 @@ async function cargarListaClientes(){
     const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
     const json = await response.json();
                 
-  
+
     newsArticles.innerHTML = '';
     newsArticles.innerHTML =
-                    `<table class="table table-responsive" id="tblClientesTablaLista">
+                    `<table class="table-responsive" id="tblClientesTablaLista">
                         <thead><tr>
                           <td class="col-4-sm col-4-md">Cliente</td> 
                           <td class="col-4-sm col-4-md">Dirección</td> 
@@ -16,6 +16,8 @@ async function cargarListaClientes(){
                           <td></td>
                         </thead>` + 
     json.recordset.map((cliente)=>{
+       
+
         if(cliente.EMPNIT==GlobalEmpnit){
             return `<tr>
             <td class="col-4-sm col-4-md">${cliente.NOMCLIENTE}</td>
