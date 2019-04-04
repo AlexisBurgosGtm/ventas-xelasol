@@ -248,9 +248,8 @@ async function cargarListaClientesPedido(){
                   `<table class="table table-responsive table-bordered" id="tblClientesTabla">
                       <thead>
                         <tr>
-                          <td class="col-3-sm col-3-md">Cliente</td> 
+                          <td class="col-5-sm col-5-md">Cliente</td> 
                           <td class="col-4-sm col-4-md">Dirección</td> 
-                          <td class="col-4-sm col-4-md">Telefono</td> 
                           <td class="col-1-sm col-1-md"></td>
                         </tr>
                       </thead>` + 
@@ -258,10 +257,9 @@ async function cargarListaClientesPedido(){
       (cliente)=>{
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
-                  <td class="col-3-sm col-3-md">${cliente.NOMCLIENTE}</td>
+                  <td class="col-5-sm col-5-md">${cliente.NOMCLIENTE}</td>
                   <td class="col-4-sm col-4-md" font-size=8>${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
-                  <td class="col-4-sm col-4-md">${cliente.TELEFONOS}</td>
-                  <td class="col-1-sm col-1-md">
+                   <td class="col-1-sm col-1-md">
                     <button class="btn btn-round btn-icon btn-primary"
                     data-toggle='modal' data-target='#ModalOpcionesObs'
                     onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">

@@ -110,6 +110,7 @@ classCenso={
         await DbConnection.insert({Into: "censo",Values: [data]},
                 function (rowsAdded) {
                     funciones.Aviso('Cliente registrado exitosamente');
+                    classCenso.LimpiarCampos();
                 }, 
                 function (err) {
                     console.log(err);
@@ -149,5 +150,14 @@ classCenso={
                      <option value="1">"GUATEMALA"</option>` 
 
         ComboboxContainer.innerHTML = lista;
+    },
+    LimpiarCampos: ()=>{
+        document.getElementById('txtNit').value = '';
+        document.getElementById('txtNomcliente').value= '';
+        document.getElementById('txtDircliente').value= '';
+        document.getElementById('txtTelefono').value= '';
+        document.getElementById('txtObs').value= '';
+        document.getElementById('txtLatitud').innerText = '0';
+        document.getElementById('txtLongitud').innerText= '0';
     }
 }

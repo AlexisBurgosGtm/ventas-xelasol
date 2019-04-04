@@ -674,7 +674,7 @@ function dbDeletePedidoDetalle(correlativo) {
             }
         }, function (rowsDeleted) {
             if (rowsDeleted > 0) {
-               // funciones.Aviso('Pedido Eliminado Exitosamente');
+               funciones.Aviso('Pedido Eliminado Exitosamente');
                 //btnVentas.click();
             }
         }, function (error) {
