@@ -144,10 +144,8 @@ classCenso={
 
     },
     GetListaMunicipios: (ComboboxContainer)=>{
-        let lista = `<option value="1">"GUATEMALA"</option>
-                     <option value="2">"GUATEMALA"</option>
-                     <option value="1">"GUATEMALA"</option>
-                     <option value="1">"GUATEMALA"</option>` 
+        let lista = `<option value="1">GUATEMALA</option>
+                     ` 
 
         ComboboxContainer.innerHTML = lista;
     },
