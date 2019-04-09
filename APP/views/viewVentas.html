@@ -1,6 +1,12 @@
 <div class="card">
     <div class="card-header">
-        <h5>Pedidos sin Enviar</h5>
+        <h5 id="lbTituloVentas">Pedidos sin Enviar</h5>
+        <button class="btn btn-info btn-icon btn-round btn-sm" data-dismiss="modal" id="btnPedidosPendientes" onclick="dbSelectDocumentos(document.getElementById('tblDocumentos'),1);">
+            <i class="now-ui-icons design_bullet-list-67"></i>
+        </button>Pendientes
+        <button class="btn btn-danger btn-icon btn-round btn-sm" data-dismiss="modal" id="btnPedidosEnviados" onclick="dbSelectDocumentos(document.getElementById('tblDocumentos'),0);">
+            <i class="now-ui-icons ui-1_check"></i>
+        </button>Enviados
     </div>
     <div class="card-body">
    

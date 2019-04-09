@@ -99,6 +99,7 @@ async function AsignarElementos(){
   btnGuardarVenta = document.getElementById('btnGuardarVenta'); //pasa a otra pantalla para seleccionar cliente
   btnFiltrarListaProductos = document.getElementById('btnPedidoFiltrarProducto'); //boton flotante para filtrar productos
   btnCancelarModalProducto = document.getElementById('btnCancelarModalProducto'); //boton cancelar de modal de agergar productos
+  
 };
 
 // asigna los listener a los botones
@@ -164,14 +165,14 @@ async function loadPreciosVentas(){
   json.recordset.map((article)=>{
     if (article.EMPNIT==GlobalEmpnit){
       if (article.EXISTENCIA<=0){
-          return `<tr class="">
+          return `<tr class="bg-orange">
             <td class="col-4-sm col-4-md">${article.DESPROD}</td>
             <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
             <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
             <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
             </tr>`;
       }else{
-        return `<tr class="bg-orange">
+        return `<tr class="">
         <td class="col-4-sm col-4-md">${article.DESPROD}</td>
         <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
         <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
@@ -227,7 +228,7 @@ async function dbFinalizarPedido(){
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
-            dbSelectDocumentos(document.getElementById('tblDocumentos'));
+            dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
                 dbDeleteTempProductoAll();
@@ -257,9 +258,9 @@ async function cargarListaClientesPedido(){
       (cliente)=>{
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
-                  <td class="col-5-sm col-5-md">${cliente.NOMCLIENTE}</td>
-                  <td class="col-4-sm col-4-md" font-size=8>${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
-                   <td class="col-1-sm col-1-md">
+                  <td class="">${cliente.NOMCLIENTE}</td>
+                  <td class="">${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
+                   <td class="">
                     <button class="btn btn-round btn-icon btn-primary"
                     data-toggle='modal' data-target='#ModalOpcionesObs'
                     onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
@@ -275,7 +276,7 @@ async function cargarListaClientesPedido(){
   
   document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
     funciones.FiltrarListaProductos('tblClientesTabla');
-    //window.location('#container');
+   
   })
 };
 
@@ -335,7 +336,7 @@ function VentasEliminar(correlativo){
     if (value==true){
       console.log('correlativo : ' + correlativo);
       dbDeletePedido(correlativo);
-      dbSelectDocumentos(document.getElementById('tblDocumentos'));
+      dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
       document.getElementById('btnVentasCancelar').click();
     }
   });
@@ -348,6 +349,8 @@ function VentasEnviar(idPedido){
    if (value==true){
 
       dbSendPedido(idPedido);
+      
+            
       document.getElementById('btnVentasCancelar').click();
     }
   });

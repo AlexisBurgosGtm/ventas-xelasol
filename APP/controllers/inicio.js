@@ -60,7 +60,7 @@ btnVentas.addEventListener('click',()=>{
    
     funciones.loadView('./views/viewVentas.html')
     .then(()=>{
-        dbSelectDocumentos(document.getElementById('tblDocumentos'));
+        dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
         //GlobalBool = true;
     });
     toggler.click();
@@ -112,7 +112,7 @@ btnSync.addEventListener('click',()=>{
 btnChat.addEventListener('click',()=>{
     funciones.loadView('./views/viewChat.html')
             .then(()=>{
-                CargarFuncionesChat();
+               //CargarFuncionesChat();
             });
     toggler.click();
 })

@@ -22,6 +22,7 @@ const staticAssets = [
   './assets/js/JsStore.min.js',
   './assets/js/sweetalert.min.js',
   './onlineLibrary/socket.io.js',
+  './controllers/classDbOp.js',
   './controllers/classEnvios.js',
   './controllers/classCenso.js',
   './controllers/funciones.js',

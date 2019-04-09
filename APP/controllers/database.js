@@ -20,7 +20,7 @@ function initiateDb() {
             //inicializa el correlativo
             dbInsertCorrelativoDoc();
             //inicializa el token
-            dbInsertToken('SN');
+            //dbInsertToken('SN');
         }
     });
 }
@@ -169,7 +169,7 @@ function getTbl() {
     }
     var DataBase = {
         Name: DbName,
-        Tables: [TblTemp,TblDocumentos,TblDocproductos,tblTipoDocumentos,tblSesion,TblCenso]
+        Tables: [tblTipoDocumentos,TblTemp,TblDocumentos,TblDocproductos,tblSesion,TblCenso]
     }
 
     return DataBase;
@@ -199,8 +199,8 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
         
-    GlobalToken = 'ISC';
-    //GlobalToken='PROCTERREU';
+    //GlobalToken = 'ISC';
+    GlobalToken='PROCTERREU';
     
     //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';
@@ -271,7 +271,8 @@ async function dbInsertCorrelativoDoc() {
         Into: "tipodocumentos",
         Values: [data]
     }, function (rowsAdded) {
-        console.log('Correlativo Docs Inicial Generado con éxito')
+       // console.log('Correlativo Docs Inicial Generado con éxito')
+        funciones.Aviso('Base de datos Instalada con éxito');
     }, function (err) {
         console.log(err);
     })
@@ -617,7 +618,11 @@ function dbInsertDocproductos(coddoc,correlativo,empnit) {
 };
 
 //Selecciona todos los Documentos guardados 
-function dbSelectDocumentos(contenedor) {
+function dbSelectDocumentos(contenedor,st) {
+    let titulo =document.getElementById('lbTituloVentas');
+    if (st==Number(1)){titulo.innerText='Pedidos Pendientes'}else{titulo.innerText='Pedidos Enviados'};
+  
+   
     DbConnection.select({
         From: "documentos"
     }, function (documentos) {
@@ -625,17 +630,19 @@ function dbSelectDocumentos(contenedor) {
         var HtmlString = "";
         documentos.forEach(function (doc) {
             if (doc.empnit==GlobalEmpnit){
-                HtmlString += "<tr>" + 
-                "<td class='col-1-sm col-1-md'>" + doc.Id + "</td>" + 
-                "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
-                "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
-                "<td class='col-1-sm col-1-md'>" + 
-                    `<button class='btn btn-round btn-icon btn-warning btn-sm' 
-                        data-toggle='modal' data-target='#ModalOpcionesPedido' 
-                        onClick="fcnCargarDatosPedido('${doc.Id}','${doc.correlativo}','${doc.nomcliente}','${doc.totalventa}');">
-                        <i class='now-ui-icons design_bullet-list-67'></i>
-                    </button>` + 
-                "</td></tr>";
+                if (doc.st==Number(st)){
+                        HtmlString += "<tr>" + 
+                        "<td class='col-1-sm col-1-md'>" + doc.Id + "</td>" + 
+                        "<td class='col-6-sm col-6-md'>" + doc.nomcliente + "</td>" + 
+                        "<td class='col-3-sm col-3-md'>" + funciones.setMoneda(doc.totalventa,'Q') + "</td>" +
+                        "<td class='col-1-sm col-1-md'>" + 
+                            `<button class='btn btn-round btn-icon btn-warning btn-sm' 
+                                data-toggle='modal' data-target='#ModalOpcionesPedido' 
+                                onClick="fcnCargarDatosPedido('${doc.Id}','${doc.correlativo}','${doc.nomcliente}','${doc.totalventa}');">
+                                <i class='now-ui-icons design_bullet-list-67'></i>
+                            </button>` + 
+                        "</td></tr>";
+                }
             }
             GlobalSelectedForm= 'viewVentas';
             GlobalBool = false;

@@ -38,6 +38,9 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
             if (res.status==200)
             {
                 funciones.Aviso('Pedido enviado exitosamente!!');
+               
+                classDbOp.UpdatePedidoEnviado(correlativo);
+                dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
             }
           })
           .catch(

@@ -62,7 +62,7 @@ async function ComprobarVendedor(usuario) {
             funciones.loadView('./views/viewVentas.html')
                 .then(()=>{
                     ControllerMenu('SALES');
-                    dbSelectDocumentos(document.getElementById('tblDocumentos'));
+                    dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
                 });
 
             /*

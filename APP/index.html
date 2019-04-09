@@ -226,6 +226,7 @@
 <script src="./controllers/database.js"></script>
 
 <!-- controladores -->
+<script src="./controllers/classDbOp.js"></script>
 <script src="./controllers/inicio.js"></script>
 <script async src="./controllers/dataventas.js"></script>
 <script async src="./controllers/precios.js"></script>
@@ -249,47 +250,14 @@
             .catch(err => 'SW registration failed'));
     };
 
-
-    //oculta el navbar para evitar que entren sin logearse
-    //nav = document.getElementById('navbar-general');
-    //nav.style="visibility:hidden";
-
   //carga la vista de login
    funciones.loadView('./views/viewLogin.html')
         .then(async ()=>{
             ControllerMenu('LOGIN');
-/*
-            console.log('antes de cargar empresas: ' + GlobalToken);
-            //carga la lista de empresas en el combobox
-            try {
-                const response = await fetch(`/api/empresas/all?token=${GlobalToken}`)
-                const json = await response.json();
-                let comboboxemp = document.getElementById('cmbEmpresas')
-
-                comboboxemp.innerHTML = ''
-                comboboxemp.innerHTML = json.recordset.map((empresa)=>{
-                return `<option value="${empresa.EMPNIT}">${empresa.EMPNOMBRE}</option>`;        
-               }).join('\n');
-   
-            } catch (error) {
-                console.log(error);
-                funciones.AvisoError('No se pudo cargar la lista de empresas');
-            }
-*/
-
-        //inicializa el botón para agregar el token inicial
-        /*
-        btnConfigTokenInicial = document.getElementById('btnConfigTokenInicial');
-        btnConfigTokenInicial.addEventListener('click',()=>{
-            funciones.loadView('./views/viewConfig.html')
-                .then(()=>{CargarBotonesConfig();});
-        });
-          */ 
         })
 
     //const socket = io();   
 
-    //StartRecognition();
    async function CargarComboEmpresas(){
     console.log('antes de cargar empresas: ' + GlobalToken);
             //carga la lista de empresas en el combobox
@@ -308,7 +276,6 @@
                 funciones.AvisoError('No se pudo cargar la lista de empresas');
             }
    }
-
 
    let btnCalcularMargen = document.getElementById('btnCalcularMargen')
    btnCalcularMargen.addEventListener('click',()=>{
