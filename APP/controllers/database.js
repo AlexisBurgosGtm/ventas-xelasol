@@ -199,8 +199,8 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
         
-    GlobalToken = 'ISC';
-    //GlobalToken='PROCTERREU';
+    //GlobalToken = 'ISC';
+    GlobalToken='PROCTERREU';
     
     //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';

@@ -259,7 +259,7 @@ async function cargarListaClientesPedido(){
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
                   <td class="">${cliente.NOMCLIENTE}</td>
-                  <td class="">${cliente.DIRCLIENTE},${cliente.DESMUNICIPIO}</td>
+                  <td class="">${cliente.DIRCLIENTE}, ${cliente.DESMUNICIPIO}</td>
                    <td class="">
                     <button class="btn btn-round btn-icon btn-primary"
                     data-toggle='modal' data-target='#ModalOpcionesObs'
