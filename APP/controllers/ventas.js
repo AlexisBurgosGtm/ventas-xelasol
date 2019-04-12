@@ -226,12 +226,14 @@ async function dbFinalizarPedido(){
     if (value==true){
       dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto);
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
+
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
-            dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
+                dbDeleteTempProductoAll();
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
-                dbDeleteTempProductoAll();
+                dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
+
           });
         };
     });
