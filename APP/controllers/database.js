@@ -200,9 +200,9 @@ async function dbInsertToken(token) {
 function dbGetToken() {
         
     //GlobalToken = 'ISC';
-    //GlobalToken='PROCTERREU';
+    GlobalToken='PROCTERREU';
     
-    GlobalToken='SANBERNABE';
+    //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';
 
         try {
@@ -651,6 +651,8 @@ function dbSelectDocumentos(contenedor,st) {
             console.log(error);
         })
         contenedor.innerHTML = HtmlString;
+
+        classDbOp.GetTotalVentas('txtTotalVenta');
     });
 };
 

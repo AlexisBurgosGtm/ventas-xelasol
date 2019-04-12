@@ -21,5 +21,34 @@ classDbOp={
         }, function (error) {
                 console.log(error.Message)
         })
+    },
+
+    SelectPickingVentas: async ()=>{
+
+    },
+    GetTotalVentas: async(ContainerName)=>{
+        let contenedorT = document.getElementById(ContainerName);
+        DbConnection = new JsStore.Instance(DbName);
+
+        DbConnection.select({
+            From: "documentos"
+            
+        }, function (docs) {
+            
+            let varSubtotal = parseFloat(0);
+            let varSubtotalCosto = parseFloat(0);
+            
+            docs.forEach(function (doc) {
+               varSubtotal += parseFloat(doc.totalventa);
+               varSubtotalCosto += parseFloat(doc.totalcosto);
+            }, function (error) {
+                console.log(error);
+                varSubtotal = 0;
+            })
+            contenedorT.innerHTML = funciones.setMoneda(varSubtotal,'Q');
+            //GlobalTotalVenta = varSubtotal;
+            //GlobalTotalCosto = varSubtotalCosto;
+
+        });
     }
 }

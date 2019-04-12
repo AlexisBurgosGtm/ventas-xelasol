@@ -62,6 +62,7 @@ btnVentas.addEventListener('click',()=>{
     .then(()=>{
         dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
         //GlobalBool = true;
+     
     });
     toggler.click();
    
