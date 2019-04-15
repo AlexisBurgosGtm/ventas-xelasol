@@ -3,7 +3,7 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
     var empnit = GlobalEmpnit;
     var fecha = new Date;
     anio = fecha.getFullYear();
-    mes = fecha.getMonth()+1;
+    mes = fecha.getMonth();
     dia = fecha.getDate();
 
         var data =JSON.stringify({
@@ -54,7 +54,7 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
 async function SyncDocumentosDet(token,empnit,coddoc,correlativo,anio,mes,dia,codprod,desprod,codmedida,equivale,cantidad,costo,totalcosto,precio,totalprecio){
     var fecha = new Date;
     anio = fecha.getFullYear();
-    mes = fecha.getMonth()+1;
+    mes = fecha.getMonth();
     dia = fecha.getDate();
         console.log('LLamado fetch en docproductos ' + desprod);
 

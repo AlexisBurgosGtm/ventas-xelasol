@@ -229,11 +229,11 @@ async function dbFinalizarPedido(){
 
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
-                dbDeleteTempProductoAll();
+              
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
-                dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
-
+               // dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
+                
           });
         };
     });
