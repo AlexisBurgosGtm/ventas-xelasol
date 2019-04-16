@@ -17,7 +17,9 @@
     <link href="./assets/css/now-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
     -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./assets/css/now-ui-dashboard.min.css" rel="stylesheet" />
     <link href="./assets/css/now-ui-dashboard.css" rel="stylesheet" />
+    <link href="./assets/css/all.css" rel="stylesheet" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"/>
     <link rel="stylesheet" href="./assets/css/btn.css">
     <link rel="stylesheet" href="./assets/css/themify-icons.css">
 
@@ -37,10 +39,11 @@
                 </div>
                 
                 <ul class="nav" id="navbar-general">
+
                     <li>
-                        <a href="index.html" id="btnSalir">
-                            <i class="now-ui-icons users_single-02"></i>
-                            <p>Inicio(x)</p>
+                        <a href="#" id="btnDashboard">
+                            <i class="now-ui-icons design_app"></i>
+                            <p>.</p>
                         </a>
                     </li>
                                                             
@@ -89,17 +92,19 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="btnChat">
-                            <i class="now-ui-icons loader_gear"></i>
-                            <p>Chat</p>
+                        <a href="index.html" id="btnSalir">
+                            <i class="now-ui-icons users_single-02"></i>
+                            <p>Inicio(x)</p>
                         </a>
                     </li>
+
                     <li>
-                        <a href="#" id="btnDashboard">
-                            <i class="now-ui-icons design_app"></i>
-                            <p>.</p>
+                        <a href="#" id="btnChat">
+                            <!--<i class="now-ui-icons loader_gear"></i>
+                            <p>Chat</p>-->
                         </a>
                     </li>
+               
                 </ul>
             </div>
         </div>
@@ -262,7 +267,7 @@
     console.log('antes de cargar empresas: ' + GlobalToken);
             //carga la lista de empresas en el combobox
             try {
-                const response = await fetch(`/api/empresas/all?token=${GlobalToken}`)
+                const response = await fetch(`${GlobalServerUrl}/api/empresas/all?token=${GlobalToken}`)
                 const json = await response.json();
                 let comboboxemp = document.getElementById('cmbEmpresas')
 

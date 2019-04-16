@@ -16,7 +16,7 @@ classEnvios={
             let newsArticles = document.getElementById(IdContenedor);
             newsArticles.innerHTML = 'Cargando lista de Envios...';
             
-            const response = await fetch(`/api/reparto/enviospendientes?token=${GlobalToken}`);
+            const response = await fetch(`${GlobalServerUrl}/api/reparto/enviospendientes?token=${GlobalToken}`);
             const json = await response.json();
            
             newsArticles.innerHTML = '';
@@ -83,7 +83,7 @@ classEnvios={
                     correlativo:correlativo
                 });
               
-                var peticion = new Request('/api/reparto/marcarenviado', {
+                var peticion = new Request(GlobalServerUrl + '/api/reparto/marcarenviado', {
                     method: 'POST',
                     headers: new Headers({
                         // Encabezados
@@ -119,7 +119,7 @@ classEnvios={
             correlativo:correlativo
         });
       
-        var peticion = new Request('/api/reparto/marcarnoenviado', {
+        var peticion = new Request(GlobalServerUrl + '/api/reparto/marcarnoenviado', {
             method: 'POST',
             headers: new Headers({
                 // Encabezados
@@ -152,7 +152,7 @@ classEnvios={
         let newsArticles = document.getElementById(IdContenedor);
         newsArticles.innerHTML = 'Cargando lista de Envios...';
         
-        const response = await fetch(`/api/reparto/enviosentregados?token=${GlobalToken}`);
+        const response = await fetch(`${GlobalServerUrl}/api/reparto/enviosentregados?token=${GlobalToken}`);
         const json = await response.json();
        
         newsArticles.innerHTML = '';

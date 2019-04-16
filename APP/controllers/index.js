@@ -20,7 +20,7 @@ async function fcnLogin(){
         
     if(GlobalTipoApp=='SALES'){
         try {
-            const response = await fetch(`/api/usuarios/login?token=${GlobalToken}`)
+            const response = await fetch(`${GlobalServerUrl}/api/usuarios/login?token=${GlobalToken}`)
             const json = await response.json();
     
             json.recordset.map(ComprobarVendedor).join('\n');
@@ -32,7 +32,7 @@ async function fcnLogin(){
 
     if(GlobalTipoApp=='DELIVERY'){
         try {
-            const response = await fetch(`/api/reparto/usuarios/login?token=${GlobalToken}`)
+            const response = await fetch(`${GlobalServerUrl}/api/reparto/usuarios/login?token=${GlobalToken}`)
             const json = await response.json();
     
             json.recordset.map(ComprobarRepartidor).join('\n');

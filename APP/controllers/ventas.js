@@ -146,7 +146,7 @@ async function loadPreciosVentas(){
   let newsArticles = document.getElementById('contenedorVentas');
   newsArticles.innerHTML = 'Cargando lista de productos...';
   
-  const response = await fetch(`/api/productos/all?token=${GlobalToken}`);
+  const response = await fetch(`${GlobalServerUrl}/api/productos/all?token=${GlobalToken}`);
   const json = await response.json();
             
   
@@ -216,6 +216,16 @@ async function dbGuardarVenta(codcliente,nomcliente){
 async function dbFinalizarPedido(){
   let obs = document.getElementById('txtPedidoObs').value;
   let stReparto = document.getElementById('cmbPedidoTipoEntrega').value;
+  let lat = '0';
+  let long = '0';
+  try {
+    navigator.geolocation.getCurrentPosition(function (location) {
+        lat = location.coords.latitude.toString();
+        long = location.coords.longitude.toString();
+    })
+  } catch (error) {
+    funciones.AvisoError(error.toString());
+  }
 
 
   dbGetValCorrelativo(1); //carga el correlativo de documentos en la global
@@ -224,7 +234,7 @@ async function dbFinalizarPedido(){
   .then((value) => {
        
     if (value==true){
-      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto);
+      dbInsertDocumentos(GlobalCoddoc,GlobalCorrelativo,GlobalCodCliente,GlobalNomCliente,GlobalTotalVenta,GlobalEmpnit,GlobalTotalCosto,obs,stReparto,lat,long);
       dbInsertDocproductos(GlobalCoddoc,GlobalCorrelativo,GlobalEmpnit);
 
       funciones.loadView('./views/viewVentas.html')
@@ -240,7 +250,7 @@ async function dbFinalizarPedido(){
 }
 
 async function cargarListaClientesPedido(){
-  const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
+  const response = await fetch(`${GlobalServerUrl}/api/clientes/all?token=${GlobalToken}`);
   const json = await response.json();
               
   let newsArticles = document.getElementById('tblClientesPedido');

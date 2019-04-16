@@ -2,7 +2,7 @@ async function cargarListaClientes(){
     let newsArticles = document.getElementById('tblClientes');
     newsArticles.innerHTML = 'Cargando Clientes....';
 
-    const response = await fetch(`/api/clientes/all?token=${GlobalToken}`);
+    const response = await fetch(`${GlobalServerUrl}/api/clientes/all?token=${GlobalToken}`);
     const json = await response.json();
                 
 

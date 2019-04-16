@@ -17,6 +17,8 @@ let GlobalTipoApp;
 let GlobalSelectedCoddoc;
 let GlobalSelectedCorrelativo;
 
+const GlobalServerUrl = 'http://localhost:3600'
+
 /*
 1) viewLogin = login de inicio
 2) viewVentas = ventana de pedidos pendientes //ventas

@@ -4,7 +4,7 @@
         let newsArticles = document.getElementById('tblPrecios');
         newsArticles.innerHTML = 'Cargando lista de productos...';
         
-        const response = await fetch(`/api/productos/all?token=${GlobalToken}`);
+        const response = await fetch(`${GlobalServerUrl}/api/productos/all?token=${GlobalToken}`);
         const json = await response.json();
                   
         

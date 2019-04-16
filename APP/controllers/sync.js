@@ -1,5 +1,5 @@
 
-async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa,totalcosto,obs,st){
+async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,codven,totalventa,totalcosto,obs,st,lat,long){
     var empnit = GlobalEmpnit;
     var fecha = new Date;
     anio = fecha.getFullYear();
@@ -19,10 +19,12 @@ async function SyncDocumentos(token,coddoc,correlativo,anio,mes,dia,codcliente,c
             totalventa:totalventa,
             totalcosto:totalcosto,
             obs:obs,
-            st:st
+            st:st,
+            lat: lat,
+            long: long
         });
       
-        var peticion = new Request('/api/ventas/documentos', {
+        var peticion = new Request(GlobalServerUrl + '/api/ventas/documentos', {
             method: 'POST',
             headers: new Headers({
                 // Encabezados
@@ -77,7 +79,7 @@ async function SyncDocumentosDet(token,empnit,coddoc,correlativo,anio,mes,dia,co
                 totalprecio:totalprecio
             });
           
-            var peticion = new Request('/api/ventas/docproductos', {
+            var peticion = new Request(GlobalServerUrl + '/api/ventas/docproductos', {
                 method: 'POST',
                 headers: new Headers({
                     // Encabezados

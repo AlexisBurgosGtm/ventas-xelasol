@@ -1,6 +1,6 @@
 async function getVentasDiaVendedor(contenedorName){
 try {
-  const response = await fetch(`/api/ventas/dia`);
+  const response = await fetch(`${GlobalServerUrl}/api/ventas/dia`);
     const json = await response.json();
     
     //<h4 class="card-title text-primary">${funciones.setMoneda(field.VENTA,'Q')}</h4>

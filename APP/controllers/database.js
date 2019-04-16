@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "express";
+const DbName = "express-2";
 
 function initiateDb() {
     
@@ -98,7 +98,9 @@ function getTbl() {
             { Name: "totalventa", NotNull: true },
             { Name: "totalcosto", NotNull: true },
             { Name: "obs", DataType: "string" },
-            { Name: "st"}
+            { Name: "st"},
+            { Name: "lat"},
+            { Name: "long"}
         ]
     }
         //TABLA CENSO
@@ -549,7 +551,7 @@ function dbDeleteTempProductoAll(confirm) {
 };
 
 // inserta un PEDIDO EN LA TABLA DOCUMENTOS
-function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit,totalcosto,obs,st) {
+function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,empnit,totalcosto,obs,st,lat,long) {
     var data = {
         empnit:empnit,
         coddoc:coddoc,
@@ -559,7 +561,9 @@ function dbInsertDocumentos(coddoc,correlativo,codcliente,nomcliente,totalventa,
         totalventa:totalventa,
         totalcosto:totalcosto,
         obs:obs,
-        st: Number(st)
+        st: Number(st),
+        lat: lat,
+        long: long
     }
 
     DbConnection.insert({
@@ -736,9 +740,11 @@ function dbSendPedido(Id) {
            var totalcosto = doc.totalcosto;
            var obs = doc.obs;
            var st = doc.st;
+           var lat = doc.lat;
+           var long = doc.long;
             
            //SyncDocumentos('iEx',GlobalCoddoc,correlativo,2018,12,2,codcliente,GlobalCodven,totalventa)
-           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa,totalcosto,obs,st);
+           SyncDocumentos(GlobalToken,GlobalCoddoc,correlativo,2019,1,6,codcliente,GlobalCodven,totalventa,totalcosto,obs,st,lat,long);
             //.then(funciones.Aviso('Datos enviados...'))
 
         }, function (error) {
