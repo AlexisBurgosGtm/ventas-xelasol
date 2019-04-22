@@ -752,7 +752,8 @@ function dbEliminarPedidosTodos() {
 
 // ENVIAR UN PEDIDO SEGUN SU ID
 function dbSendPedido(Id) {
-      
+    MostarLoader('SI');
+    
     DbConnection.select({
         From: "documentos",
         Where: {
@@ -806,6 +807,14 @@ function dbSendPedido(Id) {
             console.log(error);
         })
 
-     
+        MostarLoader('NO');
     });
 };
+
+function MostarLoader(mostrarSiNo){
+    if(mostrarSiNo=='SI'){
+        document.getElementById('loader').style="visibility:visible";
+    }else{
+        document.getElementById('loader').style="visibility:hidden";
+    }
+}

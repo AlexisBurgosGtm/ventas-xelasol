@@ -236,12 +236,14 @@ async function dbFinalizarPedido(){
 
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
-              
+
+            MostarLoader('NO');
+
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
                 setTimeout(() => {
                   dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
-                }, 3000);
+                }, 2300);
 
                // dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
                 
