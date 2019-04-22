@@ -47,6 +47,7 @@ const staticAssets = [
   './views/viewEnvios.html',
   './views/viewCenso.html',
   './views/viewVentas.html',
+  './views/viewReports.html',
   './views/viewVentasPedido.html',
   './views/viewVentasCliente.html',
   './views/viewVentasEditar.html',

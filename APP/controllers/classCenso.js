@@ -11,12 +11,11 @@ classCenso={
         btnGuardarCenso = document.getElementById('btnGuardarCenso');
         btnCancelarCenso= document.getElementById('btnCancelarCenso');
         btnObtenerUbicacion = document.getElementById('btnObtenerUbicacion');
-        
-        
+                
         btnObtenerUbicacion.addEventListener('click',()=>{
             let lat,long;
             lat = document.getElementById('txtLatitud');
-            long =document.getElementById('txtLongitud');
+            long = document.getElementById('txtLongitud');
 
             classCenso.ObtenerUbicacion(lat,long);
         });

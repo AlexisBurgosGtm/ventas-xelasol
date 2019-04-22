@@ -47,11 +47,10 @@ async function fcnLogin(){
 };
 
 async function ComprobarVendedor(usuario) {
-    if (usuario.NOMVEN==txtUser.value){
-        if (usuario.CLAVE==txtPass.value){
-            if (usuario.EMPNIT==cmbEmpnit.value){
-
-                                  
+    if (usuario.EMPNIT==cmbEmpnit.value){
+        if (usuario.NOMVEN==txtUser.value){
+            if (usuario.CLAVE==txtPass.value){
+                                           
             GlobalUser = user.value;
             GlobalCoddoc = usuario.CODDOC;
             GlobalCodven = usuario.CODVEN;
@@ -64,19 +63,9 @@ async function ComprobarVendedor(usuario) {
                     ControllerMenu('SALES');
                     dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
                 });
-
-            /*
-            funciones.loadView('./views/viewInicio.html')
-               .then(()=>{
-                    //CargarDatosVendedor(GlobalUser);
-                })
-                .then(()=>{
-                    getVentasDiaVendedor('salescontainer');
-                });
-                */
             
-            //nav.style="visibility:visible";
             };
+
         };
     };     
 };

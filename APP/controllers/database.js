@@ -64,7 +64,8 @@ function getTbl() {
             },
             {
                 Name: "cantidad",
-                NotNull: true
+                NotNull: true,
+                DataType: "number"
             },
             {
                 Name: "precio",
@@ -72,7 +73,8 @@ function getTbl() {
             },
             {
                 Name: "subtotal",
-                NotNull: true
+                NotNull: true,
+                DataType: "number"
             },
             { Name: "equivale" },
             { Name: "costo", NotNull: true },
@@ -134,9 +136,9 @@ function getTbl() {
             { Name: "codprod", NotNull: true, DataType: "string" },
             { Name: "desprod", NotNull: true, DataType: "string" },
             { Name: "codmedida", NotNull: true, DataType: "string" },
-            { Name: "cantidad", NotNull: true },
+            { Name: "cantidad", NotNull: true, DataType: "number"},
             { Name: "precio", NotNull: true },
-            { Name: "subtotal", NotNull: true },
+            { Name: "subtotal", NotNull: true, DataType: "number"},
             { Name: "equivale"},
             { Name: "costo", NotNull: true },
             { Name: "totalcosto", NotNull: true }
@@ -382,11 +384,10 @@ function dbSelectTempVentas(contenedor) {
         var HtmlString = "";
         productos.forEach(function (prod) {
             HtmlString += "<tr Id=" + prod.Id + ">" + 
-            "<td class='col-4'>" + prod.desprod + "</td>" + 
-            "<td class='col-2'>" + prod.codmedida + "</td>" + 
-            "<td class='col-1'>" + prod.cantidad + "</td>" + 
-            "<td class='col-2'>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
-            "<td class='col-1'>" + 
+            "<td class=''>" + prod.desprod + "<br><small class='text-primary'>" + prod.codmedida + "</small></td>" + 
+            "<td class=''>" + prod.cantidad + "</td>" + 
+            "<td class=''>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
+            "<td class=''>" + 
               "<button class='btn btn-round btn-icon btn-danger' onclick='dbDeleteTempProducto(" + prod.Id +");'> x </button>" + 
             "</td></tr>";
         }, function (error) {
@@ -411,8 +412,7 @@ function dbSelectTempVentasEditar(contenedor, correlativo) {
         var HtmlString = "";
         productos.forEach(function (prod) {
             HtmlString += "<tr Id=" + prod.Id + ">" + 
-            "<td class='col-4'>" + prod.desprod + "</td>" + 
-            "<td class='col-2'>" + prod.codmedida + "</td>" + 
+            "<td class='col-7'>" + prod.desprod + "<br><small class='text-primary'>" + prod.codmedida + "</small>" + "</td>" + 
             "<td class='col-1'>" + prod.cantidad + "</td>" + 
             "<td class='col-2'>" + funciones.setMoneda(prod.subtotal,'Q') + "</td>" +
             "<td class='col-1'>" + 
@@ -447,7 +447,7 @@ function dbTotalTempVentas(contenedor) {
 };
 
 // CALCULA EL TOTAL DE LA VENTA SEGÚN LA TABLA DOCPRODUCTOS PARA EDITAR
-function dbTotalTempVentasEditar(contenedor,correlativo) {
+function dbTotalTempVentasEditar(contenedor,correlativo,upd) {
     DbConnection.select({
         From: "docproductos",
         Where: {
@@ -468,6 +468,10 @@ function dbTotalTempVentasEditar(contenedor,correlativo) {
         })
 
         contenedor.innerHTML = funciones.setMoneda(varSubtotal,'Q');
+
+        if(upd=='SI'){
+            dbUpdateTotalVentaDoc(correlativo,varSubtotal, varSubtotalCosto);
+        }
         //GlobalTotalVenta = varSubtotal;
         //GlobalTotalCosto = varSubtotalCosto;
     });
@@ -504,13 +508,36 @@ function dbDeleteTempProductoEditar(prodId) {
                     console.log(rowsDeleted + ' rows deleted');
                     if (rowsDeleted > 0) {
                         document.getElementById(prodId).remove();
-                        dbTotalTempVentasEditar(document.getElementById('txtTotalVenta'),GlobalSelectedCorrelativo);
+                        dbTotalTempVentasEditar(document.getElementById('txtTotalVenta'),GlobalSelectedCorrelativo,'SI');
                     }
                 }, function (error) {
                     alert(error.Message);
                 })
             }   
         })
+};
+
+function dbUpdateTotalVentaDoc(correlativo,nuevototal,nuevototalcosto) {
+    var data = {
+        totalventa: parseFloat(nuevototal),
+        totalcosto: parseFloat(nuevototalcosto)
+    }
+
+    DbConnection.update({
+        In: "documentos",
+        Set: data,
+        Where: {
+            correlativo: Number(correlativo)
+        }
+    }, function (rowsAffected) {
+        //alert(rowsAffected + " rows Updated");
+        if (rowsAffected > 0) {
+            console.log('Subtotal Actualizado con éxito');
+        }
+    }, function (error) {
+        //alert(error.Message);
+        console.log(error.Message)
+    })
 };
 
 

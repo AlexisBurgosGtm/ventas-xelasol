@@ -156,8 +156,7 @@ async function loadPreciosVentas(){
                   `<table class="table table-responsive table-bordered table-fixed" id="tblProductosVentas">
                     <thead>
                       <tr>
-                        <td class="col-4-sm col-4-md">Descripción</td>
-                        <td class="col-3-sm col-3-md">Medida</td> 
+                        <td class="col-7-sm col-7-md">Descripción</td>
                         <td class="col-4-sm col-4-md">Precio</td>
                         <td class="col-1-sm col-1-md"></td>
                       </tr>
@@ -166,15 +165,13 @@ async function loadPreciosVentas(){
     if (article.EMPNIT==GlobalEmpnit){
       if (article.EXISTENCIA<=0){
           return `<tr class="bg-orange">
-            <td class="col-4-sm col-4-md">${article.DESPROD}</td>
-            <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
+            <td class="col-7-sm col-7-md">${article.DESPROD} <br><small class="text-primary">${article.CODMEDIDA}</small></td>
             <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
             <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
             </tr>`;
       }else{
         return `<tr class="">
-        <td class="col-4-sm col-4-md">${article.DESPROD}</td>
-        <td class="col-3-sm col-3-md">${article.CODMEDIDA}</td> 
+        <td class="col-7-sm col-7-md">${article.DESPROD} <br><small class="text-primary">${article.CODMEDIDA}</small></td>
         <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
         <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
         </tr>`;
@@ -242,6 +239,10 @@ async function dbFinalizarPedido(){
               
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
+                setTimeout(() => {
+                  dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
+                }, 3000);
+
                // dbSelectDocumentos(document.getElementById('tblDocumentos'),1);
                 
           });
@@ -258,11 +259,10 @@ async function cargarListaClientesPedido(){
   newsArticles.innerHTML = '';
                           
   newsArticles.innerHTML =
-                  `<table class="table table-responsive table-bordered" id="tblClientesTabla">
+                  `<table class="table table-responsive table-bordered table-striped" id="tblClientesTabla">
                       <thead>
                         <tr>
-                          <td class="col-5-sm col-5-md">Cliente</td> 
-                          <td class="col-4-sm col-4-md">Dirección</td> 
+                          <td class="col-10-sm col-10-md">Cliente</td> 
                           <td class="col-1-sm col-1-md"></td>
                         </tr>
                       </thead>` + 
@@ -270,9 +270,10 @@ async function cargarListaClientesPedido(){
       (cliente)=>{
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
-                  <td class="">${cliente.NOMCLIENTE}</td>
-                  <td class="">${cliente.DIRCLIENTE}, ${cliente.DESMUNICIPIO}</td>
-                   <td class="">
+                  <td class="">${cliente.NOMCLIENTE}
+                  <br><small class="text-primary">${cliente.DIRCLIENTE}, ${cliente.DESMUNICIPIO}</small>
+                  </td>
+                  <td class="">
                     <button class="btn btn-round btn-icon btn-primary"
                     data-toggle='modal' data-target='#ModalOpcionesObs'
                     onclick="dbGuardarVenta('${cliente.CODCLIENTE}','${cliente.NOMCLIENTE}');">
@@ -306,7 +307,7 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
   document.getElementById('txtIdPedido').innerHTML = id;
 
   document.getElementById('btnVentasEditar').addEventListener('click', ()=>{
-     VentasEditar(correlativo);
+     VentasEditar(correlativo,nomcliente);
   });
   
   document.getElementById('btnVentasEliminar').addEventListener('click',()=>{
@@ -319,7 +320,7 @@ async function fcnCargarDatosPedido(id,correlativo,nomcliente,totalventa){
 };
 
 
-function VentasEditar(idPedido){
+function VentasEditar(idPedido,nomcliente){
   console.log('editar presionado ' + idPedido);
   funciones.Confirmacion('¿Está seguro que desea Editar este Pedido?')
     .then((value) => {
@@ -328,10 +329,13 @@ function VentasEditar(idPedido){
         funciones.loadView('./views/viewVentasEditar.html')
             .then(()=>{
               var contenedor = document.getElementById('tblProductosAgregados');
+              
               dbSelectTempVentasEditar(contenedor,idPedido);
               GlobalSelectedCorrelativo= idPedido;              
+              
               dbTotalTempVentasEditar(document.getElementById('txtTotalVenta'),idPedido);
 
+              document.getElementById('txtNomCliente').innerHTML = nomcliente;
             })
         //funciones.AvisoError('Esta opción aún no está disponible ;(');
         document.getElementById('btnVentasCancelar').click();
