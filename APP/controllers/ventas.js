@@ -236,9 +236,7 @@ async function dbFinalizarPedido(){
 
       funciones.loadView('./views/viewVentas.html')
           .then(()=>{
-
-            MostarLoader('NO');
-
+           
                 let num = parseInt(GlobalCorrelativo) + parseInt(1);
                 dbUpdateCorrelativoDoc(num);
                 setTimeout(() => {

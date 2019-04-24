@@ -1,8 +1,8 @@
 var express = require("express");
-const routerapi = require('./router/routerapi');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
+var routerapi = require('./router/routerapi');
 
 const PORT = process.env.PORT || 3600;
 
