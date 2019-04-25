@@ -2,7 +2,11 @@
 let txtTotalVenta;
 let txtDesprod;   
 let txtCodMedida;
+
 let txtCantidad;
+let btnCantidadUp;
+let btnCantidadDown;
+
 let txtPrecioProd;
 let btnAgregarProducto;
 let btnCancelarModalProducto;
@@ -75,7 +79,32 @@ function AgregarProducto(){
 
 // hace que cuando des clic a la cantidad te lo deje en blanco
 async function ClearCantidad(){
+
   txtCantidad.addEventListener('click',()=>{txtCantidad.value =''});
+
+  btnCantidadUp.addEventListener('click',()=>{
+    let cant = parseInt(txtCantidad.value);
+    txtCantidad.value = cant + 1;
+
+    _SubTotal = parseFloat(_Precio) * parseFloat(txtCantidad.value);
+    _SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
+    txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+  })
+
+  btnCantidadDown.addEventListener('click',()=>{
+    if (parseInt(txtCantidad.value)==1){
+
+    }else{
+      let cant = parseInt(txtCantidad.value);
+      txtCantidad.value = cant - 1;
+
+      _SubTotal = parseFloat(_Precio) * parseFloat(txtCantidad.value);
+      _SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
+      txtSubTotal.innerHTML = funciones.setMoneda(_SubTotal,'Q');
+    }
+    
+  })
+
   txtCantidad.addEventListener('keyup',()=>{
     _SubTotal = parseFloat(_Precio) * parseFloat(txtCantidad.value);
     _SubTotalCosto = parseFloat(_Costo) * parseFloat(txtCantidad.value);
@@ -92,7 +121,11 @@ async function AsignarElementos(){
   txtDesProd = document.getElementById('txtDesProducto'); //label
   txtPrecioProd = document.getElementById('txtPrecioProducto'); //label
   btnAgregarProducto = document.getElementById('btnAgregarProducto'); //boton agregar
+  
   txtCantidad = document.getElementById('txtCantidad'); //input
+  btnCantidadUp = document.getElementById('btnCantidadUp');
+  btnCantidadDown = document.getElementById('btnCantidadDown');
+
   txtSubTotal = document.getElementById('txtSubTotal'); //label
   btnMostrarLista = document.getElementById('btnMostrarLista'); //botón para ver el listado
   btnCancelarVenta = document.getElementById('btnCancelarVenta'); //botón para eliminar el listado de productos en temp

@@ -17,8 +17,8 @@ let GlobalTipoApp;
 let GlobalSelectedCoddoc;
 let GlobalSelectedCorrelativo;
 
-const GlobalServerUrl = 'https://arespos-app-testing.herokuapp.com';
-
+//const GlobalServerUrl = 'https://arespos-app-testing.herokuapp.com';
+const GlobalServerUrl = '';
 /*
 1) viewLogin = login de inicio
 2) viewVentas = ventana de pedidos pendientes //ventas
