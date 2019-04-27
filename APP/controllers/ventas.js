@@ -196,8 +196,15 @@ async function loadPreciosVentas(){
                     </thead>` + 
   json.recordset.map((article)=>{
     if (article.EMPNIT==GlobalEmpnit){
+      return `<tr class="">
+        <td class="col-7-sm col-7-md">${article.DESPROD} <br>
+            <small class="text-primary">${article.CODMEDIDA} - Inv: ${article.EXISTENCIA}</small></td>
+        <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
+        <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
+        </tr>`;
+      /*
       if (article.EXISTENCIA<=0){
-          return `<tr class="bg-orange">
+          return `<tr class="bg-yellow">
             <td class="col-7-sm col-7-md">${article.DESPROD} <br><small class="text-primary">${article.CODMEDIDA}</small></td>
             <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
             <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
@@ -208,7 +215,7 @@ async function loadPreciosVentas(){
         <td class="col-4-sm col-4-md"><b>${String(article.QPRECIO)}</b></td>
         <td class="col-1-sm col-1-md"><button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#ModalCantidadVenta" onClick="CargarDatosProductoModal('${article.CODPROD}','${article.DESPROD}','${article.CODMEDIDA}','${article.COSTO}','${article.PRECIO}','${article.QPRECIO}','${article.EQUIVALE}');">+</button></td>
         </tr>`;
-      }
+      }*/
 
       
     };

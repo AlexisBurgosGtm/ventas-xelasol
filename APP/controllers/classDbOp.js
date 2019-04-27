@@ -71,7 +71,7 @@ classDbOp={
  
     },
 
-    GetTotalVentas: async(ContainerName)=>{
+    GetTotalVentas3: async(ContainerName)=>{
         let contenedorT = document.getElementById(ContainerName);
         DbConnection = new JsStore.Instance(DbName);
 
@@ -84,8 +84,11 @@ classDbOp={
             let varSubtotalCosto = parseFloat(0);
             
             docs.forEach(function (doc) {
-               varSubtotal += parseFloat(doc.totalventa);
-               varSubtotalCosto += parseFloat(doc.totalcosto);
+                if (doc.coddoc==GlobalCoddoc){
+                    varSubtotal += parseFloat(doc.totalventa);
+                    varSubtotalCosto += parseFloat(doc.totalcosto);
+                }
+               
             }, function (error) {
                 console.log(error);
                 varSubtotal = 0;
@@ -109,8 +112,10 @@ classDbOp={
             let varSubtotalCosto = parseFloat(0);
             
             docs.forEach(function (doc) {
-               varSubtotal += parseFloat(doc.totalventa);
-               varSubtotalCosto += parseFloat(doc.totalcosto);
+                if (doc.coddoc==GlobalCoddoc){
+                    varSubtotal += parseFloat(doc.totalventa);
+                    varSubtotalCosto += parseFloat(doc.totalcosto);
+                }
             }, function (error) {
                 console.log(error);
                 varSubtotal = 0;
