@@ -120,6 +120,7 @@ funciones = {
     },
    
    initGoogleMaps: function(){
+       /*
         var myLa.tlng = new google.maps.LatLng(40.748817, -73.985428);
         var mapOptions = {
           zoom: 13,
@@ -137,6 +138,7 @@ funciones = {
 
         // To add the marker to the map, call setMap();
         marker.setMap(map);
+        */
     },
 
 	showNotification: function(from, align,msn, tipo){
