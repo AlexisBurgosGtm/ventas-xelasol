@@ -9,6 +9,7 @@ let btnDashboard = document.getElementById('btnDashboard');
 let btnPrecios = document.getElementById('btnPrecios');
 let btnClientes = document.getElementById('btnClientes');
 let btnVentas = document.getElementById('btnVentas');
+let btnMapas = document.getElementById('btnMapas');
 let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
@@ -68,6 +69,20 @@ btnVentas.addEventListener('click',()=>{
     toggler.click();
    
 })
+
+// Mapas
+btnMapas.addEventListener('click',()=>{
+   
+    funciones.loadView('./views/viewVentasMap.html')
+    .then(()=>{
+        classDbOp.GetRecorrido();
+        
+     
+    });
+    toggler.click();
+   
+})
+
 
 btnCenso.addEventListener('click',()=>{
     funciones.loadView('./views/viewCenso.html')
@@ -183,7 +198,12 @@ async function ControllerMenu(TipoApp){
             
             btnSalir.style="visibility:visible";
             break;
-    
+
+        case 'ADMIN':
+            
+
+        break;
+
         default:
             break;
     }

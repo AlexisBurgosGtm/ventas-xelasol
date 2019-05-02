@@ -42,6 +42,17 @@ async function fcnLogin(){
         }
     };
     
+    if(GlobalTipoApp=='MANAGER'){
+        
+        funciones.Aviso('Bienvenido Administrador');
+
+        funciones.loadView('./views/viewAdminInicio.html')
+            .then(()=>{
+                ControllerMenu('SALES');
+                classAdmin.rptVentasDiarias('rptcontainer');
+        });
+
+    }
 
 
 };

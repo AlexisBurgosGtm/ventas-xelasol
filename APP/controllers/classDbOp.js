@@ -125,5 +125,14 @@ classDbOp={
             //GlobalTotalCosto = varSubtotalCosto;
 
         });
+    },
+    GetRecorrido: async()=>{
+        var map = L.map('map', {
+            center: [51.505, -0.09],
+            zoom: 60
+        });
+
+        L.marker([50.5, 30.5]).addTo(map);
+
     }
 }

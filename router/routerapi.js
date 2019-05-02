@@ -7,6 +7,23 @@ const config = {user: 'DB_A45479_EXPRESS_admin',password: 'razors1805',server: '
 
 const sqlString = 'mssql://' + config.user + ':' + config.password + '@' + config.server + '/' + config.database;
 
+router.get("/admin/ventasdiarias", async(req,res)=>{
+	const sql = require('mssql')
+	let token = req.query.token;
+	let anio = req.query.anio;
+	let mes = req.query.mes;
+
+			const pool = await sql.connect(config)		
+			try {
+				const result = await sql.query`SELECT FECHA,DIA, concat('Q',TOTALCOSTO) AS TOTALCOSTO, concat('Q',TOTALVENTA) AS TOTALVENTA, concat('Q',UTILIDAD) AS UTILIDAD, UTILIDADPORC,LASTUPDATE FROM WEB_VENTASDIARIAS WHERE TOKEN=${token} AND ANIO=${anio} AND MES=${mes}`
+				console.dir('Enviando ventas diarias');
+				res.send(result);
+			} catch (err) {
+				console.log(String(err));
+			}
+			sql.close()
+});
+
 // OBTIENE TODAS LAS EMPRESAS
 router.get("/empresas/all", async(req,res)=>{
 
@@ -373,5 +390,6 @@ router.post("/ventas/docproductos", async(req,res)=>{
 			// ... error handler
 		})
 });
+
 
 module.exports = router;

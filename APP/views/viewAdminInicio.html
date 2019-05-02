@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">
+        <h5 id="lbTituloAdmin">Resumen General</h5>
+        
+        <button class="btn btn-primary btn-icon btn-round btn-sm" id="btnVentasDiarias" onclick="classAdmin.rptVentasDiarias('rptcontainer');">
+            <i class="now-ui-icons shopping_cart-simple"></i>
+        </button>Ventas
+
+        <button class="btn btn-success btn-icon btn-round btn-sm" id="btnCortesDiarios" onclick="classAdmin.rptCuadresDiarios('rptcontainer');">
+            <i class="now-ui-icons business_money-coins"></i>
+        </button>Cuadres
+        
+        <button class="btn btn-warning btn-icon btn-round btn-sm" id="btnCortesDiarios" onclick="classAdmin.rptInventarioCosteado('rptcontainer');">
+            <i class="now-ui-icons shopping_box"></i>
+        </button>Inventarios
+
+    </div>
+    
+    <div class="card-body">
+        <h5 id="txtTotalVenta">Q0.00</h5>
+    </div>
+
+    <div class="card" id='rptcontainer'></div>
+    
+</div>

@@ -1,6 +1,9 @@
 let btnConfigCorrelativo;
 let txtConfigCorrelativo;
 
+let txtConfigServerUrl;
+let btnConfigServerUrl;
+
 let btnConfigToken;
 let txtConfigToken;
 
@@ -13,6 +16,9 @@ async function CargarBotonesConfig() {
     txtConfigCorrelativo = document.getElementById('txtConfigCorrelativo');
     txtConfigToken = document.getElementById('txtConfigToken');
     btnConfigBorrarPedidos = document.getElementById('btnConfigBorrarPedidos');
+    
+    txtConfigServerUrl = document.getElementById('txtConfigServerUrl');
+    btnConfigServerUrl = document.getElementById('btnConfigServerUrl');
     
     //ASIGNA EL VALOR DEL CORRELATIVO ACTUAL
     dbGetCorrelativo(1,txtConfigCorrelativo);
@@ -47,4 +53,15 @@ async function CargarBotonesConfig() {
                 };
             });
     })
+
+    btnConfigServerUrl.addEventListener('click',()=>{
+        funciones.Confirmacion('¿Está seguro que desea Eliminar Todos los Pedidos?')
+            .then((value) => {
+                if (value==true){
+                    GlobalServerUrl = txtConfigServerUrl.value;
+                };
+            });
+    })
+
+    
 }
