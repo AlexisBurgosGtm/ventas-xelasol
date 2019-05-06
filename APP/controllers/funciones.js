@@ -357,6 +357,28 @@ InitMap: function(){
       window.scroll(0, 0);
   },
 
+  PingInternet: async (url)=>{
+    var peticion = new Request(url, {
+        method: 'POST',
+        headers: new Headers({
+            // Encabezados
+           'Content-Type': 'application/json'
+        })
+      });
+
+      await fetch(peticion)
+         .then(function(res) {
+           if (res.status==200)
+               {
+                   funciones.hablar('parece que ya hay internet');
+                }
+      })
+      .catch(
+          ()=>{
+            funciones.hablar('por lo visto no hay señal');
+          }
+      )
+  },
 
   ApiUpdate: async function(empnit){
    //let apiAll = await fetch('/api/update/all')

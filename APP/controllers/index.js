@@ -49,7 +49,9 @@ async function fcnLogin(){
         funciones.loadView('./views/viewAdminInicio.html')
             .then(()=>{
                 ControllerMenu('SALES');
-                classAdmin.rptVentasDiarias('rptcontainer');
+                document.getElementById('cmbAnio').value = new Date().getFullYear();
+                document.getElementById('cmbMes').value = new Date().getMonth();
+
         });
 
     }

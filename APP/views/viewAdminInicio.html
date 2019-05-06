@@ -1,8 +1,36 @@
 <div class="card">
     <div class="card-header">
         <h5 id="lbTituloAdmin">Resumen General</h5>
-        
-        <button class="btn btn-primary btn-icon btn-round btn-sm" id="btnVentasDiarias" onclick="classAdmin.rptVentasDiarias('rptcontainer');">
+        <div class="card-group">
+            <div class="col-5">
+            <label>Mes:</label>
+            <select class="form-control" id="cmbMes">
+                <option value=1>Enero</option>
+                <option value=2>Febrero</option>
+                <option value=3>Marzo</option>
+                <option value=4>Abril</option>
+                <option value=5>Mayo</option>
+                <option value=6>Junio</option>
+                <option value=7>Julio</option>
+                <option value=8>Agosto</option>
+                <option value=9>Septiembre</option>
+                <option value=10>Octubre</option>
+                <option value=11>Noviembre</option>
+                <option value=12>Diciembre</option>
+            </select>
+            </div>
+            <div class="col-4">
+
+            <label>Año:</label>
+            <select class="form-control" id="cmbAnio">
+                <option value=2018>2018</option>
+                <option value=2019>2019</option>
+                <option value=2020>2020</option>
+                <option value=2021>2021</option>
+            </select>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-icon btn-round btn-sm" id="btnVentasDiarias" onclick="classAdmin.rptVentasDiarias('rptcontainer',document.getElementById('cmbAnio').value,document.getElementById('cmbMes').value);">
             <i class="now-ui-icons shopping_cart-simple"></i>
         </button>Ventas
 

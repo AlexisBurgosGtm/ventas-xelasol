@@ -1,7 +1,6 @@
 classAdmin={
-    rptVentasDiarias: async(idContainer)=>{
-        let anio = 2018; let mes=3;
-        
+    rptVentasDiarias: async(idContainer,anio,mes)=>{
+                  
         const response = await fetch(`${GlobalServerUrl}/api/admin/ventasdiarias?token=${GlobalToken}&anio=${anio}&mes=${mes}`);
         
         const json = await response.json();

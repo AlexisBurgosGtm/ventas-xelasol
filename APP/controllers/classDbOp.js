@@ -127,12 +127,16 @@ classDbOp={
         });
     },
     GetRecorrido: async()=>{
-        var map = L.map('map', {
-            center: [51.505, -0.09],
-            zoom: 60
-        });
+        
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
 
-        L.marker([50.5, 30.5]).addTo(map);
+	    var map = L.map('mapcontainer').setView([51.505, -0.159], 15).addLayer(osm);
 
+	    L.marker([51.504, -0.159])
+		.addTo(map)
+		.bindPopup('A pretty CSS3 popup.<br />Easily customizable.')
+		.openPopup();
     }
 }
