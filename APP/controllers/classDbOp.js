@@ -128,24 +128,21 @@ classDbOp={
     },
     GetRecorrido: async()=>{
 
-        try {
-            navigator.geolocation.getCurrentPosition(function (location) {
-                let lat = location.coords.latitude;
-                let long = location.coords.longitude;
+        let lat = 0;
+        let long = 0;
 
-                var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-		        osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
-        
-                var map = L.map('mapcontainer').setView([lat, long], 15).addLayer(osm);
+        navigator.geolocation.getCurrentPosition(function (location) {
+            lat = location.coords.latitude;
+            long = location.coords.longitude;
 
-            })
-        } catch (error) {
-        
-        }
+        }).then(()=>{
+            var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+    
+            var map = L.map('mapcontainer').setView([lat, long], 15).addLayer(osm);
 
-        
-        DbConnection = new JsStore.Instance(DbName);
+            DbConnection = new JsStore.Instance(DbName);
 
         DbConnection.select({
             From: "documentos"
@@ -165,5 +162,8 @@ classDbOp={
                 varSubtotal = 0;
             })
         })
+
+        })
+                       
     }
 }
