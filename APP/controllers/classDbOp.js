@@ -128,22 +128,30 @@ classDbOp={
     },
     GetRecorrido: async()=>{
 
-        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-		osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
-        
-        var map = L.map('mapcontainer').setView([51.505, -0.159], 15).addLayer(osm);
+        try {
+            navigator.geolocation.getCurrentPosition(function (location) {
+                let lat = location.coords.latitude;
+                let long = location.coords.longitude;
 
+                var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		        osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+        
+                var map = L.map('mapcontainer').setView([lat, long], 15).addLayer(osm);
+
+            })
+        } catch (error) {
+        
+        }
+
+        
         DbConnection = new JsStore.Instance(DbName);
 
         DbConnection.select({
             From: "documentos"
             
         }, function (docs) {
-            
-            let varSubtotal = parseFloat(0);
-            let varSubtotalCosto = parseFloat(0);
-            
+           
             docs.forEach(function (doc) {
                 if (doc.coddoc==GlobalCoddoc){
                     L.marker([doc.lat, doc.long])
