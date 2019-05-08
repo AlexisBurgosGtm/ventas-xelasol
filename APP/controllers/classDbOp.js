@@ -127,33 +127,38 @@ classDbOp={
         });
     },
     GetRecorrido: async()=>{
-
+/*
         let lat = 0;
         let long = 0;
 
         navigator.geolocation.getCurrentPosition(function (location) {
             lat = location.coords.latitude;
             long = location.coords.longitude;
-
-        }).then(()=>{
-            var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
-    
-            var map = L.map('mapcontainer').setView([lat, long], 15).addLayer(osm);
-
-            DbConnection = new JsStore.Instance(DbName);
+*/
+       
+       DbConnection = new JsStore.Instance(DbName);
 
         DbConnection.select({
             From: "documentos"
             
         }, function (docs) {
            
+            let mapainiciado = false;
+
             docs.forEach(function (doc) {
                 if (doc.coddoc==GlobalCoddoc){
-                    L.marker([doc.lat, doc.long])
-                    .addTo(map)
-                    .bindPopup(doc.nombrecliente + ' - ' + funciones.setMoneda(doc.totalventa, 'Q')) 
+                    if(mapainiciado==false){
+                        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        osmAttrib = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                        osm = L.tileLayer(osmUrl, {maxZoom: 18, attribution: osmAttrib});
+                
+                        var map = L.map('mapcontainer').setView([doc.lat, doc.long], 15).addLayer(osm);
+                        mapainiciado = true;
+                    }else{
+                        L.marker([doc.lat, doc.long])
+                        .addTo(map)
+                        .bindPopup(doc.nomcliente + ' - ' + funciones.setMoneda(doc.totalventa, 'Q')) 
+                    }
                     //.openPopup();
                 }
                
@@ -163,7 +168,6 @@ classDbOp={
             })
         })
 
-        })
-                       
+                               
     }
 }

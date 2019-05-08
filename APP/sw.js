@@ -58,25 +58,22 @@ const staticAssets = [
 ];
 
 self.addEventListener('install', function(evt) {
-  console.log('Service worker instalado');
+  //console.log('Service worker instalado');
   evt.waitUntil(caches.open(CACHE).then(function (cache) {
     cache.addAll(staticAssets);
   }));
 });
 
 self.addEventListener('fetch', function(evt) {
-
   //const destination = evt.request.destination;
   //console.log('destination: ' + destination.toString());
-
   var req = evt.request.clone();
   if (req.clone().method == "GET") {
-    console.log('El service worker está cargando el caché');
+    //console.log('El service worker está cargando el caché');
     evt.respondWith(fromCache(evt.request));
     evt.waitUntil(update(evt.request));
   }
- 
-   
+    
 });
 
 /*
@@ -95,13 +92,12 @@ function fromCache(request) {
 }
 
 async function update(request) {
-
   return caches.open(CACHE).then(function (cache) {
     return fetch(request)
         .then(function (response) {
           return cache.put(request, response.clone())
                       .then(function () {
-                        console.log('Cache actualizado');
+                        //console.log('Cache actualizado');
           return response;
       });
     });
