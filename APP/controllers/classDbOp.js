@@ -30,11 +30,10 @@ classDbOp={
         DbConnection = new JsStore.Instance(DbName);
         DbConnection.select({
             From: 'docproductos',
-            groupBy: ['desprod','codmedida']
-            
-            /*aggregate:{
+            groupBy: ['desprod','codmedida'],
+            aggregate:{
                 sum: ['cantidad','subtotal']
-            }*/
+            }
             
         // You can specify multiple columns at a time by giving the columns name in an array.
         // GroupBy:['column1','column2']
@@ -52,14 +51,16 @@ classDbOp={
             
             let strrow = ''; 
 
+            
             prod.forEach(function (doc) {
+                
                 strrow += `<tr>
                     <td>${doc.desprod}</td>
                     <td>${doc.codmedida}</td>
                     <td>${doc.cantidad}</td>
                     <td>${doc.subtotal}</td>
                 <tr>`
-              
+                    
             }, function (error) {
                 console.log(error);
                

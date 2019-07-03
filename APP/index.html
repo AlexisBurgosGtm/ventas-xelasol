@@ -23,9 +23,6 @@
     <link rel="stylesheet" href="./assets/css/btn.css">
     <link rel="stylesheet" href="./assets/css/themify-icons.css">
 
-    <!-- libreria Leaflet para control de OpenStreethMap -->
-    <link rel="stylesheet" href="./onlineLibrary/leaflet/leaflet.css" />
-
      <!-- service worker -->
      <meta name="application-name" content="Express-Online" />
      <meta name="theme-color" content="#ffffff">
@@ -54,12 +51,6 @@
                         <a href="#" id="btnVentas">
                             <i class="now-ui-icons shopping_cart-simple"></i>
                             <p>Ventas</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" id="btnMapas">
-                            <i class="now-ui-icons location_map-big"></i>
-                            <p>Recorrido Ventas</p>
                         </a>
                     </li>
                                                             
@@ -236,7 +227,6 @@
 <script src="./assets/js/sweetalert.min.js"></script> <!--alertas varias-->
 <script src="./assets/js/JsStore.min.js"></script> <!-- para trabajar con IndexDb-->
 <script src="./controllers/funciones.js"></script>
-<script src="./onlineLibrary/leaflet/leaflet.js"></script> <!--  -->
 
 <script src="./controllers/database.js"></script>
 
@@ -253,7 +243,6 @@
 <script async src="./controllers/index.js"></script>
 <script async src="./controllers/config.js"></script>
 <script async src="./controllers/sync.js"></script>
-<script async src="./controllers/classAdmin.js"></script>
 
 <!--<script src="./onlineLibrary/socket.io.js"></script>-->
 
@@ -334,6 +323,5 @@ async function CargarFuncionesChat () {
     };
     */
 </script>
-
 
 </html>

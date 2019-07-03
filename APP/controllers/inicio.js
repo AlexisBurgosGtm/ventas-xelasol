@@ -121,6 +121,9 @@ btnConfig.addEventListener('click',()=>{
 // Reportes
 btnReportes.addEventListener('click',()=>{
     funciones.loadView('./views/viewReports.html')
+        .then(()=>{
+            funciones.loadScript('../onlineLibrary/jsonata/jsonata.js','contenedor');
+        })
     
     toggler.click();
 })

@@ -3,7 +3,7 @@ window.onload = function () {
     initiateDb();
 };
 //nombre de la base de datos
-const DbName = "express-2";
+const DbName = "ex-ventas";
 
 function initiateDb() {
     
@@ -203,8 +203,8 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
         
-    //GlobalToken = 'ISC';
-    GlobalToken='PROCTERREU';
+    GlobalToken = 'PURINA';
+    //GlobalToken='PROCTERREU';
     
     //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';

@@ -66,10 +66,11 @@ funciones = {
         return (((sign) ? '' : '-') + signo + ' ' + num + ((cents == "00") ? '' : '.' + cents));
     },
 
-    loadScript: function(url) {
+    loadScript: function(url, idContenedor) {
 
         return new Promise((resolve, reject) => {
           var script = document.createElement('script');
+
           //script.async = true;
           script.src = url;
     
@@ -77,7 +78,10 @@ funciones = {
           script.onerror = reject;
     
           //document.head.appendChild(script);
-          document.body.appendChild(script);
+          //document.body.appendChild(script);
+          
+          document.getElementById(idContenedor).appendChild(script)
+
         });
     },
 
