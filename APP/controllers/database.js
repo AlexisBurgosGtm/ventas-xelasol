@@ -203,7 +203,7 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
         
-    GlobalToken = 'PURINA';
+    GlobalToken = 'XELASOLSOLOLA';
     //GlobalToken='PROCTERREU';
     
     //GlobalToken='SANBERNABE';
