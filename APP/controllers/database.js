@@ -203,12 +203,12 @@ async function dbInsertToken(token) {
 //async function dbGetToken() {
 function dbGetToken() {
         
-    GlobalToken = 'XELASOLSOLOLA';
+    //GlobalToken = 'XELASOLSOLOLA';
     //GlobalToken='PROCTERREU';
     
     //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';
-    //GlobalToken = 'TEST'
+    GlobalToken = 'PURINA'
 
         try {
             CargarComboEmpresas();            
