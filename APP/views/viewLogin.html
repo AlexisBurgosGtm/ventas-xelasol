@@ -3,12 +3,13 @@
                 
                              
                 <div class="card-body">
+                    <br><br><br>
 
                     <div class="author">
                         <img class="avatar border-gray" src="./assets/img/usuario.png" alt="...">
                     </div>
 
-                    <div class="form">
+                    <div class="">
                         <div class="form-group">
                             <label>APLICACION:</label>
                             <select class="form-control" id="cmbAplicacion">
@@ -24,16 +25,26 @@
                                 
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>Usuario:</label>
-                            <input type="text" class="form-control" placeholder="Usuario..." id="txtUser">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                                <label>Usuario:</label>
+                                <input type="text" class="form-control" placeholder="Usuario..." id="txtUser">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+                                <label>Contraseña:</label>
+                                <input type="password" class="form-control" placeholder="Contraseña..." id="txtPass">
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Contraseña:</label>
-                            <input type="password" class="form-control" placeholder="Contraseña..." id="txtPass">
-                        </div>
-                        <div class="form-group">
-                            <button class=" btn btn-primary form-control" id="btnIniciar" onclick="fcnLogin();">Iniciar</button>
+                        
+                      
+                        <div class="row">
+                            <br>
+                            <div class="card"></div>
+                            <br>
+                            <button class="btn btn-primary btn-xl btn-round form-control" id="btnIniciar" onclick="fcnLogin();">
+                                    Iniciar
+                            </button>
                         </div>
                     </div>
                 </div>

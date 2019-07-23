@@ -208,6 +208,7 @@ function dbGetToken() {
     
     //GlobalToken='SANBERNABE';
     //GlobalToken='TETOS';
+    //GlobalToken = 'TEST'
 
         try {
             CargarComboEmpresas();            

@@ -9,7 +9,7 @@ let btnDashboard = document.getElementById('btnDashboard');
 let btnPrecios = document.getElementById('btnPrecios');
 let btnClientes = document.getElementById('btnClientes');
 let btnVentas = document.getElementById('btnVentas');
-let btnMapas = document.getElementById('btnMapas');
+//let btnMapas = document.getElementById('btnMapas');
 let btnTools = document.getElementById('btnTools');
 let btnConfig = document.getElementById('btnConfig');
 let btnSync = document.getElementById('btnSync');
@@ -71,6 +71,7 @@ btnVentas.addEventListener('click',()=>{
 })
 
 // Mapas
+/*
 btnMapas.addEventListener('click',()=>{
    
     funciones.loadView('./views/viewVentasMap.html')
@@ -82,7 +83,7 @@ btnMapas.addEventListener('click',()=>{
     toggler.click();
    
 })
-
+*/
 
 btnCenso.addEventListener('click',()=>{
     funciones.loadView('./views/viewCenso.html')
@@ -170,7 +171,7 @@ async function ControllerMenu(TipoApp){
             btnCenso.style="visibility:hidden";
             btnReportes.style="visibility:hidden";
             btnChat.style="visibility:hidden";
-            btnMapas.style="visibility:hidden";
+            //btnMapas.style="visibility:hidden";
             btnSalir.style="visibility:hidden";
             break;
     
@@ -184,7 +185,7 @@ async function ControllerMenu(TipoApp){
             btnCenso.style="visibility:visible";
             btnReportes.style="visibility:visible";
             btnChat.style="visibility:visible";
-            btnMapas.style="visibility:visible";
+            //btnMapas.style="visibility:visible";
             btnSalir.style="visibility:visible";
             break;
     
@@ -198,7 +199,7 @@ async function ControllerMenu(TipoApp){
             btnCenso.style="visibility:hidden";
             btnCalcularMargenMen.style="visibility:hidden";
             btnChat.style="visibility:hidden";
-            btnMapas.style="visibility:hidden";
+            //btnMapas.style="visibility:hidden";
             btnSalir.style="visibility:visible";
             break;
 
