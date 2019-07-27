@@ -311,7 +311,7 @@ async function cargarListaClientesPedido(){
         if(cliente.EMPNIT==GlobalEmpnit){
         return `<tr>
                   <td class="">${cliente.NOMCLIENTE}
-                  <br><small class="text-primary">${cliente.DIRCLIENTE}, ${cliente.DESMUNICIPIO}</small>
+                  <br><small class="text-primary">${cliente.DIRCLIENTE}, ${cliente.EMAIL}</small>
                   </td>
                   <td class="">
                     <button class="btn btn-round btn-icon btn-primary"
@@ -324,7 +324,7 @@ async function cargarListaClientesPedido(){
               }
             }
   ).join('\n');
-
+//<br><small class="text-primary">${cliente.DIRCLIENTE}, ${cliente.DESMUNICIPIO}</small>
   funciones.OcultarRows('tblClientesTabla');
   
   document.getElementById('btnClientesFiltrar').addEventListener('click',()=>{
