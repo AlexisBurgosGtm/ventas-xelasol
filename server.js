@@ -6,10 +6,6 @@ var routerapi = require('./router/routerapi');
 
 const PORT = process.env.PORT || 3650;
 
-/*
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-*/
 
 app.use(bodyParser.json());
 
